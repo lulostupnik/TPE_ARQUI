@@ -4,6 +4,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <videoDriver.h>
+#include <idtLoader.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -83,8 +84,9 @@ void * initializeKernelBinary()
 
 int main()
 {
+    load_idt();
     putPixel(0, 255, 0, 20, 20);
-    drawRectangle(0, 0, 255, 50, 50, 100, 100);
+    drawRectangle(0, 255, 255, 50, 50, 100, 100);
     /*
 	ncPrint("[Kernel Main]");
 	ncNewline();

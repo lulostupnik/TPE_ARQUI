@@ -71,11 +71,12 @@ void putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y) 
 
 
 
-// @TODO: AI-Generated Functions:
 /**
  * @brief Draws a rectangle with the specified color, position and size.
  *
- * @param hexColor The color of the rectangle in hexadecimal format.
+ * @param red The red component of the rectangle color.
+ * @param green The green component of the rectangle color.
+ * @param blue The blue component of the rectangle color.
  * @param x The x-coordinate of the rectangle.
  * @param y The y-coordinate of the rectangle.
  * @param width The width of the rectangle.
