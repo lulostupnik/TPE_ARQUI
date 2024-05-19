@@ -87,8 +87,10 @@ int main()
     load_idt();
     putPixel(0, 255, 0, 20, 20);
     drawRectangle(0, 255, 255, 200, 200, 20, 20);
-    drawLetter(100, 100, 'A');
-    drawLetter(100, 116, 'B');
+    drawLetter(100, 100, '1');
+    drawLetter(100, 116, '3');
+    drawLetter(100, 132, 'B');
+    drawLetter(100, 148, 'B');
     /*
 	ncPrint("[Kernel Main]");
 	ncNewline();
