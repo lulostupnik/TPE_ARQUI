@@ -3,6 +3,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include "include/videoDriver.h"
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -81,7 +82,10 @@ void * initializeKernelBinary()
 }
 
 int main()
-{	
+{
+    putPixel(0, 255, 0, 20, 20);
+    drawRectangle(0, 0, 255, 50, 50, 100, 100);
+    /*
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
@@ -100,5 +104,6 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
+     */
 	return 0;
 }
