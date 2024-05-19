@@ -64,10 +64,10 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
  * @param ascii The ASCII value of the letter to be drawn.
  */
 void drawLetter(uint64_t x, uint64_t y, char ascii) {
-    uint8_t *letter = font_bitmap[(uint8_t)ascii];
+    uint8_t *letter = font_bitmap[(uint8_t)ascii - 1];
     for (uint64_t i = 0; i < 16; i++) {
         for (uint64_t j = 0; j < 8; j++) {
-            if ((letter[i] >> j) & 0x1) {
+            if ((letter[i] >> (7 - j)) & 0x1) {
                 putPixel(255, 255, 255, x + j, y + i);
             }
         }
