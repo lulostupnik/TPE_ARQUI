@@ -31,6 +31,7 @@ void load_idt() {
 
     setupIdtEntry(0x00, (uint64_t) &_exception0Handler); // Division by 0 exception
     setupIdtEntry(0x06, (uint64_t) &_exception6Handler); // Operation code exception
+
     setupIdtEntry(0x20, (uint64_t) &_irq00Handler);      // Timer tick interruption
     setupIdtEntry(0x21, (uint64_t) &_irq01Handler);      // Keyboard interruption
     setupIdtEntry(0x80, (uint64_t) &_irq80Handler);      // Syscall interruption

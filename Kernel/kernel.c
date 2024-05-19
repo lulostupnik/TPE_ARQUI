@@ -91,6 +91,9 @@ int main()
     drawLetter(100, 116, '3');
     drawLetter(100, 132, 'B');
     drawLetter(100, 148, 'B');
+    while(1){
+
+    }
     /*
 	ncPrint("[Kernel Main]");
 	ncNewline();

@@ -1,4 +1,5 @@
 GLOBAL cpuVendor
+GLOBAL getKey
 
 section .text
 	
@@ -25,3 +26,14 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+;https://wiki.osdev.org/%228042%22_PS/2_Controller
+; uint8_t getKey();
+getKey:
+    push rbp
+    mov rbp, rsp
+
+    in al, 60h
+
+    leave
+    ret
