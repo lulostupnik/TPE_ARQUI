@@ -1,4 +1,4 @@
-#include <videoDriver.h>
+#include <video.h>
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -42,6 +42,8 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
+extern uint8_t font_bitmap[256][16];
+
 /*
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -51,6 +53,26 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 */
+
+
+
+/**
+ * @brief Draws a letter at the specified (x, y) coordinates with the specified RGB color.
+ *
+ * @param x The x-coordinate of the top-left corner of the letter.
+ * @param y The y-coordinate of the top-left corner of the letter.
+ * @param ascii The ASCII value of the letter to be drawn.
+ */
+void drawLetter(uint64_t x, uint64_t y, char ascii) {
+    uint8_t *letter = font_bitmap[(uint8_t)ascii];
+    for (uint64_t i = 0; i < 16; i++) {
+        for (uint64_t j = 0; j < 8; j++) {
+            if ((letter[i] >> j) & 0x1) {
+                putPixel(255, 255, 255, x + j, y + i);
+            }
+        }
+    }
+}
 
 /**
  * Puts a pixel at the specified (x, y) coordinates with the specified RGB color.

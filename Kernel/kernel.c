@@ -3,7 +3,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
-#include <videoDriver.h>
+#include <video.h>
 #include <idtLoader.h>
 
 extern uint8_t text;
@@ -86,7 +86,9 @@ int main()
 {
     load_idt();
     putPixel(0, 255, 0, 20, 20);
-    drawRectangle(0, 255, 255, 50, 50, 100, 100);
+    // drawRectangle(0, 255, 255, 50, 50, 100, 100);
+    drawLetter(100, 100, 'A');
+    drawLetter(100, 116, 'B');
     /*
 	ncPrint("[Kernel Main]");
 	ncNewline();
