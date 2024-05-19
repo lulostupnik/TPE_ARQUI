@@ -12,8 +12,10 @@ GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
+GLOBAL _irq80Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -138,10 +140,19 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
+;SYSCALL
+_irq80Handler:
+	irqHandlerMaster 80
+
 
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
+
+;Invalid operation code exception
+_exception6Handler:
+	exceptionHandler 6
+
 
 haltcpu:
 	cli
