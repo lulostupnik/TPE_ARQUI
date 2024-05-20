@@ -73,6 +73,32 @@ void drawLetter(uint64_t x, uint64_t y, char ascii) {
 	}
 }
 
+void drawString(uint64_t x, uint64_t y, char *string) {
+    uint64_t i = 0;
+	uint64_t j = 0;
+    while (string[i] != 0) {
+        /*if (string[i] == '\n') {
+            y += 16;
+            x = -i*8;
+            i++;
+            continue;
+        }
+        if (string[i] == '\t') {
+            x += 8 * 4;
+            i++;
+            continue;
+        }*/
+        // check if the letter is out of the screen
+        if (x + j * 8 >= VBE_mode_info->width) {
+            y += 16;
+            x = 0;
+			j=0;
+        }
+        drawLetter(x + i * 8, y, string[i]);
+		i++;
+        j++;
+    }
+}
 /**
  * Puts a pixel at the specified (x, y) coordinates with the specified RGB color.
  * @param red: The red component of the pixel color.

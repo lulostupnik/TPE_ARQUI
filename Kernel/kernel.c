@@ -85,16 +85,8 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
-    putPixel(0, 255, 0, 20, 20);
-    putRectangle(0, 255, 255, 200, 200, 20, 20);
-    drawLetter(100, 100, '1');
-    drawLetter(100, 116, '3');
-    drawLetter(100, 132, 'B');
-    drawLetter(100, 148, 'B');
-	drawLetter(100,160,'b');
-    while(1){
-
-    }
+	drawString(300,16,"Bienvenido a hogOS! HOG-RIDER!");
+	ncNewline();
     /*
 	ncPrint("[Kernel Main]");
 	ncNewline();
