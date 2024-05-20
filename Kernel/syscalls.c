@@ -7,10 +7,17 @@ typedef struct {
 void sysCallHandler(Registers * regs) {
     switch(regs->rax){
         case 0: ;
-        case 1: ;
+        case 1: sysWrite(regs->rbx,regs->rcx, regs->rdx);;
+        case 2: ;
     }
 }
 
+void sysWrite(uint64_t x, uint64_t y, uint64_t string){
+    drawString(x,y,string);
+}
+void sysRead(){
+
+}
 //ACA HAY QUE IMPLEMENTAR TODAS LAS INT 80h
 
 // write --> escribe directo en la pantalla?
