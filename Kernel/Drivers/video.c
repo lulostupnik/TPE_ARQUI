@@ -44,18 +44,6 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 extern uint8_t font_bitmap[256][16];
 
-/*
-void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
-    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
-    uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
-    framebuffer[offset]     =  (hexColor) & 0xFF;
-    framebuffer[offset+1]   =  (hexColor >> 8) & 0xFF; 
-    framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
-}
-*/
-
-
-
 /**
  * @brief Draws a letter at the specified (x, y) coordinates with the specified RGB color.
  *
@@ -105,7 +93,7 @@ void putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y) 
  * @param height The height of the rectangle.
  */
 
-void drawRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height) {
+void putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height) {
     for (uint64_t i = 0; i < width; i++) {
         for (uint64_t j = 0; j < height; j++) {
             putPixel(red, green, blue, x + i, y + j);
@@ -113,4 +101,19 @@ void drawRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_
     }
 }
 
+
+
+
+
+// @TODO: funciones borradas, quedan acá abajo por si acaso
+
+/*
+void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
+    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
+    framebuffer[offset]     =  (hexColor) & 0xFF;
+    framebuffer[offset+1]   =  (hexColor >> 8) & 0xFF;
+    framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
+}
+*/
 

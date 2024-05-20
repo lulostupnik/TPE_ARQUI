@@ -81,7 +81,7 @@ void keyboardHandler(){
     }
 
     //TESTEO
-    drawRectangle(buffer[buffer_index-1],buffer[buffer_index-1],buffer[buffer_index-1],0,0, buffer[buffer_index-1], buffer[buffer_index-1]);
+    putRectangle(buffer[buffer_index-1],buffer[buffer_index-1],buffer[buffer_index-1],0,0, buffer[buffer_index-1], buffer[buffer_index-1]);
     drawLetter(0, 0, (char)code);
 
 
