@@ -19,6 +19,7 @@ GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN sysCallHandler
 
 SECTION .text
 
