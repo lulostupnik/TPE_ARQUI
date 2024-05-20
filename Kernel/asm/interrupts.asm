@@ -153,6 +153,21 @@ _irq80Handler:
 
 	iretq
 
+;	push rax
+;	push rbx
+;	push rcx
+;	push rdx
+;	push rdi
+;	push rsi
+;   call sysHandler
+;   pop rsi
+;   pop rdi
+;   pop rdx
+;   pop rcx
+;   pop rbx
+;   pop rax
+;   iretq
+
 
 
 ;Zero Division Exception

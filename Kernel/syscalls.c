@@ -5,10 +5,16 @@ typedef struct {
     uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rsi, rdi, rbp, rdx, rcx, rbx, rax;
 } Registers;
 
+/*
+typedef struct {
+    uint64_t rsi, rdi, rdx, rcx, rbx, rax;
+} Registers;
+*/
+
 void sysCallHandler(Registers * regs) {
     switch(regs->rax){
         case 0: ;
-        case 1: sysWrite(regs->rbx,regs->rcx, regs->rdx);;
+        case 1: sysWrite(regs->rbx, regs->rcx, regs->rdx);;
         case 2: ;
     }
 }
@@ -35,3 +41,18 @@ void sysRead(){
 
 // hora en general
 
+/*
+
+void sys_write(Registers * regs);
+
+static void (*syscall_handlers[2])(Registers * regs) = {
+    sys_write,
+    sys_read
+};
+
+void sys_write(Registers * regs) {
+
+    drawString(regs->rbx, regs->rcx,(char *) regs->rdx, regs->r);
+}
+
+ */
