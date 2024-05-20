@@ -52,17 +52,6 @@ extern uint8_t font_bitmap[4096];
  * @param y The y-coordinate of the top-left corner of the letter.
  * @param ascii The ASCII value of the letter to be drawn.
  */
-/*void drawLetter(uint64_t x, uint64_t y, char ascii) {
-    uint8_t * letter = font_bitmap[(ascii-' ')*16];
-    for (uint64_t i = 0; i < 16; i++) {
-        for (uint64_t j = 0; j < 8; j++) {
-            if ((letter[i] >> j) & 0x1) {
-                putPixel(255, 255, 255, x + j, y + i);
-            }
-        }
-    }
-}*/
-
 void drawLetter(uint64_t x, uint64_t y, char ascii) {
 	int letter = (ascii-' ')*16;
 	for (uint64_t i = 0; i < 16; i++) {
@@ -73,11 +62,18 @@ void drawLetter(uint64_t x, uint64_t y, char ascii) {
 	}
 }
 
+/**
+ * @brief Draws a string at the specified (x, y) coordinates.
+ *
+ * @param x The x-coordinate of the top-left corner of the string.
+ * @param y The y-coordinate of the top-left corner of the string.
+ * @param string The string to be drawn.
+ */
 void drawString(uint64_t x, uint64_t y, char *string) {
     uint64_t i = 0;
-	uint64_t j = 0;
     while (string[i] != 0) {
-        if (x>VBE_mode_info->width) {
+
+        if (x > VBE_mode_info->width) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
             y += 16;
             x = 0;
         }
@@ -86,6 +82,7 @@ void drawString(uint64_t x, uint64_t y, char *string) {
 		i++;
     }
 }
+
 /**
  * Puts a pixel at the specified (x, y) coordinates with the specified RGB color.
  * @param red: The red component of the pixel color.
@@ -139,6 +136,33 @@ void clearScreen() {
 
 // @TODO: funciones borradas, quedan acá abajo por si acaso
 
+// SI QUEREMOS QUE sysWrite reciba longitud, i.e. que drawString reciba longitud
+
+/*
+
+// proper documentation:
+// @brief Draws a string at the specified (x, y) coordinates.
+// @param x The x-coordinate of the top-left corner of the string.
+// @param y The y-coordinate of the top-left corner of the string.
+// @param string The string to be drawn.
+// @param length The amount of characters to be drawn (if '\0' isn't found before)
+
+
+void drawString(uint64_t x, uint64_t y, char *string, uint64_t length) {
+    uint64_t i = 0;
+    while (i < length && string[i] != 0) {
+        if (x > VBE_mode_info->width) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
+            y += 16;
+            x = 0;
+        }
+        drawLetter(x, y, string[i]);
+        x += 8;
+        i++;
+    }
+
+
+ */
+
 /*
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -148,4 +172,16 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
 }
 */
+
+
+/*void drawLetter(uint64_t x, uint64_t y, char ascii) {
+    uint8_t * letter = font_bitmap[(ascii-' ')*16];
+    for (uint64_t i = 0; i < 16; i++) {
+        for (uint64_t j = 0; j < 8; j++) {
+            if ((letter[i] >> j) & 0x1) {
+                putPixel(255, 255, 255, x + j, y + i);
+            }
+        }
+    }
+}*/
 
