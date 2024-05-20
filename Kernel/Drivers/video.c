@@ -1,4 +1,5 @@
 #include <video.h>
+#include <font.h>
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -42,7 +43,7 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
-extern uint8_t font_bitmap[256][16];
+extern uint8_t font_bitmap[4096];
 
 /**
  * @brief Draws a letter at the specified (x, y) coordinates with the specified RGB color.
@@ -51,15 +52,25 @@ extern uint8_t font_bitmap[256][16];
  * @param y The y-coordinate of the top-left corner of the letter.
  * @param ascii The ASCII value of the letter to be drawn.
  */
-void drawLetter(uint64_t x, uint64_t y, char ascii) {
-    uint8_t *letter = font_bitmap[(uint8_t)ascii - 1];
+/*void drawLetter(uint64_t x, uint64_t y, char ascii) {
+    uint8_t * letter = font_bitmap[(ascii-' ')*16];
     for (uint64_t i = 0; i < 16; i++) {
         for (uint64_t j = 0; j < 8; j++) {
-            if ((letter[i] >> (7 - j)) & 0x1) {
+            if ((letter[i] >> j) & 0x1) {
                 putPixel(255, 255, 255, x + j, y + i);
             }
         }
     }
+}*/
+
+void drawLetter(uint64_t x, uint64_t y, char ascii) {
+	int letter = (ascii-' ')*16;
+	for (uint64_t i = 0; i < 16; i++) {
+		for (uint64_t j = 0; j < 8; j++) {
+			if((font_bitmap[letter+i] >> (7-j)) & 0x1)
+				putPixel(255, 255, 255, x + j, y + i);
+		}
+	}
 }
 
 /**

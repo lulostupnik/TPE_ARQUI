@@ -91,6 +91,7 @@ int main()
     drawLetter(100, 116, '3');
     drawLetter(100, 132, 'B');
     drawLetter(100, 148, 'B');
+	drawLetter(100,160,'b');
     while(1){
 
     }

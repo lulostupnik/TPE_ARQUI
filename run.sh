@@ -1,4 +1,4 @@
-dir="/home/lulo/TPE_ARQUI"
+dir="D:\Desktop\TPE_ARQUI\TPE_ARQUI"
 sudo chmod -R 777 ./*
 sudo docker start TPE_CONTAINER                                                #start del docker
 

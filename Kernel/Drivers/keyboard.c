@@ -72,6 +72,10 @@ void keyboardHandler(){
        specialKeyPressedMap[specialKeyPressedMapIdx(code)] = key_is_pressed;
        return;
    }
+
+   if(!key_is_pressed){
+        return;
+   }
     //Solo pongo en el buffer codigos ascii que no son 'special keys'
 
     buffer[buffer_index % BUFFER_SIZE] = code;
@@ -81,8 +85,8 @@ void keyboardHandler(){
     }
 
     //TESTEO
-    putRectangle(buffer[buffer_index-1],buffer[buffer_index-1],buffer[buffer_index-1],0,0, buffer[buffer_index-1], buffer[buffer_index-1]);
-    drawLetter(0, 0, (char)code);
+    //putRectangle(255,255,255,0,0, buffer[buffer_index-1], buffer[buffer_index-1]);
+    drawLetter(buffer_index*8, 0, (char)code);
 
 
 }
