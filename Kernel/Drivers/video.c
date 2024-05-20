@@ -126,6 +126,15 @@ void putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t
 }
 
 
+/**
+ * @brief Clears the screen
+ */
+void clearScreen() {
+    // draws black (r = 0x00, b = 0x00, g = 0x00) rectangle that covers the whole screen
+    putRectangle(0, 0, 0, 0, 0, VBE_mode_info->width, VBE_mode_info->height);
+}
+
+
 
 
 // @TODO: funciones borradas, quedan acá abajo por si acaso

@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <video.h>
+
 typedef struct {
     uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rsi, rdi, rbp, rdx, rcx, rbx, rax;
 } Registers;
@@ -12,12 +13,14 @@ void sysCallHandler(Registers * regs) {
     }
 }
 
-void sysWrite(uint64_t x, uint64_t y, uint64_t string){
+void sysWrite(uint64_t x, uint64_t y, char * string){ // @TODO: le paso la longitud del string?
     drawString(x,y,string);
 }
+
 void sysRead(){
 
 }
+
 //ACA HAY QUE IMPLEMENTAR TODAS LAS INT 80h
 
 // write --> escribe directo en la pantalla?

@@ -85,7 +85,7 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
-	drawString(300,16,"Bienvenido a hogOS! HOG-RIDER!");
+	drawString(300,16,"Bienvenido a hogOS! HOG-RIDERRRR!");
 	while(1){}
 	ncNewline();
     /*
