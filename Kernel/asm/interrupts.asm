@@ -142,7 +142,16 @@ _irq05Handler:
 
 ;SYSCALL
 _irq80Handler:
-	irqHandlerMaster 80
+	pushState
+
+	mov rdi, rsp ; Pasaje de Registros
+
+	call sysCallHandler
+
+	popState
+
+	iretq
+
 
 
 ;Zero Division Exception
