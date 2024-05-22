@@ -1,6 +1,9 @@
 #include <video.h>
 #include <font.h>
 
+#define SCREEN_WIDTH VBE_mode_info->width
+#define SCREEN_HEIGHT VBE_mode_info->height
+
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -89,7 +92,7 @@ void drawStringMultiplier(uint64_t x, uint64_t y, char *string, uint64_t mult) {
     uint64_t i = 0;
     while (string[i] != 0) {
 
-        if (x+8*mult > VBE_mode_info->width) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
+        if (x+8*mult > SCREEN_WIDTH) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
             y += 16*mult;
             x = 0;
         }
@@ -149,7 +152,7 @@ void putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t
  */
 void clearScreen() {
     // draws black (r = 0x00, b = 0x00, g = 0x00) rectangle that covers the whole screen
-    putRectangle(0, 0, 0, 0, 0, VBE_mode_info->width, VBE_mode_info->height);
+    putRectangle(0, 0, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 

@@ -1,5 +1,5 @@
 include ../Makefile.inc
-
+//@TODO: Arreglar Makefile para que compile las capetas nuevas
 MODULE=0000-sampleCodeModule.bin
 SOURCES=$(wildcard [^_]*.c)
 

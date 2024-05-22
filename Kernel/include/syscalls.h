@@ -5,10 +5,12 @@
 
 // @TODO: Estamos poniendo los mismos prototipos que linux
 
+//@COMMENT: Puse los prototipos de las funciones que hice yo, no me mates Mati -Fede
 
-ssize_t sys_read(unsigned int fd, char __user *buf, size_t count);
 
-ssize_t sys_write(int fd, const void *buf, size_t count);
+void sysRead(uint8_t * toBuffer, uint64_t toBufferDim, uint64_t * count);
+
+void sysWrite(uint64_t x, uint64_t y, char * string);
 
 
 #endif
