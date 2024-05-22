@@ -13,9 +13,8 @@ typedef struct {
 
 void sysCallHandler(Registers * regs) {
     switch(regs->rax){
-        case 0: ;
-        case 1: sysWrite(regs->rbx, regs->rcx, regs->rdx);;
-        case 2: ;
+        case 0: sysRead(regs->rbx, regs->rcx, regs->rdx); break;
+        case 1: sysWrite(regs->rbx, regs->rcx, regs->rdx); break;
     }
 }
 
@@ -23,8 +22,8 @@ void sysWrite(uint64_t x, uint64_t y, char * string){ // @TODO: le paso la longi
     drawString(x,y,string);
 }
 
-void sysRead(){
-
+void sysRead(uint8_t * toBuffer, uint64_t toBufferDim, uint64_t * count){
+    readKeyboardBuffer(toBuffer,toBufferDim,count);
 }
 
 //ACA HAY QUE IMPLEMENTAR TODAS LAS INT 80h
