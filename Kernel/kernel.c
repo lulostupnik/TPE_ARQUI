@@ -86,6 +86,7 @@ int main()
 {
     load_idt();
 	drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
+    drawLetterMultiplier(0,0,'a',3);
 	while(1){}
 	ncNewline();
     /*

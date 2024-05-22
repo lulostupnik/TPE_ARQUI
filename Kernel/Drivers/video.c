@@ -61,6 +61,21 @@ void drawLetter(uint64_t x, uint64_t y, char ascii) {
 		}
 	}
 }
+/*
+ * @TODO Validaciones !
+ */
+void drawLetterMultiplier(uint64_t x, uint64_t y, char ascii, uint64_t mult){
+    int letter = (ascii-' ')*16;
+
+    for (uint64_t i = 0; i < 16; i++) {
+        for (uint64_t j = 0; j < 8; j++) {
+            if((font_bitmap[letter+i] >> (7-j)) & 0x1){
+                putRectangle(255, 255, 255, (x + j+ j*mult), (y +i+i*mult),mult,mult);
+            }
+        }
+    }
+}
+
 
 /**
  * @brief Draws a string at the specified (x, y) coordinates.
