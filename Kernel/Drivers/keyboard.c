@@ -3,11 +3,11 @@
 
 extern uint8_t getKey();
 
-#include <video.h>
 
 /*
  * Buffer --> es "circular". Si se llena, pisa lo que primero se puso.
  */
+
 static uint8_t buffer[BUFFER_SIZE];
 static uint64_t buffer_index = 0;
 static uint64_t buffer_dim = 0;
@@ -33,26 +33,35 @@ static uint8_t isPressed(uint8_t key){
 
 #define specialKeyPressedMapIdx(code) (code - FIRST_SPECIAL_KEY)
 static uint16_t specialKeyPressedMap[SPECIAL_KEYS_CANT] = {0};
-
 static int isSpecialKey(uint16_t code){
     return (code >= FIRST_SPECIAL_KEY) && (code <= LAST_SPECIAL_KEY);
 }
-static int capsLockPressed(){
-    return specialKeyPressedMap[specialKeyPressedMapIdx(CAPS_LOCK)];
 
+static int specialKeyPressed(uint16_t code){
+    if(!isSpecialKey(code)){
+        return -1;
+    }
+    return specialKeyPressedMap[specialKeyPressedMapIdx(code)];
+}
+
+
+static int capsLockPressed(){
+    return specialKeyPressed(CAPS_LOCK);
 }
 static int shiftPressed(){
-    if(specialKeyPressedMap[specialKeyPressedMapIdx(RIGHT_SHIFT)] == 1 || specialKeyPressedMap[specialKeyPressedMapIdx(LEFT_SHIFT)] == 1){
+    return (specialKeyPressed(LEFT_SHIFT) || specialKeyPressed(RIGHT_SHIFT)) ? 1:0;
+    /*
+    if(specialKeyPressed(LEFT_SHIFT || specialKeyPressed(RIGHT_SHIFT))){
         return 1;
     }
-    return 0;
+    return 0;*/
 }
 static int shiftCapsLockPressed(){
-    return !(shiftPressed()&capsLockPressed()); //nand
+    return (shiftPressed()^capsLockPressed()); //xor
 }
 
 static uint8_t releasedKeyToPressedMask(uint8_t key){
-    return key&0xEF;
+    return key&0x7F;
 }
 
  void readKeyboardBuffer(uint8_t * toBuffer, uint64_t toBufferDim, uint64_t * count){
@@ -65,46 +74,46 @@ static uint8_t releasedKeyToPressedMask(uint8_t key){
  }
 /*
  * @TODO
- * ver que ande todo bien. testear.
- * borrar el draw en el keyboard handler
- * poner todo mass lindo es un kilombo
+ * ver que ande todo bien. testear. pensar mas casos de special keys
+ * Por ahora solo GUARDO LOS PRESSED
  */
+
+
+/*
+ *@TODO implementar NUM_LOCK
+ * se puede implementar algo que me devuelva si se tocaron las teclas de control.....
+*  un buffer con pressed y released o una funcion que me diga si se presiono una tecla especial (uso el mapa). Por ahora musa
+ */
+
+
 void keyboardHandler(){
     uint8_t key = getKey();
-   // key = LEFT_SHIFT;
-   uint8_t key_is_pressed = isPressed(key);
-   if(!key_is_pressed){
-       key = releasedKeyToPressedMask(key); //la tabla es para PRESSED !
-   }
-   uint16_t code = pressedKeyShiftMap[key][shiftCapsLockPressed()];
-   if(isSpecialKey(code)){
-       specialKeyPressedMap[specialKeyPressedMapIdx(code)] = key_is_pressed;
-       return;
-   }
 
-   if(!key_is_pressed){
+
+    uint8_t key_is_pressed = isPressed(key) ? 1:0;
+
+    if( !key_is_pressed){
+        key = releasedKeyToPressedMask(key); //la tabla es para PRESSED !
+    }
+
+    uint16_t code = pressedKeyShiftMap[key][shiftCapsLockPressed()];
+
+    if(isSpecialKey(code)){
+        if(code != CAPS_LOCK && code != NUM_LOCK && code != SCROLL_LOCK){
+            specialKeyPressedMap[specialKeyPressedMapIdx(code)] = key_is_pressed;
+        }else if(key_is_pressed) {
+            specialKeyPressedMap[specialKeyPressedMapIdx(code)] = 1 - specialKeyPressedMap[specialKeyPressedMapIdx(code)];
+        }
         return;
-   }
-    //Solo pongo en el buffer codigos ascii que no son 'special keys'
+    }
 
+    if(!key_is_pressed){
+        return;
+    }
+    //Solo pongo en el buffer codigos ascii que no son 'special keys'
     buffer[buffer_index % BUFFER_SIZE] = code;
     buffer_index = (buffer_index+1) %BUFFER_SIZE;
     if(buffer_dim < BUFFER_SIZE){
         buffer_dim++;
     }
-
-    //TESTEO
-    //putRectangle(255,255,255,0,0, buffer[buffer_index-1], buffer[buffer_index-1]);
-    drawLetter(buffer_index*8, 0, (char)code);
-
-
 }
-
-
-
-//static uint8_t specialKeys[] = {'shift', 'caps'};
-//[aP, aR, shiftP, aP, shiftR, aR]
-// if buff[] = shiftP
-//while(buff[] != shiftReleased)
-//      command = ;;....
-

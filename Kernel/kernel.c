@@ -85,8 +85,13 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
-	drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
-	while(1){}
+	//drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
+    drawStringMultiplier(0,0,"+54 911 49399898, llamar para clases de Arqui", 5);
+//    drawLetterMultiplier(50,50,'a',1);
+//    drawLetterMultiplier(0,0,'a',2);
+//    drawLetterMultiplier(8*2*0,16*2,'a',3);
+//    drawLetterMultiplier(0*(8*3+8*2),16*2+16*3,'a',5);
+//	while(1){}
 	ncNewline();
     /*
 	ncPrint("[Kernel Main]");

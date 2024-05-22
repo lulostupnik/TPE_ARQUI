@@ -41,6 +41,8 @@ typedef enum {
     INS_KEYPAD,
     DEL_KEYPAD,
     SYS_REQ_AT,
+    NONE1, // no hay tecla de scanCode 0x55
+    NONE2, // no hay tecla de scan code 0x56
     F11,
     F12
 } specialCodes;

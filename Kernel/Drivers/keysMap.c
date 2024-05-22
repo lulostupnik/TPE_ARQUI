@@ -216,6 +216,8 @@ const uint16_t pressedKeyShiftMap[][2] = {
         {INS_KEYPAD, '0'},
         {DEL_KEYPAD, '.'},
         {SYS_REQ_AT, SYS_REQ_AT},
+        {0,0},                          //scan code (0x55) vacio
+        {0,0},                          //scan code (0x56) vacio
         {F11, F11},
         {F12, F12}
 };

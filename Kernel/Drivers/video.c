@@ -52,15 +52,26 @@ extern uint8_t font_bitmap[4096];
  * @param y The y-coordinate of the top-left corner of the letter.
  * @param ascii The ASCII value of the letter to be drawn.
  */
-void drawLetter(uint64_t x, uint64_t y, char ascii) {
-	int letter = (ascii-' ')*16;
-	for (uint64_t i = 0; i < 16; i++) {
-		for (uint64_t j = 0; j < 8; j++) {
-			if((font_bitmap[letter+i] >> (7-j)) & 0x1)
-				putPixel(255, 255, 255, x + j, y + i);
-		}
-	}
+
+/*
+ * @TODO Validaciones !
+ */
+void drawLetterMultiplier(uint64_t x, uint64_t y, char ascii, uint64_t mult){
+    int letter = (ascii-' ')*16;
+
+    for (uint64_t i = 0; i < 16; i++) {
+        for (uint64_t j = 0; j < 8; j++) {
+            if((font_bitmap[letter+i] >> (7-j)) & 0x1){
+                putRectangle(255, 255, 255, (x +j*mult), (y +i*mult),mult,mult);
+            }
+        }
+    }
 }
+
+void drawLetter(uint64_t x, uint64_t y, char ascii) {
+    drawLetterMultiplier(x,y,ascii,1);
+}
+
 
 /**
  * @brief Draws a string at the specified (x, y) coordinates.
@@ -69,18 +80,28 @@ void drawLetter(uint64_t x, uint64_t y, char ascii) {
  * @param y The y-coordinate of the top-left corner of the string.
  * @param string The string to be drawn.
  */
-void drawString(uint64_t x, uint64_t y, char *string) {
+
+
+/*
+ * @Todo validaciones
+ */
+void drawStringMultiplier(uint64_t x, uint64_t y, char *string, uint64_t mult) {
     uint64_t i = 0;
     while (string[i] != 0) {
 
-        if (x > VBE_mode_info->width) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
-            y += 16;
+        if (x+8*mult > VBE_mode_info->width) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
+            y += 16*mult;
             x = 0;
         }
-        drawLetter(x, y, string[i]);
-        x+=8;
-		i++;
+        drawLetterMultiplier(x, y, string[i], mult);
+        x+=8*mult;
+        i++;
     }
+}
+
+
+void drawString(uint64_t x, uint64_t y, char *string) {
+    drawStringMultiplier(x,y,string, 1);
 }
 
 /**
