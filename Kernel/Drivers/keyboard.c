@@ -9,10 +9,9 @@ extern uint8_t getKey();
  */
 
 static uint8_t buffer[BUFFER_SIZE];
-static uint64_t buffer_index = 0;
+//static uint64_t buffer_index = 0;
 static uint64_t buffer_dim = 0;
-
-
+static uint64_t buffer_current = 0;
 
 extern uint16_t pressedKeyShiftMap[][2];
 
@@ -64,14 +63,27 @@ static uint8_t releasedKeyToPressedMask(uint8_t key){
     return key&0x7F;
 }
 
-uint64_t readKeyboardBuffer(uint8_t * toBuffer, uint64_t toBufferDim){
-    int i=0;
-    int charstobeRead=buffer_dim-buffer_index;
-    while(i<charstobeRead && i<toBufferDim){
-        toBuffer[i++]=buffer[(buffer_index++)% BUFFER_SIZE];
+static void updateBufferIndex(uint64_t index){
+    if(index < BUFFER_SIZE){
+        index++;
+        return;
     }
-    return i;
- }
+    index = 0;
+}
+
+
+ uint64_t bufferHasNext(){
+    return ( buffer_dim > 0 ) && ( buffer_current < buffer_dim );
+}
+
+uint64_t getCurrent(){
+    if(bufferHasNext()) {
+        return buffer[buffer_current++];
+    }
+    return 0;
+}
+
+
 /*
  * @TODO
  * ver que ande todo bien. testear. pensar mas casos de special keys
@@ -111,9 +123,17 @@ void keyboardHandler(){
         return;
     }
     //Solo pongo en el buffer codigos ascii que no son 'special keys'
-    buffer[buffer_index % BUFFER_SIZE] = code;
-    buffer_index = (buffer_index+1) %BUFFER_SIZE;
+//    buffer[buffer_index % BUFFER_SIZE] = code;
+//    buffer_index = (buffer_index+1) %BUFFER_SIZE;
+//    if(buffer_dim < BUFFER_SIZE){
+//        buffer_dim++;
+//    }else{
+//        buffer_dim = 1;
+//    }
+    buffer[buffer_dim] = code;
     if(buffer_dim < BUFFER_SIZE){
         buffer_dim++;
+    }else{
+        buffer_dim = 1;
     }
 }

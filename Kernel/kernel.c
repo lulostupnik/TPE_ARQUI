@@ -85,7 +85,24 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
-	drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
+	//drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
+
+
+
+    char buf[2] = {0,0};
+
+    uint8_t c;
+    while(( c = getCurrent()) == 0 );
+    buf[0] = (char) c;
+    drawString(300, 16, buf);
+
+    c = 0;
+    while(( c = getCurrent()) == 0 );
+    buf[0] = (char) c;
+    drawString(100, 32, buf);
+
+
+
     //drawStringMultiplier(0,0,"+54 911 49399898, llamar para clases de Arqui", 5);
 	//ncNewline();
 	//drawStringMultiplier(0,16,"Hola si quiero clases de Arqui pls", 4);

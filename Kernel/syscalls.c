@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <video.h>
+#include <syscalls.h>
 
 typedef struct {
     uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rsi, rdi, rbp, rdx, rcx, rbx, rax;
@@ -13,7 +14,7 @@ typedef struct {
 
 void sysCallHandler(Registers * regs) {
     switch(regs->rax){
-        case 0: sysRead(regs->rbx, regs->rcx, regs->rdx); break;
+        case 0: sysRead(regs->rbx, regs->rcx); break;
         case 1: sysWrite(regs->rbx, regs->rcx, regs->rdx); break;
     }
 }
@@ -22,8 +23,17 @@ void sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la lo
     drawString(x,y,string);
 }
 
-void sysRead(uint64_t * toBuffer, uint64_t toBufferDim, uint64_t * count){
-    readKeyboardBuffer(toBuffer,toBufferDim,count);
+void sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
+
+    uint64_t i = 0;
+    while(i < toBufferDim && bufferHasNext()){
+        toBuffer[i] = getCurrent();
+        i++;
+    }
+
+    // return i;
+
+   // readKeyboardBuffer(toBuffer,toBufferDim,count);
 }
 
 //ACA HAY QUE IMPLEMENTAR TODAS LAS INT 80h
