@@ -64,13 +64,13 @@ static uint8_t releasedKeyToPressedMask(uint8_t key){
     return key&0x7F;
 }
 
- void readKeyboardBuffer(uint8_t * toBuffer, uint64_t toBufferDim, uint64_t * count){
+uint64_t readKeyboardBuffer(uint8_t * toBuffer, uint64_t toBufferDim){
     int i=0;
     int charstobeRead=buffer_dim-buffer_index;
     while(i<charstobeRead && i<toBufferDim){
         toBuffer[i++]=buffer[(buffer_index++)% BUFFER_SIZE];
     }
-    *count=i;
+    return i;
  }
 /*
  * @TODO
