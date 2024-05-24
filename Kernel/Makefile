@@ -1,5 +1,5 @@
 include Makefile.inc
-
+#@TODO se puede hacer mas generico
 KERNEL=kernel.bin
 SOURCES=$(wildcard *.c)
 SOURCES_ASM=$(wildcard asm/*.asm)

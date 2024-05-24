@@ -85,7 +85,7 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
-	//drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
+	drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
     //drawStringMultiplier(0,0,"+54 911 49399898, llamar para clases de Arqui", 5);
 	//ncNewline();
 	//drawStringMultiplier(0,16,"Hola si quiero clases de Arqui pls", 4);
@@ -98,23 +98,8 @@ int main()
 
 	//clearScreen();
     
-	ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
-	ncNewline();
-	ncPrint("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char*)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("[Finished]");
-	clearScreen();
+
+	//clearScreen();
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }
