@@ -104,7 +104,7 @@ void keyboardHandler(){
         }else if(key_is_pressed) {
             specialKeyPressedMap[specialKeyPressedMapIdx(code)] = 1 - specialKeyPressedMap[specialKeyPressedMapIdx(code)];
         }
-        return;
+       // return; por ahora guardamos las special keys en el buffer
     }
 
     if(!key_is_pressed){

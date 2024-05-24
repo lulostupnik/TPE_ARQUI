@@ -18,11 +18,11 @@ void sysCallHandler(Registers * regs) {
     }
 }
 
-void sysWrite(uint64_t x, uint64_t y, char * string){ // @TODO: le paso la longitud del string?
+void sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la longitud del string?
     drawString(x,y,string);
 }
 
-void sysRead(uint8_t * toBuffer, uint64_t toBufferDim, uint64_t * count){
+void sysRead(uint64_t * toBuffer, uint64_t toBufferDim, uint64_t * count){
     readKeyboardBuffer(toBuffer,toBufferDim,count);
 }
 

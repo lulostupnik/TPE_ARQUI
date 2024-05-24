@@ -2,7 +2,7 @@
 #define SYSCALLFUNCTIONS_H
 #include <stdint.h>
 
-void syscallRead(uint8_t * toBuffer, uint64_t toBufferDim, uint64_t * count);
-void syscallWrite(uint64_t x, uint64_t y, char * string);
+void sysRead(uint64_t * toBuffer, uint64_t toBufferDim, uint64_t * count);
+void sysWrite(uint64_t x, uint64_t y, uint8_t * string);
 
 #endif 

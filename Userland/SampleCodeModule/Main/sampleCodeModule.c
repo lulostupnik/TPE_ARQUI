@@ -1,5 +1,7 @@
 /* sampleCodeModule.c */
 #include <syscallFunctions.h>
+#include <libc.h>
+
 char * v = (char*)0xB8000 + 79 * 2;
 
 static int var1 = 0;
@@ -10,7 +12,15 @@ int main() {
 	//All the following code may be removed 
 	*v = 'X';
 	*(v+1) = 0x74;
-	syscallWrite(0,0, "Hola buenas tardes estimados, la Syscall funciona!");
+    uint64_t c;
+    int x = 0;
+    char string[2] = {0,0};
+    while(1){
+        string[1] = getFirstKeyStroke();
+        sysWrite(x,0,string);
+        x+=16;
+    }
+
 	//Test if BSS is properly set up
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
