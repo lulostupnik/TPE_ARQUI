@@ -12,18 +12,21 @@ typedef struct {
 } Registers;
 */
 
-void sysCallHandler(Registers * regs) {
+uint64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
-        case 0: sysRead(regs->rbx, regs->rcx); break;
-        case 1: sysWrite(regs->rbx, regs->rcx, regs->rdx); break;
+        case 0: return sysRead(regs->rbx, regs->rcx); break;
+        case 1: return sysWrite(regs->rbx, regs->rcx, regs->rdx); break;
     }
 }
 
-void sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la longitud del string?
+uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la longitud del string?
+
     drawString(x,y,string);
+
+    return 0; // @TODO: cambiar!!!!
 }
 
-void sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
+uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
 
     uint64_t i = 0;
     while(i < toBufferDim && bufferHasNext()){
@@ -31,7 +34,7 @@ void sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
         i++;
     }
 
-    // return i;
+    return i;
 
    // readKeyboardBuffer(toBuffer,toBufferDim,count);
 }

@@ -59,7 +59,13 @@ extern uint8_t font_bitmap[4096];
 /*
  * @TODO Validaciones !
  */
+
+#define FIRST_ASCII_FONT 32
+#define LAST_ASCII_FONT 126
 void drawLetterMultiplier(uint64_t x, uint64_t y, char ascii, uint64_t mult){
+    if(ascii < FIRST_ASCII_FONT || ascii > LAST_ASCII_FONT){
+        return;
+    }
     int letter = (ascii-' ')*16;
 
     for (uint64_t i = 0; i < 16; i++) {

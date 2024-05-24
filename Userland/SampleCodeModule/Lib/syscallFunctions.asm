@@ -37,24 +37,62 @@ section .text
     pop rax
 %endmacro
 
-sysRead:
+
+%macro pushStateMinusRax 0
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop r11
+    pop r10
+    pop r9
+    pop r8
+    pop rdi
+    pop rsi
+    pop rdx
+    pop rcx
+    pop rbx
+%endmacro
+
+%macro popStateMinusRax 0
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop r11
+    pop r10
+    pop r9
+    pop r8
+    pop rdi
+    pop rsi
+    pop rdx
+    pop rcx
+    pop rbx
+%endmacro
+
+
+%macro sys_interrupt 1
+        mov rax, %1
+        int 80h
+%endmacro
+
+
+
+%macro simple_sys_handler 1
     push rbp
     mov rbp, rsp
-    pushState
-    mov rax, 0
+
+    mov rax, %1
     int 80h
-    popState
+
     mov rsp, rbp
     pop rbp
     ret
+%endmacro
+
+
+sysRead:
+    simple_sys_handler 0
 
 sysWrite:
-    push rbp
-    mov rbp, rsp
-    pushState
-    mov rax, 1
-    int 80h
-    popState
-    mov rsp, rbp
-    pop rbp
-    ret
+    simple_sys_handler 1

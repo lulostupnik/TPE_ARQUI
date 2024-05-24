@@ -85,38 +85,19 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
-	//drawString(300,16,"Bienvenido a hogOS! HOG-RIIIDERRR!");
 
+    uint64_t c[2] = {0, 0};
+    uint64_t count = 0;
 
-
-    char buf[2] = {0,0};
-
-    uint8_t c;
-    while(( c = getCurrent()) == 0 );
-    buf[0] = (char) c;
-    drawString(300, 16, buf);
-
-    c = 0;
-    while(( c = getCurrent()) == 0 );
-    buf[0] = (char) c;
-    drawString(100, 32, buf);
-
-
-
-    //drawStringMultiplier(0,0,"+54 911 49399898, llamar para clases de Arqui", 5);
-	//ncNewline();
-	//drawStringMultiplier(0,16,"Hola si quiero clases de Arqui pls", 4);
-//    drawLetterMultiplier(50,50,'a',1);
-//    drawLetterMultiplier(0,0,'a',2);
-//    drawLetterMultiplier(8*2*0,16*2,'a',3);
-//    drawLetterMultiplier(0*(8*3+8*2),16*2+16*3,'a',5);
-//	while(1){}
-	//ncNewline();
-
-	//clearScreen();
+//    int x = 0;
+//    sysWrite(x,0,"a");
+//    drawString(x,0,"a");
+//    while(1){
+//        while( sysRead(c, 1) == 0);
+//        sysWrite(x,0,c);
+//        x+=8;
+//    }
     
-
-	//clearScreen();
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }
