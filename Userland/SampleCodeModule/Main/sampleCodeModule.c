@@ -12,13 +12,15 @@ static int var2 = 0;
 #define LAST_ASCII_CHAR 126
 int main() {
 	//All the following code may be removed
-
-    sysWrite(0,0,"hola");
-    sysWrite(0,8*4,"hola");
-    uint64_t c;
+    /*uint64_t a=sysWrite(0,0,"hola soy una vaca");
+    char string[2]={0,0};
+    string[0]=((a%10)+'0');
+    sysWrite(0,16,string);*/
+    /*
     int x = 0;
     char string[2] = {0,0};
-    /*while(1){
+    getFirstKeyStroke();
+    while(1){
         string[0] = getFirstKeyStroke();
         if(string[0] != 0){
             if( string[0] >= FIRST_ASCII_CHAR && string[0] <= LAST_ASCII_CHAR){
@@ -29,13 +31,17 @@ int main() {
             }
 
         }
-    }*/
+    }
+    */
+    uint64_t c;
+    uint64_t x = 0;
     while(1){
-        while( sysRead(c, 1) == 0);
-        sysWrite(x,0,c);
-        x+=8;
+       while( sysRead(c, 1) == 0);
+       sysWrite(x,0,c);
+       x+=8;
     }
 
+   while(1);
 	//Test if BSS is properly set up
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;

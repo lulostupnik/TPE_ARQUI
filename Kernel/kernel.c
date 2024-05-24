@@ -86,8 +86,6 @@ int main()
 {
     load_idt();
 
-    uint64_t c[2] = {0, 0};
-    uint64_t count = 0;
 
 //    int x = 0;
 //    sysWrite(x,0,"a");

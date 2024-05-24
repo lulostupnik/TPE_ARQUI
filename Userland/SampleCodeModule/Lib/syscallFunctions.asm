@@ -76,11 +76,8 @@ section .text
 %macro simple_sys_handler 1
     push rbp
     mov rbp, rsp
-
     mov rax, %1
     int 80h
-
-
     mov rsp, rbp
     pop rbp
     ret
@@ -88,7 +85,19 @@ section .text
 
 
 sysRead:
-    simple_sys_handler 0
+    push rbp
+    mov rbp, rsp
+    mov rax, 0
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret
 
 sysWrite:
-    simple_sys_handler 1
+    push rbp
+    mov rbp, rsp
+    mov rax, 1
+    int 80h
+    mov rsp, rbp
+    pop rbp
+    ret

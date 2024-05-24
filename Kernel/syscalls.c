@@ -25,7 +25,6 @@ uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso l
 }
 
 uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
-
     uint64_t i = 0;
     while(i < toBufferDim && bufferHasNext()){
         toBuffer[i] = getCurrent();
