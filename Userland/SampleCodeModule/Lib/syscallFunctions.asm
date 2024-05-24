@@ -49,9 +49,7 @@ section .text
     pop r8
     pop rdi
     pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
+
 %endmacro
 
 %macro popStateMinusRax 0
@@ -65,9 +63,6 @@ section .text
     pop r8
     pop rdi
     pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
 %endmacro
 
 
@@ -84,6 +79,7 @@ section .text
 
     mov rax, %1
     int 80h
+
 
     mov rsp, rbp
     pop rbp

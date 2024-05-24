@@ -14,15 +14,13 @@ typedef struct {
 
 uint64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
-        case 0: return sysRead(regs->rbx, regs->rcx); break;
-        case 1: return sysWrite(regs->rbx, regs->rcx, regs->rdx); break;
+        case 0: return sysRead(regs->rdi, regs->rsi); break;
+        case 1: return sysWrite(regs->rdi, regs->rsi, regs->rdx); break;
     }
 }
 
 uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la longitud del string?
-
     drawString(x,y,string);
-
     return 0; // @TODO: cambiar!!!!
 }
 
