@@ -4,18 +4,20 @@
 #define SCREEN_WIDTH VBE_mode_info->width
 #define SCREEN_HEIGHT VBE_mode_info->height
 
+
+
 struct vbe_mode_info_structure {
-	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
-	uint8_t window_a;			// deprecated
-	uint8_t window_b;			// deprecated
-	uint16_t granularity;		// deprecated; used while calculating bank numbers
+	uint16_t attributes;	// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
+	uint8_t window_a;		// deprecated
+	uint8_t window_b;		// deprecated
+	uint16_t granularity;	// deprecated; used while calculating bank numbers
 	uint16_t window_size;
 	uint16_t segment_a;
 	uint16_t segment_b;
-	uint32_t win_func_ptr;		// deprecated; used to switch banks from protected mode without returning to real mode
+	uint32_t win_func_ptr;	// deprecated; used to switch banks from protected mode without returning to real mode
 	uint16_t pitch;			// number of bytes per horizontal line
 	uint16_t width;			// width in pixels
-	uint16_t height;			// height in pixels
+	uint16_t height;		// height in pixels
 	uint8_t w_char;			// unused...
 	uint8_t y_char;			// ...
 	uint8_t planes;
@@ -42,13 +44,13 @@ struct vbe_mode_info_structure {
 	uint8_t reserved1[206];
 } __attribute__ ((packed));
 
+
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 extern uint8_t font_bitmap[4096];
 
-uint64_t font_size = 1; // Default font size is 1
 
 /**
  * @brief Draws a letter at the specified (x, y) coordinates with the specified RGB color.
@@ -64,40 +66,58 @@ uint64_t font_size = 1; // Default font size is 1
 
 #define FIRST_ASCII_FONT 32
 #define LAST_ASCII_FONT 126
-void drawLetterMultiplier(uint64_t x, uint64_t y, char ascii, uint64_t mult){
+
+#define NOT_VALID_ASCII 1
+#define NOT_VALID_FONT_SIZE 2
+
+uint64_t drawLetter(uint64_t x, uint64_t y, char ascii, uint64_t fontSize){
     if(ascii < FIRST_ASCII_FONT || ascii > LAST_ASCII_FONT){
-        return;
+        return NOT_VALID_ASCII;
     }
+    if(fontSize < 0 || SCREEN_WIDTH < fontSize*FONT_WIDTH || SCREEN_HEIGHT < fontSize*FONT_HEIGHT){
+        return NOT_VALID_FONT_SIZE;
+    }
+
     int letter = (ascii-' ')*16;
     for (uint64_t i = 0; i < 16; i++) {
         for (uint64_t j = 0; j < 8; j++) {
             if((font_bitmap[letter+i] >> (7-j)) & 0x1){
-                putRectangle(255, 255, 255, (x +j*mult), (y +i*mult),mult,mult);
+                putRectangle(255, 255, 255, (x +j*fontSize), (y +i*fontSize),fontSize,fontSize);
             }
         }
     }
+    return 0;
 }
 
-void drawLetter(uint64_t x, uint64_t y, char ascii) {
-    drawLetterMultiplier(x, y, ascii, font_size);
-}
+
 
 
 /*
  * @Todo validaciones
  */
-void drawStringMultiplier(uint64_t x, uint64_t y, char *string, uint64_t mult) {
-    uint64_t i = 0;
-    while (string[i] != 0) {
 
-        if (x+8*mult > SCREEN_WIDTH) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
-            y += 16*mult;
+
+/*
+ * @TODO validacion
+*/
+uint64_t drawString(uint64_t x, uint64_t y, uint8_t *string, uint64_t charsToDraw , uint64_t fontSize) {
+    uint64_t i = 0;
+
+//    if(SCREEN_HEIGHT * SCREEN_WIDTH < charsToDraw * FONT_HEIGHT * FONT_WIDTH * fontSize * fontSize + y * FONT_HEIGHT * fontSize + x * FONT_WIDTH * fontSize){
+//        putRectangle(100,100,100,0,0,SCREEN_HEIGHT,SCREEN_WIDTH);
+//        return 0;
+//    }
+
+    while (string[i] != 0 && i<charsToDraw) {
+        if (x+FONT_WIDTH*fontSize > SCREEN_WIDTH) { // tal vez debería ser if( (x + 8) > VBE_mode_info->width)
+            y += FONT_HEIGHT*fontSize;
             x = 0;
         }
-        drawLetterMultiplier(x, y, string[i], mult);
-        x+=8*mult;
+        drawLetter(x, y, string[i], fontSize);
+        x+=FONT_WIDTH*fontSize;
         i++;
     }
+    return i;
 }
 
 
@@ -108,9 +128,7 @@ void drawStringMultiplier(uint64_t x, uint64_t y, char *string, uint64_t mult) {
  * @param y The y-coordinate of the top-left corner of the string.
  * @param string The string to be drawn.
  */
-void drawString(uint64_t x, uint64_t y, char *string) {
-    drawStringMultiplier(x,y,string, font_size);
-}
+
 
 
 /**
@@ -121,12 +139,21 @@ void drawString(uint64_t x, uint64_t y, char *string) {
  * @param x: The x-coordinate of the pixel.
  * @param y: The y-coordinate of the pixel.
  */
-void putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y) {
+
+/*
+ * @TODO validar la validacion
+ */
+uint64_t putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y) {
+    if(x >= SCREEN_WIDTH || y>= SCREEN_HEIGHT){
+        return 1;
+    }
+
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
     framebuffer[offset]     =  blue;
     framebuffer[offset+1]   =  green;
     framebuffer[offset+2]   =  red;
+    return 0;
 }
 
 
@@ -142,12 +169,21 @@ void putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y) 
  * @param height The height of the rectangle.
  */
 
-void putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height) {
+/*
+ * @TODO testear la validacion
+ */
+
+uint64_t putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height) {
+    if(x+width > SCREEN_WIDTH || y+height > SCREEN_HEIGHT){
+        return 1;
+    }
+
     for (uint64_t i = 0; i < width; i++) {
         for (uint64_t j = 0; j < height; j++) {
             putPixel(red, green, blue, x + i, y + j);
         }
     }
+    return 0;
 }
 
 
@@ -165,9 +201,6 @@ void clearScreen() {
  *
  * @param size The new font size
  */
-void setFontSize(uint64_t size) {
-    font_size = size;
-}
 
 
 // @TODO: funciones borradas, quedan acá abajo por si acaso
@@ -175,6 +208,8 @@ void setFontSize(uint64_t size) {
 // SI QUEREMOS QUE sysWrite reciba longitud, i.e. que drawString reciba longitud
 
 /*
+ *
+ *
 
 // proper documentation:
 // @brief Draws a string at the specified (x, y) coordinates.

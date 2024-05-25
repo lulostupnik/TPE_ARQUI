@@ -8,13 +8,11 @@
 // hexColor: The color of the pixel in hexadecimal format.
 // x: The x-coordinate of the pixel.
 // y: The y-coordinate of the pixel.
-void putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y);
-void putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height);
-void drawLetter(uint64_t x, uint64_t y, char ascii);
 
-void drawString(uint64_t x, uint64_t y, char *string);
+uint64_t drawLetter(uint64_t x, uint64_t y, char ascii, uint64_t fontSize);
+uint64_t putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y);
+uint64_t putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height);
 
-void setFontSize(uint64_t size);
 
-void clearScreen();
+
 #endif // VIDEODRIVER_H

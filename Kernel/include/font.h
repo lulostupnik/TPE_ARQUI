@@ -255,4 +255,5 @@
 #define XXXXXXX_ 0xFE
 #define XXXXXXXX 0xFF
 
-unsigned char * charBitmap(int c);
+#define FONT_WIDTH 8
+#define FONT_HEIGHT 16

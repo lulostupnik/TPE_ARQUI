@@ -85,7 +85,9 @@ void * initializeKernelBinary()
 int main()
 {
     load_idt();
+    //uint64_t drawString(uint64_t x, uint64_t y, uint8_t *string, uint64_t charsToDraw , uint64_t fontSize) {
 
+    drawString(0,0,"holas",4,43);
     // setFontSize(2);
 
 

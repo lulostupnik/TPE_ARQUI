@@ -20,7 +20,7 @@ uint64_t sysCallHandler(Registers * regs) {
 }
 
 uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la longitud del string?
-    drawString(x,y,string);
+    drawLetter(x,y,string[0],1);
     return 0; // @TODO: cambiar!!!!
 }
 
