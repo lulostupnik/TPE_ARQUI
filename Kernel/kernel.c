@@ -86,6 +86,8 @@ int main()
 {
     load_idt();
 
+    // setFontSize(2);
+
 
 //    int x = 0;
 //    sysWrite(x,0,"a");

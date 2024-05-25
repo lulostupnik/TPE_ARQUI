@@ -14,5 +14,7 @@ void drawLetter(uint64_t x, uint64_t y, char ascii);
 
 void drawString(uint64_t x, uint64_t y, char *string);
 
+void setFontSize(uint64_t size);
+
 void clearScreen();
 #endif // VIDEODRIVER_H

@@ -48,6 +48,8 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 extern uint8_t font_bitmap[4096];
 
+uint64_t font_size = 1; // Default font size is 1
+
 /**
  * @brief Draws a letter at the specified (x, y) coordinates with the specified RGB color.
  *
@@ -77,17 +79,8 @@ void drawLetterMultiplier(uint64_t x, uint64_t y, char ascii, uint64_t mult){
 }
 
 void drawLetter(uint64_t x, uint64_t y, char ascii) {
-    drawLetterMultiplier(x,y,ascii,1);
+    drawLetterMultiplier(x, y, ascii, font_size);
 }
-
-
-/**
- * @brief Draws a string at the specified (x, y) coordinates.
- *
- * @param x The x-coordinate of the top-left corner of the string.
- * @param y The y-coordinate of the top-left corner of the string.
- * @param string The string to be drawn.
- */
 
 
 /*
@@ -108,9 +101,17 @@ void drawStringMultiplier(uint64_t x, uint64_t y, char *string, uint64_t mult) {
 }
 
 
+/**
+ * @brief Draws a string at the specified (x, y) coordinates.
+ *
+ * @param x The x-coordinate of the top-left corner of the string.
+ * @param y The y-coordinate of the top-left corner of the string.
+ * @param string The string to be drawn.
+ */
 void drawString(uint64_t x, uint64_t y, char *string) {
-    drawStringMultiplier(x,y,string, 1);
+    drawStringMultiplier(x,y,string, font_size);
 }
+
 
 /**
  * Puts a pixel at the specified (x, y) coordinates with the specified RGB color.
@@ -127,8 +128,6 @@ void putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y) 
     framebuffer[offset+1]   =  green;
     framebuffer[offset+2]   =  red;
 }
-
-
 
 
 /**
@@ -161,6 +160,14 @@ void clearScreen() {
 }
 
 
+/**
+ * @brief Sets the font size
+ *
+ * @param size The new font size
+ */
+void setFontSize(uint64_t size) {
+    font_size = size;
+}
 
 
 // @TODO: funciones borradas, quedan acá abajo por si acaso

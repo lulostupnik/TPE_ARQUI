@@ -36,11 +36,7 @@ uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
    // readKeyboardBuffer(toBuffer,toBufferDim,count);
 }
 
-//ACA HAY QUE IMPLEMENTAR TODAS LAS INT 80h
 
-// write --> escribe directo en la pantalla?
-
-// read --> lee del buffer de teclado
 
 // registros del procesador
 
