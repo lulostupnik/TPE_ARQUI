@@ -88,11 +88,12 @@ int64_t getChar();
 /**
  * @brief Writes a character to the standard output.
  *
- * This function uses the write system call to write a character to the standard output (STDOUT) (the screen)
+ * This function uses the sys_write system call to write a character to the standard output (STDOUT)
+ * (The character is written to the screen)
  *
  * @param c The character to write.
  */
-int64_t putChar(char c);
+void putChar(char c);
 
 
 
@@ -149,6 +150,95 @@ int64_t clearScreen();
 int64_t setFontSize(uint64_t size);
 
 
+
+/**
+ * @brief Calculates the length of a string.
+ *
+ * This function calculates the length of the null terminated string pointed to by `str`, excluding the terminating null byte ('\0').
+ *
+ * @param str The string whose length is to be calculated.
+ * @return size_t Returns the number of characters in the string pointed to by `str`.
+ */
+size_t strlen(const char *str);
+
+
+
+/**
+ * @brief Converts a number to a string representation in a specified base.
+ *
+ * This function converts a number to its string representation in a specified base.
+ * It uses a static buffer to hold the result, so the returned string should be used or copied before the next call to `numToString`.
+ *
+ * @param num The number to be converted.
+ * @param base The base to use for the conversion. This should be between 2 and 16 inclusive.
+ * @return char* Returns a pointer to the string representation of the number. This string is null-terminated.
+ */
+char * numToString(uint64_t num, uint64_t base);
+
+
+
+/**
+ * @brief Writes a string to the standard output.
+ *
+ * This function uses the sys_write system call to write a string to the standard output (STDOUT).
+ * The string is written to the screen. A newline character is appended at the end of the string.
+ *
+ * @param str The string to write.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+int64_t puts(const char * str);
+
+
+
+/**
+ * @brief Writes a character to a file descriptor.
+ *
+ * This function uses the sys_write system call to write a character to a specified file descriptor.
+ *
+ * @param c The character to write.
+ * @param fd The file descriptor to write to.
+ * @return int64_t Returns the 0 if the operation was successful, or -1 if an error occurred.
+ */
+int64_t fputc(char c, uint64_t fd);
+
+
+
+/**
+ * @brief Writes formatted output to a specified file descriptor.
+ *
+ * @param fd The file descriptor to write to.
+ * @param fmt The format string that specifies how subsequent arguments are converted for output.
+ * @param ... Variable argument list.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+int64_t fprintf(uint64_t fd, const char * fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    int64_t out = vfprintf(fd, fmt, args);
+
+    va_end(args);
+    return out;
+}
+
+
+
+/**
+ * @brief Writes formatted output to the standard output (STDOUT).
+ *
+ * @param fmt The format string that specifies how subsequent arguments are converted for output.
+ * @param ... Variable argument list.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+int64_t printf(const char * fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    int64_t out = vfprintf(STDOUT, fmt, args);
+
+    va_end(args);
+    return out;
+}
 
 
 #endif //TPE_ARQUI_LIBC_H

@@ -1,8 +1,10 @@
 #include <libc.h>
 #include <stdint.h>
 #include <syscallFunctions.h>
+#include <stdarg.h>
 
-
+// Este prototipo va acá?
+// static int64_t vfprintf(uint64_t fd, const char *fmt, va_list args);
 
 /**
  * @brief Reads a character from the standard input.
@@ -92,6 +94,179 @@ int64_t clearScreen() {
  */
 int64_t setFontSize(uint64_t size) {
     return sys_set_font_size(size);
+}
+
+
+
+/**
+ * @brief Calculates the length of a string.
+ *
+ * This function calculates the length of the null terminated string pointed to by `str`, excluding the terminating null byte ('\0').
+ *
+ * @param str The string whose length is to be calculated.
+ * @return size_t Returns the number of characters in the string pointed to by `str`.
+ */
+size_t strlen(const char *str) {
+    const char *s = str;
+    while (*s)
+        ++s;
+    return s - str;
+}
+
+
+
+/**
+ * @brief Converts a number to a string representation in a specified base.
+ *
+ * This function converts a number to its string representation in a specified base.
+ * It uses a static buffer to hold the result, so the returned string should be used or copied before the next call to `numToString`.
+ *
+ * @param num The number to be converted.
+ * @param base The base to use for the conversion. This should be between 2 and 16 inclusive.
+ * @return char* Returns a pointer to the string representation of the number. This string is null-terminated.
+ */
+char * numToString(uint64_t num, uint64_t base) {
+    static char buffer[64];
+    char * ptr = &buffer[63];
+    *ptr = '\0';
+    do {
+        *--ptr = "0123456789abcdef"[num % base];
+        num /= base;
+    } while(num != 0);
+    return ptr;
+}
+
+
+
+/**
+ * @brief Writes a string to the standard output.
+ *
+ * This function uses the sys_write system call to write a string to the standard output (STDOUT).
+ * The string is written to the screen. A newline character is appended at the end of the string.
+ *
+ * @param str The string to write.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+int64_t puts(const char * str) {
+    return sys_write(STDOUT, str, strlen(str));
+}
+
+
+
+/**
+ * @brief Writes a character to a file descriptor.
+ *
+ * This function uses the sys_write system call to write a character to a specified file descriptor.
+ *
+ * @param c The character to write.
+ * @param fd The file descriptor to write to.
+ * @return int64_t Returns the 0 if the operation was successful, or -1 if an error occurred.
+ */
+int64_t fputc(char c, uint64_t fd) {
+    return syswrite(fd, &c, 1) == -1 ? -1 : 0;
+}
+
+
+
+/**
+ * @brief Writes formatted output to a specified file descriptor.
+ *
+ * This auxiliary function is used by printf and fprintf to write formatted output to a specified file descriptor.
+ * It takes a variable argument list and a format string, which specifies how subsequent arguments are converted for output.
+ *
+ * @param fd The file descriptor to write to.
+ * @param fmt The format string that specifies how subsequent arguments are converted for output.
+ * @param args A variable argument list.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+static int64_t vfprintf(uint64_t fd, const char *fmt, va_list args)
+{
+    uint64_t flag = 0;
+    uint64_t written = 0;
+
+    for (uint64_t i = 0; fmt[i] != '\0'; i++)
+    {
+        if (fmt[i] == '%' && !flag)
+        {
+            flag = 1;
+            i++;
+        }
+
+        if (!flag)
+        {
+            fputc(fmt[i], fd);
+            flag = 0;
+            written++;
+            continue;
+        }
+
+        switch (fmt[i])
+        {
+            case 'c':
+                fputc(va_arg(args, int), fd);
+                written++;
+                break;
+            case 'd':
+                written += vfprintf(fd, numToString(va_arg(args, uint64_t), 10), args);
+                break;
+            case 'x':
+                written += vfprintf(fd, "0x", args);
+                written += vfprintf(fd, numToString(va_arg(args, uint64_t), 16), args);
+                break;
+            case 's':
+                written += vfprintf(fd, va_arg(args, char *), args);
+                break;
+            case '%':
+                fputc('%', fd);
+                written++;
+                break;
+            default:
+                return -1;
+        }
+    }
+
+    return written;
+}
+
+
+
+// En está página leimos lo de va_list. Copiamos fprintf y printf e implementamos vfprintf
+// http://www.firmcodes.com/write-printf-function-c/
+/**
+ * @brief Writes formatted output to a specified file descriptor.
+ *
+ * @param fd The file descriptor to write to.
+ * @param fmt The format string that specifies how subsequent arguments are converted for output.
+ * @param ... Variable argument list.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+int64_t fprintf(uint64_t fd, const char * fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    int64_t out = vfprintf(fd, fmt, args);
+
+    va_end(args);
+    return out;
+}
+
+
+
+/**
+ * @brief Writes formatted output to the standard output (STDOUT).
+ *
+ * @param fmt The format string that specifies how subsequent arguments are converted for output.
+ * @param ... Variable argument list.
+ * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
+ */
+int64_t printf(const char * fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    int64_t out = vfprintf(STDOUT, fmt, args);
+
+    va_end(args);
+    return out;
 }
 
 
