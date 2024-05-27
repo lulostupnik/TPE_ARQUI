@@ -4,13 +4,72 @@
 #include <stdint.h>
 #include <stddef.h> // lo necesitamos para size_t
 
-// @TODO: Estamos poniendo los mismos prototipos que linux
+#define TEXT_MODE 0
+#define VIDEO_MODE 1
 
-//@COMMENT: Puse los prototipos de las funciones que hice yo, no me mates Mati -Fede
 
 
-uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim);
-//uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string);
+/**
+ * Structure representing a color
+ */
+typedef struct color {
+    uint8_t r; // Red component
+    uint8_t g; // Green component
+    uint8_t b; // Blue component
+} Color;
+
+
+
+/**
+ * Structure representing all the registers
+ */
+typedef struct registers{
+    uint64_t rax;
+    uint64_t rbx;
+    uint64_t rcx;
+    uint64_t rdx;
+    uint64_t rsi;
+    uint64_t rdi;
+    uint64_t rbp;
+    uint64_t rsp;
+    uint64_t r8;
+    uint64_t r9;
+    uint64_t r10;
+    uint64_t r11;
+    uint64_t r12;
+    uint64_t r13;
+    uint64_t r14;
+    uint64_t r15;
+    uint64_t rip;
+} RegisterSet;
+
+
+
+/**
+ * Structure representing the dimensions of the screen.
+ */
+typedef struct {
+    int64_t width;
+    int64_t height;
+} ScreenSize;
+
+
+
+/**
+ * @brief Reads a specified number of bytes from a file descriptor into a buffer.
+ *
+ * This system call reads 'amount' number of characters from the file descriptor 'fd' into the buffer pointed to by 'buffer'.
+ * It is typically used to read input from the standard input (STDIN), but can be used with any valid file descriptor.
+ *
+ * @param fd The file descriptor from which to read. This is typically STDIN.
+ * @param buffer A pointer to a buffer where the read bytes will be stored.
+ * @param amount The number of characters to read from the file descriptor.
+ * @return int64_t Returns the number of characters actually read. This may be less than 'amount' if fewer characters are available.
+ *                 Returns -1 if an error occurred (for example, if 'fd' is not a valid file descriptor).
+ */
+int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
+
+
 
 /**
  * @brief Writes a specified number of characters from a buffer to a file descriptor.
@@ -24,19 +83,65 @@ uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim);
  * @return int64_t Returns the number of characters actually written. This may be less than 'amount' if there was an error writing to the file descriptor (or '\0' is encountered?)
  *                 Returns -1 if an error occurred (for example, if 'fd' is not a valid file descriptor).
  */
-
 int64_t sys_write(uint64_t fd, const char * buffer, int64_t amount);
+
+
+
+/**
+ * @brief Retrieves the saved state of the registers.
+ *
+ * If the registers have been previously saved, this function writes the saved state into the provided TRegs structure.
+ * If no registers have been saved, the function does not modify the provided structure.
+ *
+ * @param registers Pointer to a RegisterSet structure where the saved state of the registers will be written.
+ * @return int64_t Returns 1 if the registers were previously saved and their state has been written into the provided structure.
+ *                 Returns 0 if no registers have been saved, in which case the provided structure is not modified.
+ */
+int64_t sys_get_register_snapshot(RegisterSet * registers);
+
+
+
+/**
+ * @brief Generates a beep sound using the system speaker.
+ *
+ * This system call interfaces with the system's hardware to generate a beep sound.
+ * The frequency and duration of the beep are specified by the parameters.
+ *
+ * @param frequency The frequency of the beep in Hertz. This value must be between 20 and 20000.
+ * @param duration The duration of the beep in milliseconds.
+ * @return int64_t Returns 0 on success, or -1 if an error occurred (for example, if the frequency or duration is out of range).
+ */
+int64_t sys_beep(uint64_t frequency, uint64_t duration);
+
+
 
 /**
  * @brief Sets the system font size.
  *
- *
- * @param size The new font size. This should be a positive integer.
+ * @param size The new font size.
  * @return int64_t Returns 0 if the font size was successfully set, or -1 if an error occurred
  *             (for example, if 'size' is not a valid font size).
  */
-
 int64_t sys_set_font_size(uint64_t size);
+
+
+
+/**
+ * @brief Clears the system screen.
+ *
+ * This system call interfaces with the system's hardware to clear the screen. (black)
+ *
+ * @return int64_t Returns 0 if the screen was successfully cleared, or -1 if an error occurred.
+ */
+int64_t sys_clear_screen(void);
+//Si estoy aburrido:
+/*
+int64_t sys_change_background_screen_color(Color color);
+int64_t sys_change_font_color(Color color);
+int64_t sys_change_error_font_color(Color color);
+*/
+
+
 
 /**
  * @brief Draws a pixel on the system screen at a specified position with a specified color.
@@ -49,48 +154,25 @@ int64_t sys_set_font_size(uint64_t size);
  * @return int64_t Returns 0 if the pixel was successfully drawn, or -1 if an error occurred
  *             (for example, if 'x' or 'y' is out of the screen bounds, or 'color' is not a valid color).
  */
+int64_t sys_put_pixel(uint64_t x, uint64_t y, Color color);
 
 
 
 /**
- * @brief Clears the system screen to a specified color.
+ * @brief Draws a rectangle on the system screen at a specified position with a specified color, width, and height.
  *
- * This system call interfaces with the system's hardware to clear the screen and set it to a specified color.
- * The color is specified by the 'color' parameter.
+ * This system call interfaces with the system's hardware to draw a rectangle on the screen.
  *
- * @param color A structure representing the RGB color values to which the screen should be cleared.
- *              Each color value should be between 0 and 255.
- * @return int64_t Returns 0 if the screen was successfully cleared and set to the specified color, or -1 if an error occurred.
-
+ * @param x The x-coordinate of the top-left corner of the rectangle.
+ * @param y The y-coordinate of the top-left corner of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @param color A structure representing the RGB color values of the rectangle.
+ * @return int64_t Returns 0 if the rectangle was successfully drawn, or -1 if an error occurred
+ *             (for example, if 'x', 'y', 'width', or 'height' is out of the screen bounds, or 'color' is not a valid color).
  */
+int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
 
-int64_t sys_clear_screen();
-//Si estoy aburrido:
-/*
-int64_t sys_change_background_screen_color(Color color);
-int64_t sys_change_font_color(Color color);
-int64_t sys_change_error_font_color(Color color);
-*/
-
-
-int64_t sys_draw_pixel(uint64_t x, uint64_t y, Color color);
-
-
-/*
-* @brief Draws a rectangle on the system screen at a specified position with a specified color, width, and height.
-*
-* This system call interfaces with the system's hardware to draw a rectangle on the screen.
-*
-* @param x The x-coordinate of the top-left corner of the rectangle.
-* @param y The y-coordinate of the top-left corner of the rectangle.
-* @param width The width of the rectangle.
-* @param height The height of the rectangle.
-* @param color A structure representing the RGB color values of the rectangle.
-* @return int64_t Returns 0 if the rectangle was successfully drawn, or -1 if an error occurred
-*             (for example, if 'x', 'y', 'width', or 'height' is out of the screen bounds, or 'color' is not a valid color).
-*/
-
-int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
 
 
 /**
@@ -105,7 +187,6 @@ int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t heig
  * @return int Returns 0 if the letter was successfully drawn, or -1 if an error occurred
  *             (for example, if 'x' or 'y' is out of the screen bounds, 'letter' is not a valid character, or 'color' is not a valid color).
  */
-
 int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color);
 
 
@@ -116,9 +197,8 @@ int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color);
  * @param mode The mode to which the system should be set. This should be either TEXT_MODE or VIDEO_MODE.
  * @return int64_t Returns 0 if the system was successfully set to the specified mode, -1 if an error occurred (for example if the mode is invalid).
  */
-
-
 int64_t sys_set_mode(uint64_t mode);
+
 
 
 /**
@@ -130,9 +210,8 @@ int64_t sys_set_mode(uint64_t mode);
  * @param screen_size A pointer to a ScreenSize structure that will be filled with the screen's dimensions.
  * @return int64_t Returns 0 if the dimensions were successfully retrieved, or -1 if an error occurred.
  */
+int64_t sys_get_screen_size(ScreenSize * screen_size);
 
-
-int64_t sys_get_screen_information(ScreenInformation * screen_information);
 
 
 #endif
