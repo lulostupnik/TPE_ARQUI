@@ -163,7 +163,7 @@ int64_t puts(const char * str) {
  * @return int64_t Returns the 0 if the operation was successful, or -1 if an error occurred.
  */
 int64_t fputc(char c, uint64_t fd) {
-    return syswrite(fd, &c, 1) == -1 ? -1 : 0;
+    return sys_write(fd, &c, 1) == -1 ? -1 : 0;
 }
 
 

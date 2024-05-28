@@ -1,5 +1,5 @@
-GLOBAL sysRead
-Global sysWrite
+GLOBAL sys_read
+Global sys_write
 
 section .text
 
@@ -84,7 +84,7 @@ section .text
 %endmacro
 
 
-sysRead:
+sys_read:
     push rbp
     mov rbp, rsp
     mov rax, 0
@@ -93,7 +93,7 @@ sysRead:
     pop rbp
     ret
 
-sysWrite:
+sys_write:
     push rbp
     mov rbp, rsp
     mov rax, 1
