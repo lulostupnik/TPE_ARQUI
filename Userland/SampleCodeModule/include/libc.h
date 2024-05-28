@@ -240,5 +240,5 @@ int64_t printf(const char * fmt, ...) {
     return out;
 }
 
-
+void scanf(char * Buffer);
 #endif //TPE_ARQUI_LIBC_H

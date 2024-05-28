@@ -1,7 +1,7 @@
 /* sampleCodeModule.c */
 #include <syscallFunctions.h>
 #include <libc.h>
-
+#include <shell.h>
 char * v = (char*)0xB8000 + 79 * 2;
 
 static int var1 = 0;
@@ -35,13 +35,7 @@ int main() {
     */
     uint64_t c;
     uint64_t x = 0;
-    while(1){
-       while( sysRead(c, 1) == 0);
-       sysWrite(x,0,c);
-       x+=8;
-    }
-
-   while(1);
+    initializeShell();
 	//Test if BSS is properly set up
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
