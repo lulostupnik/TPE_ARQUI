@@ -18,29 +18,22 @@ nasm -felf64 loader.asm -o loader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c lib.c -o lib.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c syscalls.c -o syscalls.o
 syscalls.c: In function 'sysCallHandler':
-syscalls.c:17:32: warning: passing argument 1 of 'sysRead' makes pointer from integer without a cast
+syscalls.c:20:32: warning: passing argument 1 of 'sysRead' makes pointer from integer without a cast
          case 0: return sysRead(regs->rdi, regs->rsi); break;
                                 ^
 In file included from syscalls.c:3:0:
-./include/syscalls.h:11:10: note: expected 'uint64_t *' but argument is of type 'uint64_t'
+./include/syscalls.h:12:10: note: expected 'uint64_t *' but argument is of type 'uint64_t'
  uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim);
           ^
-syscalls.c:18:55: warning: passing argument 3 of 'sysWrite' makes pointer from integer without a cast
-         case 1: return sysWrite(regs->rdi, regs->rsi, regs->rdx); break;
-                                                       ^
-In file included from syscalls.c:3:0:
-./include/syscalls.h:12:10: note: expected 'uint8_t *' but argument is of type 'uint64_t'
- uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string);
-          ^
 syscalls.c: In function 'sysRead':
-syscalls.c:29:5: warning: implicit declaration of function 'bufferHasNext' [-Wimplicit-function-declaration]
+syscalls.c:32:5: warning: implicit declaration of function 'bufferHasNext' [-Wimplicit-function-declaration]
      while(i < toBufferDim && bufferHasNext()){
      ^
-syscalls.c:30:9: warning: implicit declaration of function 'getCurrent' [-Wimplicit-function-declaration]
+syscalls.c:33:9: warning: implicit declaration of function 'getCurrent' [-Wimplicit-function-declaration]
          toBuffer[i] = getCurrent();
          ^
 syscalls.c: In function 'sysCallHandler':
-syscalls.c:20:1: warning: control reaches end of non-void function [-Wreturn-type]
+syscalls.c:23:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c irqDispatcher.c -o irqDispatcher.o
@@ -54,9 +47,19 @@ In file included from idtLoader.c:2:0:
              ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c kernel.c -o kernel.o
 kernel.c: In function 'main':
-kernel.c:90:5: warning: implicit declaration of function 'drawString' [-Wimplicit-function-declaration]
-     drawString(0,0,"holas",4,100);
-     ^
+kernel.c:98:7: warning: implicit declaration of function 'video_main' [-Wimplicit-function-declaration]
+       video_main();
+       ^
+kernel.c:100:9: warning: implicit declaration of function 'sysRead' [-Wimplicit-function-declaration]
+         while( sysRead(&c, 1) == 0);
+         ^
+kernel.c:101:30: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+         vdriver_text_write(1,&c, 1);
+                              ^
+In file included from kernel.c:6:0:
+./include/video.h:36:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
+         ^
 In file included from kernel.c:7:0:
 kernel.c: At top level:
 ./include/idtLoader.h:12:13: warning: 'setup_IDT_entry' declared 'static' but never defined [-Wunused-function]
@@ -67,10 +70,43 @@ nasm -felf64 asm/libasm.asm -o asm/libasm.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keysMap.c -o Drivers/keysMap.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/time.c -o Drivers/time.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/video.c -o Drivers/video.o
-Drivers/video.c: In function 'putPixel':
-Drivers/video.c:151:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+Drivers/video.c: In function 'vdriver_set_mode':
+Drivers/video.c:92:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+         vdriver_text_write(STDOUT, char_buffer, buffer_index );
+                                    ^
+In file included from Drivers/video.c:1:0:
+./include/video.h:36:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
+         ^
+Drivers/video.c:91:17: warning: unused variable 'c' [-Wunused-variable]
+         uint8_t c;
+                 ^
+Drivers/video.c: At top level:
+Drivers/video.c:252:1: warning: "/*" within comment [-Wcomment]
+ /**
+ ^
+Drivers/video.c: In function 'vdriver_video_draw_pixel':
+Drivers/video.c:269:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
      uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
                              ^
+Drivers/video.c: In function 'video_main':
+Drivers/video.c:288:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+             vdriver_text_write(1, &c,1);
+                                   ^
+Drivers/video.c:182:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
+         ^
+Drivers/video.c:283:13: warning: unused variable 'c2' [-Wunused-variable]
+     uint8_t c2[] = "HOLA";
+             ^
+Drivers/video.c: In function 'vdriver_clear_screen':
+Drivers/video.c:68:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Drivers/video.c: In function 'vdriver_set_mode':
+Drivers/video.c:95:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/font.c -o Drivers/font.o
 Drivers/font.c: In function 'charBitmap':
 Drivers/font.c:1721:2: warning: return discards 'const' qualifier from pointer target type
@@ -115,7 +151,7 @@ make[2]: Leaving directory '/root/Userland/SampleCodeModule'
 printf "This is sample data." >> 0001-sampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-sampleDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 3.481e-05 s, 28.7 kB/s
+1 byte (1 B) copied, 3.5241e-05 s, 28.4 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'

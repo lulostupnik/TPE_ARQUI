@@ -257,3 +257,5 @@
 
 #define FONT_WIDTH 8
 #define FONT_HEIGHT 16
+#define FIRST_ASCII_FONT 32
+#define LAST_ASCII_FONT 126

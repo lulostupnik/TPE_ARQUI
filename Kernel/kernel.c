@@ -94,11 +94,12 @@ int main()
 //    int x = 0;
 //    sysWrite(x,0,"a");
 //    drawString(x,0,"a");
-//    while(1){
-//        while( sysRead(c, 1) == 0);
-//        sysWrite(x,0,c);
-//        x+=8;
-//    }
+        uint8_t c;
+      video_main();
+        while(1){
+        while( sysRead(&c, 1) == 0);
+        vdriver_text_write(1,&c, 1);
+   }
     
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
