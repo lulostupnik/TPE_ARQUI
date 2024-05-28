@@ -270,3 +270,56 @@ int64_t printf(const char * fmt, ...) {
 }
 
 
+
+/**
+ * @brief Reads a specified number of characters from the standard input.
+ *
+ * This function reads characters from the standard input until it encounters a newline.
+ * If it has read the specified number of characters it will cease to write on the buffer unless it encounters a backspace.
+ * The characters are stored in a buffer, which is then returned.
+ *
+ * @param buffer The buffer to store the characters.
+ * @param n The maximum number of characters to read. (the last character will be a null terminator)
+ * @return char* Returns a pointer to the buffer.
+ */
+char* gets(char* buffer, int n) {
+    int c;
+    int i = 0;
+
+    // Read characters until newline, EOF, or maximum number of characters
+    while (i < n - 1 && (c = getChar()) != '\n') {
+        if (c == '\b' && i > 0) {
+            putchar(c);
+            i--;
+        }
+        if (c != '\b' && i < n - 1) {
+            putchar(c);
+            buffer[i++] = (char)c;
+        }
+    }
+
+    // Null-terminate the string
+    buffer[i] = '\0';
+
+    return buffer;
+}
+
+
+
+/**
+ * @brief Compares two strings.
+ *
+ * This function compares the two strings str1 and str2. It returns an integer less than, equal to, or greater than zero
+ * if str1 is found, respectively, to be less than, to match, or be greater than str2.
+ *
+ * @param str1 The first string to be compared.
+ * @param str2 The second string to be compared.
+ * @return int Returns an integer less than, equal to, or greater than zero if str1 is found, respectively, to be less than, to match, or be greater than str2.
+ */
+int64_t strcmp(const char *str1, const char *str2) {
+    while (*str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+    }
+    return *(unsigned char *)str1 - *(unsigned char *)str2;
+}

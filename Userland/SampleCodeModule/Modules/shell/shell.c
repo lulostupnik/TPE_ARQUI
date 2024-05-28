@@ -25,7 +25,7 @@ int initializeShell(){
 void interpret(){
     puts(PROMPT);
     char shellBuffer[MAX_COMMAND_SIZE];
-    scanf(shellBuffer);
+    gets(shellBuffer);
     if(strlen(shellBuffer)==0){
         return;
     }
