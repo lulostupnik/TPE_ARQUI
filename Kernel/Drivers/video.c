@@ -46,6 +46,13 @@ static void backSpacePrint();
 static void tabulator();
 
 
+
+/*
+ * @TODO
+ * manejar mejor el STDOUT y STDIN. Se podria hacer una variable estatica que sea el color con el que se imprime. Implementar
+ */
+
+
 int64_t vdriver_set_font_color(Color c){
     font_color = c;
 }
