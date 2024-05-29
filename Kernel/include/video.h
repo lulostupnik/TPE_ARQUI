@@ -34,8 +34,8 @@ uint64_t putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint
 
 
 int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
-int64_t vdriver_text_set_font_size(uint64_t size);  // este ya hace el resize si entra AL menos 1 caracter !
-
+int64_t vdriver_text_set_font_size(uint64_t size);
+int64_t vdriver_set_font_color(Color c);
 
 int64_t vdriver_video_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
 int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color color, uint64_t fontSize);
@@ -43,7 +43,7 @@ int64_t vdriver_video_draw_pixel(uint64_t x, uint64_t y, Color color);
 
 
 int64_t vdriver_get_screen_information(ScreenInformation * screen_information);
-int64_t vdriver_set_mode(uint64_t mode);
+int64_t vdriver_set_mode(uint64_t mode, Color c);
 int64_t vdriver_clear_screen(Color color);
 
 
