@@ -10,11 +10,11 @@ static module modules[] = {
     {"time", showcurrentTime},
     {"eliminator", eliminator},
     {"zoomin", zoomIn},
-    {"clear", clear},
     {"zoomout", zoomOut},
     {"getregs", getRegs},
     {"dividebyzero", div0},
     {"opcode", op_code},
+    {"clear", clear}
 };
 
 
@@ -34,7 +34,7 @@ void interpret(){
     if(strlen(shellBuffer)==0){
         return;
     }
-    for(int i=0;i<MAX_MODULES;i++){
+    for(int i = 0; i < MAX_MODULES; i++){
         if(strcmp(shellBuffer,modules[i].name)==0){
             modules[i].function();
             break;
