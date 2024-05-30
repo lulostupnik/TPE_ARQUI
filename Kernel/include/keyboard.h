@@ -2,12 +2,11 @@
 #ifndef _KEYBOARD_H
 #define _KEYBOARD_H
 
+
 #define BUFFER_SIZE 1024
 #define FIRST_SPECIAL_KEY LEFT_CONTROL
 #define LAST_SPECIAL_KEY  F12
 #define SPECIAL_KEYS_CANT  (LAST_SPECIAL_KEY - FIRST_SPECIAL_KEY + 1)
-
-void keyboardHandler();
 
 
 typedef enum {
@@ -46,5 +45,16 @@ typedef enum {
     F11,
     F12
 } specialCodes;
+
+
+
+void keyboardHandler();
+
+
+uint64_t getCurrent();
+
+
+uint64_t bufferHasNext();
+
 
 #endif

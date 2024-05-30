@@ -1,58 +1,13 @@
-#include <video.h> // para las estructuras
+
 #ifndef _SYSCALLS_H
 #define _SYSCALLS_H
+#include <video.h> // para las estructuras
 #include <stdint.h>
 #include <stddef.h> // lo necesitamos para size_t
+#include <registerSaver.h>
 
-#define TEXT_MODE 0
-#define VIDEO_MODE 1
-
-
-
-/**
- * Structure representing a color
- */
-typedef struct color {
-    uint8_t r; // Red component
-    uint8_t g; // Green component
-    uint8_t b; // Blue component
-} Color;
-
-
-
-/**
- * Structure representing all the registers
- */
-typedef struct registers{
-    uint64_t rax;
-    uint64_t rbx;
-    uint64_t rcx;
-    uint64_t rdx;
-    uint64_t rsi;
-    uint64_t rdi;
-    uint64_t rbp;
-    uint64_t rsp;
-    uint64_t r8;
-    uint64_t r9;
-    uint64_t r10;
-    uint64_t r11;
-    uint64_t r12;
-    uint64_t r13;
-    uint64_t r14;
-    uint64_t r15;
-    uint64_t rip;
-} RegisterSet;
-
-
-
-/**
- * Structure representing the dimensions of the screen.
- */
-typedef struct {
-    int64_t width;
-    int64_t height;
-} ScreenSize;
-
+// #define NOT_VALID_FD -1
+#define NOT_VALID_SYS_ID -2
 
 
 /**
@@ -83,7 +38,7 @@ int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
  * @return int64_t Returns the number of characters actually written. This may be less than 'amount' if there was an error writing to the file descriptor (or '\0' is encountered?)
  *                 Returns -1 if an error occurred (for example, if 'fd' is not a valid file descriptor).
  */
-int64_t sys_write(uint64_t fd, const char * buffer, int64_t amount);
+int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
 
 
 
@@ -204,13 +159,12 @@ int64_t sys_set_mode(uint64_t mode);
 /**
  * @brief Gets the dimensions of the system screen.
  *
- * This system call interfaces with the system's hardware to get the dimensions of the screen.
  * The dimensions are written into the 'screen_size' parameter.
  *
- * @param screen_size A pointer to a ScreenSize structure that will be filled with the screen's dimensions.
+ * @param screen_information A pointer to a ScreenInformation structure that will be filled with the screen's dimensions.
  * @return int64_t Returns 0 if the dimensions were successfully retrieved, or -1 if an error occurred.
  */
-int64_t sys_get_screen_size(ScreenSize * screen_size);
+int64_t sys_get_screen_information(ScreenInformation * screen_information);
 
 
 

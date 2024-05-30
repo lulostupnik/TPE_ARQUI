@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <video.h>
+#include <keyboard.h>
 #include <syscalls.h>
 
 typedef struct {
@@ -12,13 +13,17 @@ typedef struct {
 } Registers;
 */
 
+// Orden en el cual mandar los registros:
+// rdi, rsi, rdx, rcx, rbx, rax
+
 /*
  * @Todo agregar sys_write
  */
-uint64_t sysCallHandler(Registers * regs) {
+int64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
-        case 0: return sysRead(regs->rdi, regs->rsi); break;
+        case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return 1; break;
+        default: return NOT_VALID_SYS_ID;
     }
 }
 
@@ -27,23 +32,22 @@ uint64_t sysCallHandler(Registers * regs) {
 //    return 0; // @TODO: cambiar!!!!
 //}
 
-uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim){
+int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount){
     uint64_t i = 0;
-    while(i < toBufferDim && bufferHasNext()){
-        toBuffer[i] = getCurrent();
+    while(i < amount && bufferHasNext()){
+        buffer[i] = (char) getCurrent(); // @TODO getCurrent me da un uint64_t, pero lo que quiero es un char --> ¿el casteo está bien?
         i++;
     }
-
     return i;
    // readKeyboardBuffer(toBuffer,toBufferDim,count);
-
 }
 
 
 //Modo texto:
-int64_t sys_write(uint64_t fd, const char * buffer, int64_t amount){
+int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount){
     return 1;
 }
+
 int64_t sys_set_font_size(uint64_t size){
     return 1;
 }  // este ya hace el resize si entra AL menos 1 caracter !
@@ -52,9 +56,11 @@ int64_t sys_set_font_size(uint64_t size){
 int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
     return 1;
 }
+
 int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color){
     return 1;
 }
+
 int64_t sys_draw_pixel(uint64_t x, uint64_t y, Color color){
     return 1;
 }
@@ -63,6 +69,7 @@ int64_t sys_draw_pixel(uint64_t x, uint64_t y, Color color){
 int64_t sys_get_screen_information(ScreenInformation * screen_information){
     return 1;
 }
+
 int64_t sys_set_mode(uint64_t mode){
     return 1;
 }

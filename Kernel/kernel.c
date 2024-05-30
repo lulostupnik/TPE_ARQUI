@@ -5,6 +5,8 @@
 #include <naiveConsole.h>
 #include <video.h>
 #include <idtLoader.h>
+#include <syscalls.h>
+#include <keyboard.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -94,12 +96,14 @@ int main()
 //    int x = 0;
 //    sysWrite(x,0,"a");
 //    drawString(x,0,"a");
-        uint8_t c;
-      video_main();
+        char c;
+      // video_main();
+      // int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
         while(1){
-        while( sysRead(&c, 1) == 0);
-        vdriver_text_write(1,&c, 1);
-   }
+        while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
+        vdriver_text_write(1, &c, 1); // ¿porque le paso 1?
+        }
+
     
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;

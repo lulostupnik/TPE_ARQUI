@@ -1,6 +1,9 @@
-#include <stdint.h>
 #ifndef TPE_ARQUI_LIBC_H
 #define TPE_ARQUI_LIBC_H
+
+#include <stdint.h>
+#include <syscallFunctions.h>
+#include <stdarg.h>
 
 #define STDIN 0
 #define STDOUT 0
@@ -159,7 +162,7 @@ int64_t setFontSize(uint64_t size);
  * @param str The string whose length is to be calculated.
  * @return size_t Returns the number of characters in the string pointed to by `str`.
  */
-size_t strlen(const char *str);
+uint64_t strlen(const char *str);
 
 
 
@@ -211,15 +214,7 @@ int64_t fputc(char c, uint64_t fd);
  * @param ... Variable argument list.
  * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
  */
-int64_t fprintf(uint64_t fd, const char * fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-
-    int64_t out = vfprintf(fd, fmt, args);
-
-    va_end(args);
-    return out;
-}
+int64_t fprintf(uint64_t fd, const char * fmt, ...);
 
 
 
@@ -230,15 +225,7 @@ int64_t fprintf(uint64_t fd, const char * fmt, ...) {
  * @param ... Variable argument list.
  * @return int64_t Returns the number of characters written if the operation was successful, or -1 if an error occurred.
  */
-int64_t printf(const char * fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-
-    int64_t out = vfprintf(STDOUT, fmt, args);
-
-    va_end(args);
-    return out;
-}
+int64_t printf(const char * fmt, ...);
 
 
 

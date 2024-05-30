@@ -1,7 +1,4 @@
 #include <libc.h>
-#include <stdint.h>
-#include <syscallFunctions.h>
-#include <stdarg.h>
 
 // Este prototipo va acá?
 // static int64_t vfprintf(uint64_t fd, const char *fmt, va_list args);
@@ -106,7 +103,7 @@ int64_t setFontSize(uint64_t size) {
  * @param str The string whose length is to be calculated.
  * @return size_t Returns the number of characters in the string pointed to by `str`.
  */
-size_t strlen(const char *str) {
+uint64_t strlen(const char *str) {
     const char *s = str;
     while (*s)
         ++s;

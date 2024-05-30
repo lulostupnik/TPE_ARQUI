@@ -137,7 +137,7 @@ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
     if(!inTextMode()){
         return 0;
     }
-    if(!(fd == STDOUT || fd== STDERR)){
+    if(!(fd == STDOUT || fd == STDERR)){
         return 0;
     }
 
@@ -207,7 +207,7 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
 
 /*
  * @TODO validacion
-
+*/
 
 
 /**

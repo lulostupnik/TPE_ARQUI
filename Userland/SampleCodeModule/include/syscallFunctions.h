@@ -2,7 +2,9 @@
 #define SYSCALLFUNCTIONS_H
 #include <stdint.h>
 
-uint64_t sys_ead(uint64_t * toBuffer, uint64_t toBufferDim);
-uint64_t sys_write(uint64_t x, uint64_t y, uint8_t * string);
+
+int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
+int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
+
 
 #endif 
