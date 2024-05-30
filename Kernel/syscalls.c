@@ -20,10 +20,12 @@ typedef struct {
  * @Todo agregar sys_write
  */
 int64_t sysCallHandler(Registers * regs) {
+    // printFont('X');
     switch(regs->rax){
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
-        case 1: return 1; break;
-        default: return NOT_VALID_SYS_ID;
+        case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
+        default: return NOT_VALID_SYS_ID;  //     printFont('X');
+
     }
 }
 
@@ -45,6 +47,7 @@ int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount){
 
 //Modo texto:
 int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount){
+    // printFont('X');
     return vdriver_text_write(fd, buffer, amount);
 }
 

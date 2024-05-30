@@ -99,11 +99,19 @@ int main()
         char c;
       // video_main();
       // int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
+        // putRectangle(100,50,200,120,120,20,20);
+        // vdriver_video_draw_rectangle(120,120,20,20, (Color){100,50,200});
+
+        /*
+         printFont('A');
+
         while(1){
         while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
         sys_write(1, &c, 1); // ¿porque le paso 1?
         }
 
+        printFont('B');
+         */
     
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;

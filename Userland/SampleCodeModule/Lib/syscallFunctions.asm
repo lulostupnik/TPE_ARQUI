@@ -1,5 +1,5 @@
 GLOBAL sys_read
-Global sys_write
+GLOBAL sys_write
 GLOBAL sys_get_register_snapshot
 GLOBAL sys_beep
 GLOBAL sys_set_font_size
