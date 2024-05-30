@@ -16,142 +16,100 @@ cd Kernel; make all
 make[1]: Entering directory '/root/Kernel'
 nasm -felf64 loader.asm -o loader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c lib.c -o lib.o
-gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c syscalls.c -o syscalls.o
-syscalls.c: In function 'sysCallHandler':
-syscalls.c:20:32: warning: passing argument 1 of 'sysRead' makes pointer from integer without a cast
-         case 0: return sysRead(regs->rdi, regs->rsi); break;
-                                ^
-In file included from syscalls.c:3:0:
-./include/syscalls.h:12:10: note: expected 'uint64_t *' but argument is of type 'uint64_t'
- uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim);
-          ^
-syscalls.c: In function 'sysRead':
-syscalls.c:32:5: warning: implicit declaration of function 'bufferHasNext' [-Wimplicit-function-declaration]
-     while(i < toBufferDim && bufferHasNext()){
-     ^
-syscalls.c:33:9: warning: implicit declaration of function 'getCurrent' [-Wimplicit-function-declaration]
-         toBuffer[i] = getCurrent();
-         ^
-syscalls.c: In function 'sysCallHandler':
-syscalls.c:23:1: warning: control reaches end of non-void function [-Wreturn-type]
+gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c registerSaver.c -o registerSaver.o
+registerSaver.c:4:20: warning: 'snapshot' defined but not used [-Wunused-variable]
+ static RegisterSet snapshot;
+                    ^
+registerSaver.c: In function 'saveRegisters':
+registerSaver.c:8:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
+registerSaver.c: In function 'getRegisters':
+registerSaver.c:12:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c syscalls.c -o syscalls.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c irqDispatcher.c -o irqDispatcher.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c exceptions.c -o exceptions.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c naiveConsole.c -o naiveConsole.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c moduleLoader.c -o moduleLoader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c idtLoader.c -o idtLoader.o
-In file included from idtLoader.c:2:0:
-./include/idtLoader.h:12:13: warning: 'setup_IDT_entry' declared 'static' but never defined [-Wunused-function]
- static void setup_IDT_entry(int index, uint64_t offset);
-             ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c kernel.c -o kernel.o
-kernel.c: In function 'main':
-kernel.c:98:7: warning: implicit declaration of function 'video_main' [-Wimplicit-function-declaration]
-       video_main();
-       ^
-kernel.c:100:9: warning: implicit declaration of function 'sysRead' [-Wimplicit-function-declaration]
-         while( sysRead(&c, 1) == 0);
-         ^
-kernel.c:101:30: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-         vdriver_text_write(1,&c, 1);
-                              ^
-In file included from kernel.c:6:0:
-./include/video.h:36:9: note: expected 'const char *' but argument is of type 'uint8_t *'
- int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
-         ^
-In file included from kernel.c:7:0:
-kernel.c: At top level:
-./include/idtLoader.h:12:13: warning: 'setup_IDT_entry' declared 'static' but never defined [-Wunused-function]
- static void setup_IDT_entry(int index, uint64_t offset);
-             ^
 nasm -felf64 asm/interrupts.asm -o asm/interrupts.o
 nasm -felf64 asm/libasm.asm -o asm/libasm.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keysMap.c -o Drivers/keysMap.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/time.c -o Drivers/time.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/video.c -o Drivers/video.o
 Drivers/video.c: In function 'vdriver_set_mode':
-Drivers/video.c:92:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-         vdriver_text_write(STDOUT, char_buffer, buffer_index );
-                                    ^
+Drivers/video.c:122:40: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+             vdriver_text_write(STDOUT, &char_buffer[i], 1 );
+                                        ^
 In file included from Drivers/video.c:1:0:
-./include/video.h:36:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
-Drivers/video.c:91:17: warning: unused variable 'c' [-Wunused-variable]
-         uint8_t c;
-                 ^
-Drivers/video.c: At top level:
-Drivers/video.c:252:1: warning: "/*" within comment [-Wcomment]
- /**
- ^
 Drivers/video.c: In function 'vdriver_video_draw_pixel':
-Drivers/video.c:269:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+Drivers/video.c:238:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
      uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
                              ^
-Drivers/video.c: In function 'video_main':
-Drivers/video.c:288:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-             vdriver_text_write(1, &c,1);
-                                   ^
-Drivers/video.c:182:9: note: expected 'const char *' but argument is of type 'uint8_t *'
- int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
-         ^
-Drivers/video.c:283:13: warning: unused variable 'c2' [-Wunused-variable]
-     uint8_t c2[] = "HOLA";
-             ^
-Drivers/video.c: In function 'vdriver_clear_screen':
-Drivers/video.c:68:1: warning: control reaches end of non-void function [-Wreturn-type]
+Drivers/video.c: In function 'vdriver_set_font_color':
+Drivers/video.c:59:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
-Drivers/video.c: In function 'vdriver_set_mode':
-Drivers/video.c:95:1: warning: control reaches end of non-void function [-Wreturn-type]
+Drivers/video.c: In function 'vdriver_text_set_font_size':
+Drivers/video.c:76:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/font.c -o Drivers/font.o
-Drivers/font.c: In function 'charBitmap':
-Drivers/font.c:1721:2: warning: return discards 'const' qualifier from pointer target type
-  return (font_bitmap+(c-' ')*16);
-  ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keyboard.c -o Drivers/keyboard.o
 Drivers/keyboard.c:66:13: warning: 'updateBufferIndex' defined but not used [-Wunused-function]
  static void updateBufferIndex(uint64_t index){
              ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/speaker.c -o Drivers/speaker.o
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o syscalls.o irqDispatcher.o exceptions.o naiveConsole.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/speaker.o  # Añadido
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o syscalls.o irqDispatcher.o exceptions.o naiveConsole.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/speaker.o  # Debbug
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o registerSaver.o syscalls.o irqDispatcher.o exceptions.o naiveConsole.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/speaker.o  # Añadido
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o registerSaver.o syscalls.o irqDispatcher.o exceptions.o naiveConsole.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/speaker.o  # Debbug
 make[1]: Leaving directory '/root/Kernel'
 cd Userland; make all
 make[1]: Entering directory '/root/Userland'
 cd SampleCodeModule; make
 make[2]: Entering directory '/root/Userland/SampleCodeModule'
+gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/eliminator.c -o Modules/eliminator.o
+Modules/eliminator.c: In function 'eliminator':
+Modules/eliminator.c:5:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
+     enter_video_mode();
+     ^
+Modules/eliminator.c:6:5: warning: implicit declaration of function 'draw_pixel' [-Wimplicit-function-declaration]
+     draw_pixel(0, 0, (Color) {255, 0, 0});
+     ^
+Modules/eliminator.c:9:5: warning: implicit declaration of function 'draw_rectangle' [-Wimplicit-function-declaration]
+     draw_rectangle(10, 10, 10, 10, (Color) {255, 0, 0});
+     ^
+Modules/eliminator.c:14:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
+     enter_text_mode();
+     ^
+gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/shell.c -o Modules/shell.o
+Modules/shell.c:5:17: warning: 'printedChars' defined but not used [-Wunused-variable]
+ static uint64_t printedChars = 0;
+                 ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Main/sampleCodeModule.c -o Main/sampleCodeModule.o
 Main/sampleCodeModule.c: In function 'main':
-Main/sampleCodeModule.c:39:23: warning: passing argument 1 of 'sysRead' makes pointer from integer without a cast
-        while( sysRead(c, 1) == 0);
-                       ^
-In file included from Main/sampleCodeModule.c:2:0:
-./include/syscallFunctions.h:5:10: note: expected 'uint64_t *' but argument is of type 'uint64_t'
- uint64_t sysRead(uint64_t * toBuffer, uint64_t toBufferDim);
-          ^
-Main/sampleCodeModule.c:40:21: warning: passing argument 3 of 'sysWrite' makes pointer from integer without a cast
-        sysWrite(x,0,c);
-                     ^
-In file included from Main/sampleCodeModule.c:2:0:
-./include/syscallFunctions.h:6:10: note: expected 'uint8_t *' but argument is of type 'uint64_t'
- uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string);
-          ^
-Main/sampleCodeModule.c:39:15: warning: 'c' is used uninitialized in this function [-Wuninitialized]
-        while( sysRead(c, 1) == 0);
-               ^
+Main/sampleCodeModule.c:40:14: warning: unused variable 'x' [-Wunused-variable]
+     uint64_t x = 0;
+              ^
+Main/sampleCodeModule.c:39:14: warning: unused variable 'c' [-Wunused-variable]
+     uint64_t c;
+              ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Lib/libc.c -o Lib/libc.o
 nasm -felf64 Lib/syscallFunctions.asm -o Lib/syscallFunctions.o
+nasm -felf64 Lib/opCode.asm -o Lib/opCode.o
+nasm -felf64 Lib/div0.asm -o Lib/div0.o
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc _loader.c -c -o _loader.o
-ld  -T sampleCodeModule.ld -o ../0000-sampleCodeModule.bin _loader.o Main/sampleCodeModule.o Lib/libc.o Lib/syscallFunctions.o
+ld  -T sampleCodeModule.ld -o ../0000-sampleCodeModule.bin _loader.o Modules/eliminator.o Modules/shell.o Main/sampleCodeModule.o Lib/libc.o Lib/syscallFunctions.o Lib/opCode.o Lib/div0.o
 make[2]: Leaving directory '/root/Userland/SampleCodeModule'
 printf "This is sample data." >> 0001-sampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-sampleDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 3.5241e-05 s, 28.4 kB/s
+1 byte (1 B) copied, 5.4195e-05 s, 18.5 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'
