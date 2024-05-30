@@ -37,7 +37,7 @@ void interpret(){
     for(int i = 0; i < MAX_MODULES; i++){
         if(strcmp(shellBuffer,modules[i].name)==0){
             modules[i].function();
-            break;
+            return;
         }
     }
     //@TODO: Agregar excepciones para comandos no encontrados
