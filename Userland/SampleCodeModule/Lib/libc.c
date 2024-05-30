@@ -284,7 +284,7 @@ char* gets(char* buffer, int n) {
     int i = 0;
 
     // Read characters until newline, EOF, or maximum number of characters
-    while (i < n - 1 && (c = getChar()) != '\n') {
+    while ((c = getChar()) != '\n') {
         if (c == '\b' && i > 0) {
             put_char(c);
             i--;
@@ -294,7 +294,7 @@ char* gets(char* buffer, int n) {
             buffer[i++] = (char)c;
         }
     }
-
+    put_char('\n');
     // Null-terminate the string
     buffer[i] = '\0';
 

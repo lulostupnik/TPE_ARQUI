@@ -3,6 +3,7 @@
 static void help();
 
 static uint64_t printedChars = 0;
+static uint64_t font_size = 1; // font_size 1 is the default size
 
 static module modules[] = {
     {"help", help},
@@ -17,6 +18,7 @@ static module modules[] = {
 
 
 int initializeShell(){
+    setFontSize(font_size);
     puts(WELCOME);
     help();
     while (1){
@@ -58,22 +60,30 @@ static void help(){
 
 // Function to zoom in
 void zoomIn(){
-    // puts("Zooming in...\n");
+    if(font_size < MAX_FONT_SIZE){
+        font_size++;
+        setFontSize(font_size);
+    }
+    puts("Zooming in...\n");
     return;
 }
 
 // Function to zoom out
 void zoomOut(){
-    // puts("Zooming out...\n");
+    if(font_size > MIN_FONT_SIZE){
+        font_size--;
+        setFontSize(font_size);
+    }
+    puts("Zooming out...\n");
     return;
 }
 
 void showcurrentTime(){
-    // puts("Current time: ");
+    puts("Current time: ");
     return;
 }
 
 void getRegs(){
-    // puts("Current registers: ");
+    puts("Current registers: ");
     return;
 }

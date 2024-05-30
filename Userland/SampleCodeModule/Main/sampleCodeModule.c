@@ -11,9 +11,8 @@ static int var2 = 0;
 #define FIRST_ASCII_CHAR 32
 #define LAST_ASCII_CHAR 126
 int main() {
-
     // sys_write(1, "Hello World!\n", 13);
-    put_char('H');
+    // put_char('H');
 	//All the following code may be removed
     /*uint64_t a=sysWrite(0,0,"hola soy una vaca");
     char string[2]={0,0};

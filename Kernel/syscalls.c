@@ -24,6 +24,7 @@ int64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
+        case 4: return sys_set_font_size(regs->rdi); break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
 
     }
@@ -47,15 +48,13 @@ int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount){
 
 //Modo texto:
 int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount){
-    // printFont('X');
     return vdriver_text_write(fd, buffer, amount);
 }
 
 int64_t sys_set_font_size(uint64_t size){
-    return 1;
+    return vdriver_text_set_font_size(size);
 }  // este ya hace el resize si entra AL menos 1 caracter !
 
-//Modo video:
 int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
     return 1;
 }

@@ -82,8 +82,6 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 
 
-
-
 uint64_t drawLetter(uint64_t x, uint64_t y, char ascii, uint64_t fontSize);
 uint64_t putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y);
 uint64_t putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height);
