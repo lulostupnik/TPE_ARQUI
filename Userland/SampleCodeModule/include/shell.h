@@ -37,5 +37,7 @@ void showcurrentTime();
 
 void getRegs();
 
+void clear();
+
 
 #endif /* CMD_INTERPRETER_H */

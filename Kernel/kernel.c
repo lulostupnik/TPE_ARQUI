@@ -104,12 +104,18 @@ int main()
 
         /*
          printFont('A');
-
+        */
+        /*
         while(1){
         while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
-        sys_write(1, &c, 1); // ¿porque le paso 1?
+            if(c == 'c'){
+                vdriver_clear_screen((Color){0,0,0});
+            }
+            sys_write(1, &c, 1); // ¿porque le paso 1?
         }
+         */
 
+        /*
         printFont('B');
          */
     

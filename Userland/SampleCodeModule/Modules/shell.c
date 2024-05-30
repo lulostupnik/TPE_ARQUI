@@ -10,10 +10,11 @@ static module modules[] = {
     {"time", showcurrentTime},
     {"eliminator", eliminator},
     {"zoomin", zoomIn},
+    {"clear", clear},
     {"zoomout", zoomOut},
     {"getregs", getRegs},
     {"dividebyzero", div0},
-    {"opcode", op_code}
+    {"opcode", op_code},
 };
 
 
@@ -54,6 +55,7 @@ static void help(){
     puts("getregs: Muestra el estado actual de los registros.\n");
     puts("div0: Genera una excepcion de division por cero.\n");
     puts("opcode: Genera una excepcion de codigo de operacion invalido.\n");
+    puts("clear: Clears the screen.\n");
 }
 
 
@@ -89,4 +91,10 @@ void showcurrentTime(){
 void getRegs(){
     puts("Current registers: ");
     return;
+}
+
+void clear() {
+    puts("Clearing screen...\n");
+    clearScreen();
+    puts("Screen cleared!\n");
 }

@@ -91,9 +91,10 @@ int64_t vdriver_clear_screen(Color color){
         buffer_index = 0;
         deleted_buffer_flag = 1;
     }
-    override_mode=1;
+    override_mode = 1;
     vdriver_video_draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color);
-    override_mode=0;
+    override_mode = 0;
+    return 0;
 }
 
 

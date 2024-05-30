@@ -23,7 +23,10 @@ int64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
+        // case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
+        // case 3: return sys_beep(regs->rdi, regs->rsi); break;
         case 4: return sys_set_font_size(regs->rdi); break;
+        case 5: return sys_clear_screen(); break;
         case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
         case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color *) regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
@@ -78,6 +81,14 @@ int64_t sys_set_mode(uint64_t mode){
     return vdriver_set_mode(mode, (Color) {0,0,0});
 }
 
+int64_t sys_get_register_snapshot(RegisterSet * registers){
+    return -1;
+}
+
+
+int64_t sys_clear_screen(){
+    return vdriver_clear_screen((Color) {0,0,0});
+}
 
 
 // registros del procesador
