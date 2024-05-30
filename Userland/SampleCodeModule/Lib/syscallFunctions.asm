@@ -128,15 +128,15 @@ sys_set_font_size:
 sys_clear_screen:
     simple_sys_handler 5
 
-; int64_t sys_put_pixel(uint64_t x, uint64_t y, Color color);
+; int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color);
 sys_put_pixel:
     simple_sys_handler 6
 
-; int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
+; int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color * color);
 sys_put_rectangle:
     simple_sys_handler 7
 
-; int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color);
+; int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color * color);
 sys_draw_letter:
     simple_sys_handler 8
 
