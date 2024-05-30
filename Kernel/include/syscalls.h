@@ -105,11 +105,11 @@ int64_t sys_change_error_font_color(Color color);
  *
  * @param x The x-coordinate of the pixel.
  * @param y The y-coordinate of the pixel.
- * @param color A structure representing the RGB color values of the pixel.
+ * @param color A pointer to structure representing the RGB color values of the pixel.
  * @return int64_t Returns 0 if the pixel was successfully drawn, or -1 if an error occurred
  *             (for example, if 'x' or 'y' is out of the screen bounds, or 'color' is not a valid color).
  */
-int64_t sys_put_pixel(uint64_t x, uint64_t y, Color color);
+int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color);
 
 
 

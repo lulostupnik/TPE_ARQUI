@@ -354,7 +354,7 @@ int64_t enter_text_mode() {
  * @return int64_t Returns 0 if the pixel was successfully drawn, or -1 if an error occurred.
  */
 int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
-    return sys_put_pixel(x, y, color);
+    return sys_put_pixel(x, y, &color);
 }
 
 

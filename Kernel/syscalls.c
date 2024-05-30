@@ -24,7 +24,7 @@ int64_t sysCallHandler(Registers * regs) {
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 4: return sys_set_font_size(regs->rdi); break;
-        // case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color) regs->rdx); break; //@todo: ¿está bien orden de registros?
+        case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
         // case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color) regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
@@ -65,8 +65,8 @@ int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color){
     return 1;
 }
 
-int64_t sys_put_pixel(uint64_t x, uint64_t y, Color color){
-    return vdriver_video_draw_pixel(x, y, color);
+int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color){
+    return vdriver_video_draw_pixel(x, y, *color);
 }
 
 //Ambos modos:
