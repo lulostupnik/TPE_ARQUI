@@ -1,7 +1,7 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-void div0_exception();
-void opCode_exception();
+void div0();
+void op_code();
 
 #endif // EXCEPTIONS_H

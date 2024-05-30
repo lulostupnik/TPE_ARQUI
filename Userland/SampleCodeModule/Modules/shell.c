@@ -1,5 +1,7 @@
 #include <shell.h>
 
+static void help();
+
 static uint64_t printedChars = 0;
 
 static module modules[] = {
@@ -8,9 +10,9 @@ static module modules[] = {
     {"eliminator", eliminator},
     {"zoomin", zoomIn},
     {"zoomout", zoomOut},
-    {"getregs", getRegs}
-    {"dividebyzero", div0_exception},
-    {"opcode", opCode_exception}
+    {"getregs", getRegs},
+    {"dividebyzero", div0},
+    {"opcode", op_code}
 };
 
 
@@ -25,7 +27,7 @@ int initializeShell(){
 void interpret(){
     puts(PROMPT);
     char shellBuffer[MAX_COMMAND_SIZE];
-    gets(shellBuffer);
+    gets(shellBuffer, MAX_COMMAND_SIZE); // @todo: es -1 ?
     if(strlen(shellBuffer)==0){
         return;
     }
@@ -50,4 +52,28 @@ static void help(){
     puts("getregs: Muestra el estado actual de los registros.\n");
     puts("div0: Genera una excepcion de division por cero.\n");
     puts("opcode: Genera una excepcion de codigo de operacion invalido.\n");
+}
+
+
+
+// Function to zoom in
+void zoomIn(){
+    // puts("Zooming in...\n");
+    return;
+}
+
+// Function to zoom out
+void zoomOut(){
+    // puts("Zooming out...\n");
+    return;
+}
+
+void showcurrentTime(){
+    // puts("Current time: ");
+    return;
+}
+
+void getRegs(){
+    // puts("Current registers: ");
+    return;
 }

@@ -1,8 +1,5 @@
 #include <libc.h>
 #include <eliminator.h>
-#include <regs.h>
-#include <fontsize.h>
-#include <systemtime.h>
 #include <exceptions.h>
 #ifndef CMD_INTERPRETER_H
 #define CMD_INTERPRETER_H
@@ -23,8 +20,19 @@ typedef struct module {
 
 
 // Function prototypes
-
 int initializeShell();
+
 void interpret();
+
+// Function to zoom in
+void zoomIn();
+
+// Function to zoom out
+void zoomOut();
+
+void showcurrentTime();
+
+void getRegs();
+
 
 #endif /* CMD_INTERPRETER_H */

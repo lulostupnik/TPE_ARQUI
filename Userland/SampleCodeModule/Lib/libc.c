@@ -27,7 +27,7 @@ int64_t getChar(){
  *
  * @param c The character to write.
  */
-void putChar(char c) {
+void put_char(char c) {
     sys_write(STDOUT, &c, 1);
 }
 
@@ -286,11 +286,11 @@ char* gets(char* buffer, int n) {
     // Read characters until newline, EOF, or maximum number of characters
     while (i < n - 1 && (c = getChar()) != '\n') {
         if (c == '\b' && i > 0) {
-            putchar(c);
+            put_char(c);
             i--;
         }
         if (c != '\b' && i < n - 1) {
-            putchar(c);
+            put_char(c);
             buffer[i++] = (char)c;
         }
     }

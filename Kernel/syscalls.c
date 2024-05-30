@@ -45,7 +45,7 @@ int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount){
 
 //Modo texto:
 int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount){
-    return 1;
+    return vdriver_text_write(fd, buffer, amount);
 }
 
 int64_t sys_set_font_size(uint64_t size){

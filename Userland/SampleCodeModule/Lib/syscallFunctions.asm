@@ -1,5 +1,15 @@
 GLOBAL sys_read
 Global sys_write
+GLOBAL sys_get_register_snapshot
+GLOBAL sys_beep
+GLOBAL sys_set_font_size
+GLOBAL sys_clear_screen
+GLOBAL sys_put_pixel
+GLOBAL sys_put_rectangle
+GLOBAL sys_draw_letter
+GLOBAL sys_set_mode
+GLOBAL sys_get_screen_information
+
 
 section .text
 
@@ -101,3 +111,39 @@ sys_write:
     mov rsp, rbp
     pop rbp
     ret
+
+; int64_t sys_get_register_snapshot(RegisterSet * registers);
+sys_get_register_snapshot:
+    simple_sys_handler 2
+
+; int64_t sys_beep(uint64_t frequency, uint64_t duration);
+sys_beep:
+    simple_sys_handler 3
+
+; int64_t sys_set_font_size(uint64_t size);
+sys_set_font_size:
+    simple_sys_handler 4
+
+; int64_t sys_clear_screen(void);
+sys_clear_screen:
+    simple_sys_handler 5
+
+; int64_t sys_put_pixel(uint64_t x, uint64_t y, Color color);
+sys_put_pixel:
+    simple_sys_handler 6
+
+; int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
+sys_put_rectangle:
+    simple_sys_handler 7
+
+; int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color);
+sys_draw_letter:
+    simple_sys_handler 8
+
+; int64_t sys_set_mode(uint64_t mode);
+sys_set_mode:
+    simple_sys_handler 9
+
+; int64_t sys_get_screen_information(ScreenInformation * screen_information);
+sys_get_screen_information:
+    simple_sys_handler 10

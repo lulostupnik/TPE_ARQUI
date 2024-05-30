@@ -101,7 +101,7 @@ int main()
       // int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
         while(1){
         while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
-        vdriver_text_write(1, &c, 1); // ¿porque le paso 1?
+        sys_write(1, &c, 1); // ¿porque le paso 1?
         }
 
     
