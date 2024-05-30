@@ -8,6 +8,8 @@
 #define STDIN 0
 #define STDOUT 0
 #define STDERR 1 // @TODO esta bien?
+#define TEXT_MODE 0
+#define VIDEO_MODE 1
 
 /*
  * @TODO En la documentacion del kernel deberia decir que las funciones del KeyDriver devuelven estos valores si no son caracteres ACII.

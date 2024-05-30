@@ -4,7 +4,7 @@
 #ifndef CMD_INTERPRETER_H
 #define CMD_INTERPRETER_H
 #define MAX_COMMAND_SIZE 100
-#define MAX_ZOOM 4
+#define MAX_ZOOM 3
 #define MIN_ZOOM 1 // en realidad hagamos que sea 2
 #define MAX_MODULES 6
 //Constants for the shell

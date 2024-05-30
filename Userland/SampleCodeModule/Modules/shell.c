@@ -63,8 +63,10 @@ void zoomIn(){
     if(font_size < MAX_FONT_SIZE){
         font_size++;
         setFontSize(font_size);
+        // puts("Zooming in...\n");
+    } else {
+        puts("Maximum font size reached!\n");
     }
-    puts("Zooming in...\n");
     return;
 }
 
@@ -73,8 +75,9 @@ void zoomOut(){
     if(font_size > MIN_FONT_SIZE){
         font_size--;
         setFontSize(font_size);
+    } else {
+        puts("Minimum font size reached!\n");
     }
-    puts("Zooming out...\n");
     return;
 }
 

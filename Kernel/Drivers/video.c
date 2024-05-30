@@ -105,10 +105,10 @@ int64_t vdriver_clear_screen(Color color){
 
 int64_t vdriver_set_mode(uint64_t mode, Color c){
     if(!(mode == TEXT_MODE || mode == VIDEO_MODE) ){
-        return 0;
+        return -1;
     }
     if(mode == driver_mode ){
-        return 1;
+        return 0;
     }
     driver_mode = mode;
     background_color = c;
@@ -122,6 +122,8 @@ int64_t vdriver_set_mode(uint64_t mode, Color c){
     }else{
         vdriver_clear_screen(c);
     }
+
+    return 0;
 
 }
 
@@ -224,10 +226,10 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
 int64_t vdriver_video_draw_pixel(uint64_t x, uint64_t y, Color color){
 
     if(x >= SCREEN_WIDTH || y>= SCREEN_HEIGHT){
-        return 1;
+        return -1;
     }
     if(!inVideoMode()){
-        return 0;
+        return -1; // @TODO podría devolver -2
     }
 
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
