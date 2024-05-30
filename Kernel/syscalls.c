@@ -14,7 +14,6 @@ typedef struct {
 */
 
 // Orden en el cual mandar los registros:
-// rdi, rsi, rdx, rcx, rbx, rax
 
 /*
  * @Todo agregar sys_write
@@ -25,7 +24,8 @@ int64_t sysCallHandler(Registers * regs) {
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 4: return sys_set_font_size(regs->rdi); break;
-        case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color) {regs->rdx, regs->rcx, regs->rbx}); break;
+        // case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color) regs->rdx); break; //@todo: ¿está bien orden de registros?
+        // case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color) regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
 
@@ -57,7 +57,7 @@ int64_t sys_set_font_size(uint64_t size){
     return vdriver_text_set_font_size(size);
 }  // este ya hace el resize si entra AL menos 1 caracter !
 
-int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
+int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
     return 1;
 }
 
