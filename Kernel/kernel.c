@@ -106,20 +106,20 @@ int main()
          printFont('A');
         */
 
-        while(1){
-            Color co = {0,0,0};
-        while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
-            if(c == 1000){
-            }else if(c == '0'){
-
-                vdriver_set_mode(0,co );
-            }else if(c == '1'){
-                vdriver_set_mode(1,co );
-            }else if(c >= '2' && c<='9'){
-                vdriver_text_set_font_size(c - '0');
-            }
-            sys_write(1, &c, 1); // ¿porque le paso 1?
-        }
+//        while(1){
+//            Color co = {0,0,0};
+//        while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
+//            if(c == 1000){
+//            }else if(c == '0'){
+//
+//                vdriver_set_mode(0,co );
+//            }else if(c == '1'){
+//                vdriver_set_mode(1,co );
+//            }else if(c >= '2' && c<='9'){
+//                vdriver_text_set_font_size(c - '0');
+//            }
+//            sys_write(1, &c, 1); // ¿porque le paso 1?
+//        }
 
 
         /*
