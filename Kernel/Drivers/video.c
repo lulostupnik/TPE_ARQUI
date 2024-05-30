@@ -173,17 +173,17 @@ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
  */
 int64_t vdriver_video_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
     if(x+width > SCREEN_WIDTH || y+height > SCREEN_HEIGHT){
-        return 0;
+        return -1;
     }
     if(!inVideoMode()){
-        return 0;
+        return -1;
     }
     for (uint64_t i = 0; i < width; i++) {
         for (uint64_t j = 0; j < height; j++) {
             vdriver_video_draw_pixel( x + i, y + j, color);
         }
     }
-    return 1;
+    return 0;
 }
 int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color color,uint64_t fontSize){
     if(ascii < FIRST_ASCII_FONT || ascii > LAST_ASCII_FONT){

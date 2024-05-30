@@ -370,5 +370,5 @@ int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
  * @return int64_t Returns 0 if the rectangle was successfully drawn, or -1 if an error occurred.
  */
 int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color) {
-    return sys_put_rectangle(x, y, width, height, color);
+    return sys_put_rectangle(x, y, width, height, &color);
 }

@@ -126,7 +126,7 @@ int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color);
  * @return int64_t Returns 0 if the rectangle was successfully drawn, or -1 if an error occurred
  *             (for example, if 'x', 'y', 'width', or 'height' is out of the screen bounds, or 'color' is not a valid color).
  */
-int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
+int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color * color);
 
 
 
