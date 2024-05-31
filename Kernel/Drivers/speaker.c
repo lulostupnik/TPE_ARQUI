@@ -33,5 +33,4 @@ static void play_sound(uint32_t nFrequence) {
  	 play_sound(freq);
  	 nano_sleep(time);
  	 nosound();
-          //set_PIT_2(old_frequency);
  }

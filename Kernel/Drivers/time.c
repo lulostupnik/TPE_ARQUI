@@ -1,5 +1,5 @@
 #include <time.h>
-
+#include <lib.h>
 static unsigned long ticks = 0;
 
 void timerHandler() {
@@ -16,5 +16,7 @@ int secondsElapsed() {
 
 void nano_sleep(int time){
 	int start = ticks;
-	while(ticks - start < time);
+	while(ticks - start < time){
+		_hlt();
 	}
+}

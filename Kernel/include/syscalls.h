@@ -66,7 +66,7 @@ int64_t sys_get_register_snapshot(RegisterSet * registers);
  * @param duration The duration of the beep in milliseconds.
  * @return int64_t Returns 0 on success, or -1 if an error occurred (for example, if the frequency or duration is out of range).
  */
-int64_t sys_beep(uint64_t frequency, uint64_t duration);
+int64_t sys_beep(uint32_t frequency, uint32_t duration);
 
 
 

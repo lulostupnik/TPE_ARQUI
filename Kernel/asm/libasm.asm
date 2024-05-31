@@ -2,6 +2,7 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL inb
 GLOBAL outb
+
 section .text
 	
 cpuVendor:

@@ -2,7 +2,7 @@
 #include <video.h>
 #include <keyboard.h>
 #include <syscalls.h>
-
+#include <speaker.h>
 typedef struct {
     uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rsi, rdi, rbp, rdx, rcx, rbx, rax;
 } Registers;
@@ -24,7 +24,7 @@ int64_t sysCallHandler(Registers * regs) {
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         // case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
-        // case 3: return sys_beep(regs->rdi, regs->rsi); break;
+        case 3: return sys_beep(regs->rdi, regs->rsi); break;
         case 4: return sys_set_font_size(regs->rdi); break;
         case 5: return sys_clear_screen(); break;
         case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
@@ -60,6 +60,10 @@ int64_t sys_set_font_size(uint64_t size){
     return vdriver_text_set_font_size(size);
 }  // este ya hace el resize si entra AL menos 1 caracter !
 
+int64_t sys_beep(uint32_t freq, uint32_t time){
+    beep(freq, time);
+    return 0;
+}
 int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color * color){
     return vdriver_video_draw_rectangle(x, y, width, height, *color);
 }

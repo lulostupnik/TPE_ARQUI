@@ -1,8 +1,6 @@
 #ifndef SPEAKER_H
 #define SPEAKER_H
 
-static void play_sound(uint32_t nFrequence);
-static void nosound() ;
-void beep();
+void beep(uint32_t freq, int time);
 
 #endif // SPEAKER_H

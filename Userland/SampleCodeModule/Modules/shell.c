@@ -19,6 +19,7 @@ static module modules[] = {
 
 
 int initializeShell(){
+
     setFontSize(font_size);
     puts(WELCOME);
     help();

@@ -54,7 +54,7 @@ int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
 int64_t sys_get_register_snapshot(RegisterSet * registers);
 
 
-int64_t sys_beep(uint64_t frequency, uint64_t duration);
+int64_t sys_beep(uint32_t frequency, uint32_t duration);
 
 
 int64_t sys_set_font_size(uint64_t size);

@@ -9,7 +9,7 @@
 #define MAX_MODULES 9 // @todo: cambie esto, no se si está bien
 //Constants for the shell
 
-#define WELCOME "Bienvenido a hogOS!"
+#define WELCOME "Bienvenido a hogOS!\n"
 #define PROMPT "hogOS>User> "
 
 #define MAX_FONT_SIZE 3
