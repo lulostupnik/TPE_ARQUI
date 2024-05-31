@@ -109,19 +109,6 @@ int main()
         // vdriver_video_draw_rectangle(120,120,20,20, (Color){100,50,200});
 
         /*
-        sys_set_mode(1);
-        Color co = {255,0,0};
-        char ma = 'A';
-        sys_draw_letter(100, 100, &ma, &co, 2);
-
-        uint16_t c;
-        while( sys_read(0, &c, 1) == 0);
-
-        sys_set_mode(0);
-         */
-
-
-        /*
          printFont('A');
         */
 

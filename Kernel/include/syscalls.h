@@ -159,11 +159,10 @@ int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t heigh
  * @param y The y-coordinate of the top-left corner of the letter.
  * @param letter The letter to be drawn.
  * @param color A structure representing the RGB color values of the letter.
- * @param fontSize The size of the font to be used.
  * @return int Returns 0 if the letter was successfully drawn, or -1 if an error occurred
  *             (for example, if 'x' or 'y' is out of the screen bounds, 'letter' is not a valid character, or 'color' is not a valid color).
  */
-int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize);
+int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color);
 
 
 
