@@ -16,7 +16,7 @@ int secondsElapsed() {
 
 void nano_sleep(int time){
 	int start = ticks;
-	while(ticks - start < time){
+	while( (ticks - start) < time){
 		_hlt();
 	}
 }
