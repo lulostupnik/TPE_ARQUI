@@ -4,5 +4,5 @@
 void timerHandler();
 int ticksElapsed();
 int secondsElapsed();
-
+void nano_sleep(int time);
 #endif
