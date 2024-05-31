@@ -3,6 +3,7 @@
 #include <keyboard.h>
 #include <syscalls.h>
 #include <speaker.h>
+#include <time.h>
 typedef struct {
     uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rsi, rdi, rbp, rdx, rcx, rbx, rax;
 } Registers;
@@ -33,6 +34,8 @@ int64_t sysCallHandler(Registers * regs) {
         case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
         case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color *) regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
+        case 10: break;
+        case 11: return sys_nano_sleep(regs->rdi); break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
 
     }
@@ -118,7 +121,10 @@ int64_t sys_clear_screen(){
     return vdriver_clear_screen((Color) {0,0,0});
 }
 
-
+int64_t sys_nano_sleep(uint32_t ns){
+    nano_sleep(ns);
+    return 0;
+}
 // registros del procesador
 
 // emitir un sonido --> beep

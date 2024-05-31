@@ -1,5 +1,13 @@
 #include <libc.h>
+void welcome(){
 
+}
+void winScreen(){
+
+}
+void exit(){
+    
+}
 void eliminator(){
     // puts("Welcome to Eliminator!\n");
     enter_video_mode();

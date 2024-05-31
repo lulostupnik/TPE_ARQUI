@@ -4,6 +4,7 @@
 #include <speaker.h>
 #include <time.h>
 #include <lib.h>
+
 static void play_sound(uint32_t nFrequence) {
  	uint32_t Div;
  	uint8_t tmp;

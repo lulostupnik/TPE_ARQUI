@@ -9,7 +9,7 @@ GLOBAL sys_put_rectangle
 GLOBAL sys_draw_letter
 GLOBAL sys_set_mode
 GLOBAL sys_get_screen_information
-
+GLOBAL sys_nano_sleep
 
 section .text
 
@@ -147,3 +147,6 @@ sys_set_mode:
 ; int64_t sys_get_screen_information(ScreenInformation * screen_information);
 sys_get_screen_information:
     simple_sys_handler 10
+
+sys_nano_sleep:
+    simple_sys_handler 11

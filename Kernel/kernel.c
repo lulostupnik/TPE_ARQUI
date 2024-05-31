@@ -102,7 +102,6 @@ int main()
 //    int x = 0;
 //    sysWrite(x,0,"a");
 //    drawString(x,0,"a");
-     char c;
 
       // video_main();
       // int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
@@ -132,7 +131,6 @@ int main()
         /*
         printFont('B');
          */
-    sys_beep(255,20);
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }

@@ -2,6 +2,7 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL inb
 GLOBAL outb
+GLOBAL hlt
 
 section .text
 	
@@ -53,8 +54,12 @@ outb:
 	push rbp
     mov rbp, rsp
 	mov rdx, rdi
-	mov rax, 0
 	out dx, al
 	mov rsp, rbp
 	pop rbp
+	ret
+
+hlt:
+	sti
+	hlt
 	ret

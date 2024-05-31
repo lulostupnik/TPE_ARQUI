@@ -19,10 +19,11 @@ static module modules[] = {
 
 
 int initializeShell(){
-
     setFontSize(font_size);
     puts(WELCOME);
+    sys_nano_sleep(72);
     help();
+    sys_nano_sleep(72);
     while (1){
         interpret();
     }

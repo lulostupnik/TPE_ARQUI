@@ -11,7 +11,6 @@
 
 #define WELCOME "Bienvenido a hogOS!\n"
 #define PROMPT "hogOS>User> "
-
 #define MAX_FONT_SIZE 3
 #define MIN_FONT_SIZE 1
 
