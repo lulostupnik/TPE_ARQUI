@@ -21,6 +21,40 @@ extern uint16_t pressedKeyShiftMap[][2];
  * por ahora en el buffer solo se guardan los PRESSED
  */
 
+#define CANT_FUNCTION_KEYS 12
+static function_key functionKeyFunArray[CANT_FUNCTION_KEYS];
+
+void setFKeyFunction(uint64_t key_number, function_key f){
+    if(key_number == 0 || key_number > CANT_FUNCTION_KEYS ){
+        return;
+    }
+    key_number--;
+    functionKeyFunArray[key_number] = f;
+}
+static void functionKeyHandler(uint64_t code){
+    int64_t i = -1;
+    switch (code) {
+        case F1: i=0; break;
+        case F2: i =1; break;
+        case F3: i=2; break;
+        case F4: i =3; break;
+        case F5: i=4; break;
+        case F6: i =5; break;
+        case F7: i=6; break;
+        case F8: i =7; break;
+        case F9: i=8; break;
+        case F10: i =9; break;
+        case F11: i=10; break;
+        case F12: i =11; break;
+    }
+    function_key f = 0;
+    if(i != -1){
+        f =  functionKeyFunArray[i];
+    }
+    if(f != 0){
+        f();
+    }
+}
 
 
 static uint8_t isReleased(uint8_t key){
@@ -110,26 +144,22 @@ void keyboardHandler(){
 
     uint16_t code = pressedKeyShiftMap[key][shiftCapsLockPressed()];
 
+
+
     if(isSpecialKey(code)){
         if(code != CAPS_LOCK && code != NUM_LOCK && code != SCROLL_LOCK){
             specialKeyPressedMap[specialKeyPressedMapIdx(code)] = key_is_pressed;
         }else if(key_is_pressed) {
             specialKeyPressedMap[specialKeyPressedMapIdx(code)] = 1 - specialKeyPressedMap[specialKeyPressedMapIdx(code)];
         }
-       // return; por ahora guardamos las special keys en el buffer
     }
 
     if(!key_is_pressed){
         return;
     }
-    //Solo pongo en el buffer codigos ascii que no son 'special keys'
-//    buffer[buffer_index % BUFFER_SIZE] = code;
-//    buffer_index = (buffer_index+1) %BUFFER_SIZE;
-//    if(buffer_dim < BUFFER_SIZE){
-//        buffer_dim++;
-//    }else{
-//        buffer_dim = 1;
-//    }
+    functionKeyHandler(code);
+
+
     buffer[buffer_dim] = code;
     if(buffer_dim < BUFFER_SIZE){
         buffer_dim++;

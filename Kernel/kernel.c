@@ -84,9 +84,15 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
+void function1_key(){
+//    uint8_t * c = "funciona mi implementacion!\n";
+//    sys_write(1, c, 28);
+}
+
 int main()
 {
     load_idt();
+    setFKeyFunction(1, function1_key);
     //uint64_t drawString(uint64_t x, uint64_t y, uint8_t *string, uint64_t charsToDraw , uint64_t fontSize) {
 
     //drawString(0,0,"holas",4,43);
@@ -96,7 +102,8 @@ int main()
 //    int x = 0;
 //    sysWrite(x,0,"a");
 //    drawString(x,0,"a");
-        char c;
+     char c;
+
       // video_main();
       // int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
         // putRectangle(100,50,200,120,120,20,20);

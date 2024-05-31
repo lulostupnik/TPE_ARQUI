@@ -46,8 +46,11 @@ typedef enum {
     F12
 } specialCodes;
 
-
-
+/*
+ * Key number goes from 1 to 12
+ */
+typedef void (*function_key)(void);
+void setFKeyFunction(uint64_t key_number, function_key f);
 void keyboardHandler();
 
 
