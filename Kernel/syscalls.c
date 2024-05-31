@@ -35,7 +35,7 @@ int64_t sysCallHandler(Registers * regs) {
         case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color *) regs->r8); break;
         case 8: return sys_draw_letter(regs->rdi, regs->rsi, (char *) regs->rdx, (Color *) regs->rcx, regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
-        case 10: break;
+        case 10: return sys_get_screen_information((ScreenInformation *) regs->rdi); break;
         case 11: return sys_nano_sleep(regs->rdi); break;
         case 12: return sys_get_time(regs->rdi);break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
@@ -86,7 +86,7 @@ int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color){
 
 //Ambos modos:
 int64_t sys_get_screen_information(ScreenInformation * screen_information){
-    return 1;
+    return vdriver_get_screen_information(screen_information);
 }
 
 int64_t sys_set_mode(uint64_t mode){
