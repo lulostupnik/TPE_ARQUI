@@ -33,8 +33,9 @@ int64_t sysCallHandler(Registers * regs) {
         case 5: return sys_clear_screen(); break;
         case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
         case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color *) regs->r8); break;
+        case 8: return sys_draw_letter(regs->rdi, regs->rsi, (char *) regs->rdx, (Color *) regs->rcx, regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
-        case 10: break;
+        case 10: return sys_get_screen_information((ScreenInformation *) regs->rdi); break;
         case 11: return sys_nano_sleep(regs->rdi); break;
         case 12: return sys_get_time(regs->rdi);break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
@@ -55,7 +56,7 @@ int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount){
         i++;
     }
     return i;
-   // readKeyboardBuffer(toBuffer,toBufferDim,count);
+    // readKeyboardBuffer(toBuffer,toBufferDim,count);
 }
 
 
@@ -76,8 +77,8 @@ int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t heigh
     return vdriver_video_draw_rectangle(x, y, width, height, *color);
 }
 
-int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color){
-    return 1;
+int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize){
+    return vdriver_video_draw_font(x, y, *letter, *color, fontSize);
 }
 
 int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color){
@@ -86,7 +87,7 @@ int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color){
 
 //Ambos modos:
 int64_t sys_get_screen_information(ScreenInformation * screen_information){
-    return 1;
+    return vdriver_get_screen_information(screen_information);
 }
 
 int64_t sys_set_mode(uint64_t mode){
