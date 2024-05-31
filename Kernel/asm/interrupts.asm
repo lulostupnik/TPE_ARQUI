@@ -18,11 +18,13 @@ GLOBAL _exception0Handler
 GLOBAL _exception6Handler
 
 GLOBAL regs_shot
+GLOBAL exception_regs
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN sysCallHandler
 EXTERN should_take_reg_shot
+EXTERN getStackBase
 
 SECTION .text
 
@@ -110,20 +112,7 @@ SECTION .text
 	iretq
 %endmacro
 
-;   HACER macro saveRegs
-;
-;
-;
 
-%macro exceptionHandler 1
-	pushState
-
-	mov rdi, %1 ; pasaje de parametro
-	call exceptionDispatcher
-
-	popState
-	iretq
-%endmacro
 
 
 _hlt:
@@ -147,6 +136,7 @@ picMasterMask:
     out	21h,al
     pop rbp
     retn
+
 
 picSlaveMask:
 	push    rbp
@@ -174,25 +164,6 @@ _irq01Handler:
 	jne .keyboard_end
 	popState
 	pushState
-
-	; CAMBIAR!!!
-    ; mov rax, 0x21
-    ; mov rbx, 0x02
-    ; mov rcx, 0x03
-    ; mov rdx, 0x04
-    ; mov rsi, 0x05
-    ; mov rdi, 0x06
-    ; mov rbp, 0x07
-    ; mov rsp, 0x08
-    ; mov r8, 0x09
-    ; mov r9, 0x0A
-    ; mov r10, 0x0B
-    ; mov r11, 0x0C
-    ; mov r12, 0x0D
-    ; mov r13, 0x0E
-    ; mov r14, 0x0F
-    ; mov r15, 0x10
-	; save registers
     mov [regs_shot + 8 * 0 ], rax
     mov [regs_shot + 8 * 1 ], rbx
     mov [regs_shot + 8 * 2 ], rcx
@@ -253,22 +224,48 @@ _irq80Handler:
 
 	iretq
 
-;	push rax
-;	push rbx
-;	push rcx
-;	push rdx
-;	push rdi
-;	push rsi
-;   call sysHandler
-;   pop rsi
-;   pop rdi
-;   pop rdx
-;   pop rcx
-;   pop rbx
-;   pop rax
-;   iretq
+;/////////////////////////////////EXCEPTIONS//////////////////////////////////////////////////////////////////
 
 
+%macro exceptionHandler 1
+    cli
+	pushState
+	mov [exception_regs + 8*0 ], rax
+	mov [exception_regs + 8*1 ], rbx
+	mov [exception_regs + 8*2 ], rcx
+	mov [exception_regs + 8*3 ], rdx
+	mov [exception_regs + 8*4 ], rsi
+	mov [exception_regs + 8*5 ], rdi
+	mov [exception_regs + 8*6 ], rbp
+	mov rax, [rsp+18*8]                     ; RSP del contexto anterior
+	mov [exception_regs + 8*7 ], rax	;
+	mov [exception_regs + 8*8 ], r8
+	mov [exception_regs + 8*9 ], r9
+	mov [exception_regs + 8*10], r10
+	mov [exception_regs + 8*11], r11
+	mov [exception_regs + 8*12], r12
+	mov [exception_regs + 8*13], r13
+	mov [exception_regs + 8*14], r14
+	mov [exception_regs + 8*15], r15
+	mov rax, [rsp+15*8]                     ;RIP del contexto anterior
+	mov [exception_regs + 8*16], rax
+	mov rax, [rsp+17*8]                     ; RFLAGS
+	mov [exception_regs + 8*17], rax
+
+	mov rdi, %1                             ; Parametros para exceptionDispatcher
+	mov rsi, exception_regs
+
+	call exceptionDispatcher
+
+	popState
+    call getStackBase
+	mov [rsp+24], rax ; El StackBase
+    mov rax, userland
+    mov [rsp], rax ; PISO la dirección de retorno
+
+    sti
+    iretq
+%endmacro
 
 ;Zero Division Exception
 _exception0Handler:
@@ -292,4 +289,8 @@ SECTION .bss
 
 SECTION .data
     regs_shot dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 17 zeros
+    exception_regs dq 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 18 zeros
 	; %define REGS_AMOUNT 17
+
+SECTION .rodata
+userland equ 0x400000

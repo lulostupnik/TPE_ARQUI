@@ -36,8 +36,8 @@ void load_idt() {
     setupIdtEntry(0x21, (uint64_t) &_irq01Handler);      // Keyboard interruption
     setupIdtEntry(0x80, (uint64_t) &_irq80Handler);      // Syscall interruption
 
-    picMasterMask(0xFC);
-    picSlaveMask(0xFF);
+    picMasterMask(DEFAULT_MASTER_MASK);
+    picSlaveMask(DEFAULT_SLAVE_MASK);
 
     _sti();
 }

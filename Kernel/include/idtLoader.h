@@ -5,6 +5,9 @@
 #ifndef _IDTLOADER_H_
 #define _IDTLOADER_H_
 
+#define DEFAULT_MASTER_MASK 0xFC
+#define DEFAULT_SLAVE_MASK 0xFF
+
 //******************************************************************************
 // DECLARACIÓN DE PROTOTIPOS
 //******************************************************************************

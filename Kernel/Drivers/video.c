@@ -115,11 +115,12 @@ int64_t vdriver_set_mode(uint64_t mode, Color c){
     if(!(mode == TEXT_MODE || mode == VIDEO_MODE) ){
         return -1;
     }
+    background_color = c;
     if(mode == driver_mode ){
         return 0;
     }
     driver_mode = mode;
-    background_color = c;
+
 
     if(mode==TEXT_MODE){
         uint64_t aux = buffer_index;
