@@ -132,7 +132,7 @@ int main()
         /*
         printFont('B');
          */
-    
+    sys_beep(255,20);
 	((EntryPoint)sampleCodeModuleAddress)();
 	return 0;
 }
