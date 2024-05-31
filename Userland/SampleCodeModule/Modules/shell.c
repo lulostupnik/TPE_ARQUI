@@ -1,5 +1,7 @@
 #include <shell.h>
 
+
+
 static void help();
 
 static uint64_t printedChars = 0;
@@ -21,13 +23,16 @@ static module modules[] = {
 int initializeShell(){
     setFontSize(font_size);
     puts(WELCOME);
+    ScreenInformation info;
+    sys_get_screen_information(&info);
+    printf("The screen dimensions are %d x %d\n", info.width, info.height);
     sys_nano_sleep(18);
     help();
     //sys_nano_sleep(18);
     while (1){
         interpret();
     }
-    
+
 }
 void interpret(){
     puts(PROMPT);
@@ -84,9 +89,11 @@ void zoomOut(){
     }
     return;
 }
+
 /*
  * @TODO lo deje en UTC, no el argentino.
  */
+
 void showcurrentTime(){
 
     time_struct time;
@@ -103,8 +110,7 @@ void getRegs(){
 }
 
 void clear() {
-    puts("Clearing screen...\n");
-    clearScreen();
-    puts("Screen cleared!\n");
+    // puts("Clearing screen...\n");
+    clear_screen();
+    // puts("Screen cleared!\n");
 }
-

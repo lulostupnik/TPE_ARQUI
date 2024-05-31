@@ -57,7 +57,7 @@ int64_t beep(uint64_t frequency, uint64_t duration) {
  *
  * @return int64_t Returns 0 if the screen was successfully cleared, or -1 if an error occurred.
  */
-int64_t clearScreen() {
+int64_t clear_screen() {
     return sys_clear_screen();
 }
 
@@ -356,6 +356,26 @@ int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
  */
 int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color) {
     return sys_put_rectangle(x, y, width, height, &color);
+}
+
+
+
+/**
+ * @brief Draws a letter at a specific position with a specific color.
+ *
+ * @param x The x-coordinate of the top-left corner of the letter.
+ * @param y The y-coordinate of the top-left corner of the letter.
+ * @param letter The letter to be drawn.
+ * @param color The color of the letter.
+ * @param fontSize The size of the font.
+ * @return int64_t Returns 0 if the letter was successfully drawn, or -1 if an error occurred.
+ */
+int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
+    Color co = {255,0,0};
+    char ma = 'C';
+    sys_draw_letter(100, 100, &ma, &co, 2);
+    return sys_draw_letter(x, y, &letter, &color, font_size);
+    // int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize)
 }
 
 
