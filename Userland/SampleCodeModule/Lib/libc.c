@@ -11,10 +11,10 @@
  *
  * @return int64_t Returns the value of the read character.
  */
-int64_t getChar(){
-    char c;
-    while( sys_read(STDIN, &c, 1) == 0 );
-    return c;
+char getChar(){
+    uint16_t c;
+    while( sys_read(STDIN, &c, 1) == 0 || c > 255 );
+    return (char) c;
 }
 
 

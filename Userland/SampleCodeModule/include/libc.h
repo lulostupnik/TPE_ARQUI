@@ -63,7 +63,7 @@ typedef enum {
  *
  * @return int64_t Returns the value of the read character.
  */
-int64_t getChar();
+char getChar();
 
 
 
