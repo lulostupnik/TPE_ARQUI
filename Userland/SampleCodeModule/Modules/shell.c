@@ -60,7 +60,7 @@ static void help(){
     puts("zoomin: Agranda los caracteres en pantalla.\n");
     puts("zoomout: Achica  la pantalla.\n");
     puts("getregs: Muestra el estado actual de los registros.\n");
-    puts("div0: Genera una excepcion de division por cero.\n");
+    puts("dividebyzero: Genera una excepcion de division por cero.\n");
     puts("opcode: Genera una excepcion de codigo de operacion invalido.\n");
     puts("clear: Clears the screen.\n");
 }
