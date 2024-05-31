@@ -2,6 +2,7 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL inb
 GLOBAL outb
+GLOBAL rtc
 
 section .text
 	
@@ -40,6 +41,19 @@ getKey:
     leave
     ret
 
+rtc:
+    push rbp
+    mov rbp, rsp
+
+    mov al, dil
+    out 70h, al
+    in al, 71h
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+
 inb:
 	push rbp
     mov rbp, rsp
@@ -58,3 +72,4 @@ outb:
 	mov rsp, rbp
 	pop rbp
 	ret
+
