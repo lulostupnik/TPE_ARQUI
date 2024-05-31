@@ -37,7 +37,10 @@ void setFKeyFunction(uint64_t key_number, function_key f){
 static void functionKeyHandler(uint64_t code){
     int64_t i = -1;
     switch (code) {
-        case F1: i=0; break;
+        case F1:
+            reg_shot_flag = 1;
+            i = 0;
+            break;
         case F2: i =1; break;
         case F3: i=2; break;
         case F4: i =3; break;
@@ -161,12 +164,13 @@ void keyboardHandler(){
     if(!key_is_pressed){
         return;
     }
-    
+    /*
     if(code == F1 ){
         reg_shot_flag = 1;
         return;
     }
-    // functionKeyHandler(code);
+    */
+    functionKeyHandler(code);
 
 
     buffer[buffer_dim] = code;
