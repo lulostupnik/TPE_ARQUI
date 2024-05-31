@@ -18,57 +18,83 @@ nasm -felf64 loader.asm -o loader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c lib.c -o lib.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c syscalls.c -o syscalls.o
 syscalls.c: In function 'sysCallHandler':
-syscalls.c:27:44: warning: passing argument 2 of 'sys_read' from incompatible pointer type
+syscalls.c:28:44: warning: passing argument 2 of 'sys_read' from incompatible pointer type
          case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
                                             ^
 In file included from syscalls.c:4:0:
 ./include/syscalls.h:46:9: note: expected 'uint16_t *' but argument is of type 'char *'
  int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount);
          ^
-syscalls.c:29:50: warning: passing argument 1 of 'sys_get_register_snapshot' from incompatible pointer type
+syscalls.c:30:50: warning: passing argument 1 of 'sys_get_register_snapshot' from incompatible pointer type
          case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
                                                   ^
 In file included from syscalls.c:4:0:
 ./include/syscalls.h:76:9: note: expected 'struct Snapshot *' but argument is of type 'struct RegisterSet *'
  int64_t sys_get_register_snapshot(Snapshot * snapshot);
          ^
+syscalls.c:39:38: warning: passing argument 1 of 'sys_get_time' makes pointer from integer without a cast
+         case 12: return sys_get_time(regs->rdi);break;
+                                      ^
+In file included from syscalls.c:4:0:
+./include/syscalls.h:200:9: note: expected 'struct time_struct *' but argument is of type 'uint64_t'
+ int64_t sys_get_time(time_struct * time);
+         ^
+syscalls.c: In function 'sys_get_time':
+syscalls.c:133:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
+     time->seconds = getRTCSeconds();
+     ^
+syscalls.c:134:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
+     time->minutes =  getRTCMinutes();
+     ^
+syscalls.c:135:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
+     time->hour =  getRTCHours();
+     ^
+syscalls.c:136:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
+     time->day = getRTCDayOfMonth();
+     ^
+syscalls.c:137:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
+     time->month = getRTCMonth();
+     ^
+syscalls.c:138:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
+     time->year = getRTCYear();
+     ^
+syscalls.c: In function 'sysCallHandler':
+syscalls.c:43:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c irqDispatcher.c -o irqDispatcher.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c exceptions.c -o exceptions.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c naiveConsole.c -o naiveConsole.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c moduleLoader.c -o moduleLoader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c idtLoader.c -o idtLoader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c kernel.c -o kernel.o
-kernel.c: In function 'main':
-kernel.c:105:11: warning: unused variable 'c' [-Wunused-variable]
-      char c;
-           ^
 nasm -felf64 asm/interrupts.asm -o asm/interrupts.o
 nasm -felf64 asm/libasm.asm -o asm/libasm.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keysMap.c -o Drivers/keysMap.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/time.c -o Drivers/time.o
-Drivers/time.c: In function 'nano_sleep':
-Drivers/time.c:20:3: warning: implicit declaration of function '_hlt' [-Wimplicit-function-declaration]
-   _hlt();
-   ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/video.c -o Drivers/video.o
+Drivers/video.c:31:1: warning: missing braces around initializer [-Wmissing-braces]
+ static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
+ ^
+Drivers/video.c:31:1: warning: (near initialization for 'char_buffer[0]') [-Wmissing-braces]
 Drivers/video.c: In function 'vdriver_set_mode':
-Drivers/video.c:122:40: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-             vdriver_text_write(STDOUT, &char_buffer[i], 1 );
-                                        ^
+Drivers/video.c:128:51: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+             vdriver_text_write(char_buffer[i].fd, &char_buffer[i].c, 1 );
+                                                   ^
 In file included from Drivers/video.c:1:0:
 ./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
 Drivers/video.c: In function 'vdriver_video_draw_pixel':
-Drivers/video.c:238:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+Drivers/video.c:245:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
      uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
                              ^
 Drivers/video.c: In function 'vdriver_set_font_color':
-Drivers/video.c:59:1: warning: control reaches end of non-void function [-Wreturn-type]
+Drivers/video.c:65:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 Drivers/video.c: In function 'vdriver_text_set_font_size':
-Drivers/video.c:76:1: warning: control reaches end of non-void function [-Wreturn-type]
+Drivers/video.c:82:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/font.c -o Drivers/font.o
@@ -87,19 +113,27 @@ cd SampleCodeModule; make
 make[2]: Entering directory '/root/Userland/SampleCodeModule'
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/eliminator.c -o Modules/eliminator.o
 Modules/eliminator.c: In function 'eliminator':
-Modules/eliminator.c:5:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
+Modules/eliminator.c:13:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
      enter_video_mode();
      ^
-Modules/eliminator.c:6:5: warning: implicit declaration of function 'draw_pixel' [-Wimplicit-function-declaration]
+Modules/eliminator.c:14:5: warning: implicit declaration of function 'draw_pixel' [-Wimplicit-function-declaration]
      draw_pixel(0, 0, (Color) {255, 0, 0});
      ^
-Modules/eliminator.c:9:5: warning: implicit declaration of function 'draw_rectangle' [-Wimplicit-function-declaration]
+Modules/eliminator.c:17:5: warning: implicit declaration of function 'draw_rectangle' [-Wimplicit-function-declaration]
      draw_rectangle(10, 10, 10, 10, (Color) {255, 0, 0});
      ^
-Modules/eliminator.c:14:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
+Modules/eliminator.c:22:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
      enter_text_mode();
      ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/shell.c -o Modules/shell.o
+Modules/shell.c: In function 'help':
+Modules/shell.c:54:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
+     enter_video_mode();
+     ^
+Modules/shell.c:55:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
+     enter_text_mode();
+     ^
+Modules/shell.c: At top level:
 Modules/shell.c:5:17: warning: 'printedChars' defined but not used [-Wunused-variable]
  static uint64_t printedChars = 0;
                  ^
@@ -121,7 +155,7 @@ make[2]: Leaving directory '/root/Userland/SampleCodeModule'
 printf "This is sample data." >> 0001-sampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-sampleDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.5541e-05 s, 22.0 kB/s
+1 byte (1 B) copied, 7.8291e-05 s, 12.8 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'

@@ -15,14 +15,20 @@ typedef struct{
     uint64_t y;
 }Point;
 
+typedef struct{
+    uint8_t c;
+    uint8_t fd;
+}char_buffer_type;
+
 static VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 extern uint8_t font_bitmap[4096];
 static Color background_color = {0,0,0};
 static Color font_color = {255,255,255};
+static Color stderr_color = {255, 0,0};
 static uint64_t font_size = 1;
 static uint8_t driver_mode = TEXT_MODE;
 static Point current_screen_point = {0,0};
-static uint8_t char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
+static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
 static uint64_t buffer_index = 0;
 
 static uint8_t deleted_buffer_flag = 0;
@@ -31,12 +37,12 @@ static uint64_t char_buffer_rows_zoomed = CHAR_BUFFER_ROWS;
 static uint64_t char_buffer_cols_zoomed = CHAR_BUFFER_COLS;
 
 
-static void printFont(uint8_t letter);
+
 static void clearScreen();
 static uint64_t inTextMode();
 static uint64_t inVideoMode();
-static void addCharToBuffer(uint8_t c);
-static void printFont(uint8_t letter);
+static void addCharToBuffer(uint8_t c, uint8_t fd);
+static void printFont(char_buffer_type letter);
 static void clearScreen();
 static void newLinePrint();
 static void newLineBuff();
@@ -50,7 +56,7 @@ static void tabulator();
 
 /*
  * @TODO
- * manejar mejor el STDOUT y STDIN. Se podria hacer una variable estatica que sea el color con el que se imprime. Implementar
+ * poder cambiar el color de STDERR capaz 
  */
 
 
@@ -119,7 +125,7 @@ int64_t vdriver_set_mode(uint64_t mode, Color c){
         uint64_t aux = buffer_index;
         clearScreen();
         for(int i=0 ; i<aux ; i++){
-            vdriver_text_write(STDOUT, &char_buffer[i], 1 );
+            vdriver_text_write(char_buffer[i].fd, &char_buffer[i].c, 1 );
         }
     }else{
         vdriver_clear_screen(c);
@@ -160,8 +166,9 @@ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
                 break;
             default:
                 if(buffer[i] >= FIRST_ASCII_FONT && buffer[i] <=LAST_ASCII_FONT){
-                    addCharToBuffer(buffer[i]);
-                    printFont(buffer[i]);
+                    char_buffer_type c = {buffer[i], fd};
+                    addCharToBuffer(buffer[i], fd);
+                    printFont(c);
                 }
                 break;
         }
@@ -275,19 +282,20 @@ static uint64_t inVideoMode(){
 }
 #define SPACE_PER_TAB 4
 static void tabulator(){
-    uint8_t c =' ';
+    char_buffer_type c = {' ', STDOUT};
     for(int i=0; i<SPACE_PER_TAB ; i++){
-        addCharToBuffer(c);
+        addCharToBuffer(' ', STDOUT);
         printFont(c);
     }
 }
 
-static void addCharToBuffer(uint8_t c) {
-    char_buffer[buffer_index] = c;
+static void addCharToBuffer(uint8_t c, uint8_t fd) {
+    char_buffer_type aux = {c, fd};
+    char_buffer[buffer_index] = aux;
     buffer_index ++;
     if (buffer_index  >= char_buffer_rows_zoomed*char_buffer_cols_zoomed) {
         buffer_index = 0;
-        char_buffer[0] = c;
+        char_buffer[0] = aux;
         deleted_buffer_flag = buffer_index =1 ;
     }
 }
@@ -297,7 +305,7 @@ static void addCharToBuffer(uint8_t c) {
  * @TODO porque esa validacion en Y funciona?????
  * CHEKCEAR ESA RESTA ES CUALQIUERA
  */
-static void printFont(uint8_t letter){
+static void printFont(char_buffer_type letter){
 
     if (current_screen_point.x+FONT_WIDTH*font_size - FONT_WIDTH >= SCREEN_WIDTH) {
         current_screen_point.y += FONT_HEIGHT*font_size;
@@ -308,7 +316,13 @@ static void printFont(uint8_t letter){
         clearScreen();
     }
     override_mode=1;
-    vdriver_video_draw_font(current_screen_point.x, current_screen_point.y, letter, font_color, font_size);
+    Color col;
+    if(letter.fd == STDOUT){
+        col = font_color;
+    }else{
+        col = stderr_color;
+    }
+    vdriver_video_draw_font(current_screen_point.x, current_screen_point.y, letter.c, col, font_size);
     override_mode=0;
     current_screen_point.x+=FONT_WIDTH*font_size;
 }
@@ -329,9 +343,8 @@ static void newLinePrint(){
 
 static void newLineBuff(){
     int remaining_on_row = char_buffer_cols_zoomed - (buffer_index % char_buffer_cols_zoomed);
-
     for(int i=0 ; i<remaining_on_row; i++){
-        addCharToBuffer(' ');
+        addCharToBuffer(' ', STDOUT);
     }
 }
 
@@ -361,7 +374,8 @@ static void backSpacePrint(){
 //CHECK !
 static void backSpaceBuffer(){
     if(buffer_index != 0){
-        char_buffer[--buffer_index] = 0;
+        char_buffer[buffer_index].c = 0;
+        char_buffer[--buffer_index].fd = STDOUT;
     }
 
 }

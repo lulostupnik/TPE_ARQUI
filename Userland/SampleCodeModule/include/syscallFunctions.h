@@ -44,6 +44,18 @@ typedef struct{
     int64_t height;
 } ScreenInformation;
 
+/*
+ * Structure representing current time
+ */
+typedef struct time {
+    uint8_t year;
+    uint8_t month;
+    uint8_t day;
+    uint8_t hour;
+    uint8_t minutes;
+    uint8_t seconds;
+} time_struct;
+
 
 int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount);
 
@@ -78,5 +90,11 @@ int64_t sys_set_mode(uint64_t mode);
 int64_t sys_get_screen_information(ScreenInformation * screen_information);
 
 int64_t sys_nano_sleep(uint32_t ticks);
+
+
+
+
+int64_t sys_get_time(time_struct * time);
+
 
 #endif 

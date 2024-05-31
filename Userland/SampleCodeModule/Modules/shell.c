@@ -21,9 +21,9 @@ static module modules[] = {
 int initializeShell(){
     setFontSize(font_size);
     puts(WELCOME);
-    sys_nano_sleep(72);
+    sys_nano_sleep(18);
     help();
-    sys_nano_sleep(72);
+    //sys_nano_sleep(18);
     while (1){
         interpret();
     }
@@ -84,9 +84,16 @@ void zoomOut(){
     }
     return;
 }
-
+/*
+ * @TODO lo deje en UTC, no el argentino.
+ */
 void showcurrentTime(){
-    puts("Current time: ");
+
+    time_struct time;
+    sys_get_time(&time);
+    printf("%d/%d/%d [d/m/y]\n", time.day, time.month, time.year);
+    int64_t h = time.hour;
+    printf("%d:%d:%d [hour/min/sec] (UTC)\n", h, time.minutes, time.seconds);  // la hora es -3 para que este en tiempo argentino.
     return;
 }
 

@@ -10,6 +10,7 @@ GLOBAL sys_draw_letter
 GLOBAL sys_set_mode
 GLOBAL sys_get_screen_information
 GLOBAL sys_nano_sleep
+GLOBAL sys_get_time
 
 section .text
 
@@ -150,3 +151,6 @@ sys_get_screen_information:
 
 sys_nano_sleep:
     simple_sys_handler 11
+
+sys_get_time:
+    simple_sys_handler 12
