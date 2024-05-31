@@ -101,7 +101,7 @@ int64_t beep(uint64_t frequency, uint64_t duration);
  *
  * @return int64_t Returns 0 if the screen was successfully cleared, or -1 if an error occurred.
  */
-int64_t clearScreen();
+int64_t clear_screen();
 
 
 
@@ -219,6 +219,64 @@ char* gets(char* buffer, int n);
  * @return int Returns an integer less than, equal to, or greater than zero if str1 is found, respectively, to be less than, to match, or be greater than str2.
  */
 int64_t strcmp(const char *str1, const char *str2);
+
+
+
+/**
+ * @brief Switches the system to video mode.
+ *
+ * @return int64_t Returns 0 if the mode was successfully set, or -1 if an error occurred.
+ */
+int64_t enter_video_mode();
+
+
+
+/**
+ * @brief Switches the system to text mode.
+ *
+ * @return int64_t Returns 0 if the mode was successfully set, or -1 if an error occurred.
+ */
+int64_t enter_text_mode();
+
+
+
+/**
+ * @brief Draws a pixel at a specific position with a specific color.
+ *
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @return int64_t Returns 0 if the pixel was successfully drawn, or -1 if an error occurred.
+ */
+int64_t draw_pixel(uint64_t x, uint64_t y, Color color);
+
+
+
+/**
+ * @brief Draws a rectangle at a specific position with a specific width, height, and color.
+ *
+ * @param x The x-coordinate of the top-left corner of the rectangle.
+ * @param y The y-coordinate of the top-left corner of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @param color The color of the rectangle.
+ * @return int64_t Returns 0 if the rectangle was successfully drawn, or -1 if an error occurred.
+ */
+int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
+
+
+
+/**
+ * @brief Draws a letter at a specific position with a specific color.
+ *
+ * @param x The x-coordinate of the top-left corner of the letter.
+ * @param y The y-coordinate of the top-left corner of the letter.
+ * @param letter The letter to be drawn.
+ * @param color The color of the letter.
+ * @param font_size The size of the font.
+ * @return int64_t Returns 0 if the letter was successfully drawn, or -1 if an error occurred.
+ */
+int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size);
 
 
 
