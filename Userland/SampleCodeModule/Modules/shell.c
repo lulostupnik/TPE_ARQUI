@@ -84,9 +84,11 @@ void zoomOut(){
     }
     return;
 }
+
 /*
  * @TODO lo deje en UTC, no el argentino.
  */
+
 void showcurrentTime(){
 
     time_struct time;
@@ -103,8 +105,8 @@ void getRegs(){
 }
 
 void clear() {
-    puts("Clearing screen...\n");
-    clearScreen();
-    puts("Screen cleared!\n");
+    // puts("Clearing screen...\n");
+    clear_screen();
+    // puts("Screen cleared!\n");
 }
 
