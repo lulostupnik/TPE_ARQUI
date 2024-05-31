@@ -10,6 +10,27 @@
 #define NOT_VALID_SYS_ID -2
 
 
+typedef struct {
+    uint64_t rax;
+    uint64_t rbx;
+    uint64_t rcx;
+    uint64_t rdx;
+    uint64_t rsi;
+    uint64_t rdi;
+    uint64_t rbp;
+    uint64_t rsp;
+    uint64_t r8;
+    uint64_t r9;
+    uint64_t r10;
+    uint64_t r11;
+    uint64_t r12;
+    uint64_t r13;
+    uint64_t r14;
+    uint64_t r15;
+    uint64_t rip;
+} Snapshot;
+
+
 /**
  * @brief Reads a specified number of bytes from a file descriptor into a buffer.
  *
@@ -52,8 +73,7 @@ int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
  * @return int64_t Returns 1 if the registers were previously saved and their state has been written into the provided structure.
  *                 Returns 0 if no registers have been saved, in which case the provided structure is not modified.
  */
-int64_t sys_get_register_snapshot(RegisterSet * registers);
-
+int64_t sys_get_register_snapshot(Snapshot * snapshot);
 
 
 /**
@@ -184,3 +204,5 @@ int64_t sys_get_screen_information(ScreenInformation * screen_information);
 int64_t sys_set_mode(uint64_t mode)
 
 */
+
+

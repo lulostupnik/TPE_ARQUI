@@ -52,6 +52,9 @@ typedef enum {
 } specialCodes;
 
 
+
+
+
 /**
  * @brief Reads a character from the standard input.
  *
@@ -87,21 +90,6 @@ void put_char(char c);
  * @return int64_t Returns 0 if the beep was successfully generated, or -1 if an error occurred.
  */
 int64_t beep(uint64_t frequency, uint64_t duration);
-
-
-
-/**
- * @brief Retrieves the saved state of the registers. Use keys XXXX to create snapshot. Only last snapshot will be shown
- *
- * This function uses the sys_get_register_snapshot system call to retrieve the saved state of the registers.
- * If the registers have been previously saved, this function writes the saved state into the provided RegisterSet structure.
- * If no registers have been saved, the function does not modify the provided structure.
- *
- * @param registers Pointer to a RegisterSet structure where the saved state of the registers will be written.
- * @return int64_t Returns 1 if the registers were previously saved and their state has been written into the provided structure.
- *                 Returns 0 if no registers have been saved, in which case the provided structure is not modified.
- */
-int64_t getRegisters(RegisterSet *registers);
 
 
 
@@ -231,6 +219,23 @@ char* gets(char* buffer, int n);
  * @return int Returns an integer less than, equal to, or greater than zero if str1 is found, respectively, to be less than, to match, or be greater than str2.
  */
 int64_t strcmp(const char *str1, const char *str2);
+
+
+
+/**
+ * @brief Prints the current state of the CPU registers. Use F1 to create snapshot. Only last snapshot will be shown.
+ *
+ * This function prints the snapshot of the CPU registers (which is created by pressing the F1 key) or an error message if no snapshot is available.
+ *
+ * @note The snapshot is only available if the F1 key has been pressed. If the F1 key has not been pressed, this function will print an error message.
+ *
+ * @return void
+ */
+void print_register_snapshot();
+
+
+
+
 
 #endif //TPE_ARQUI_LIBC_H
 

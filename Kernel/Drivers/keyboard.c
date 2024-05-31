@@ -12,8 +12,11 @@ static uint16_t buffer[BUFFER_SIZE];
 //static uint64_t buffer_index = 0;
 static uint64_t buffer_dim = 0;
 static uint64_t buffer_current = 0;
+static uint8_t reg_shot_flag = 0;
+
 
 extern uint16_t pressedKeyShiftMap[][2];
+
 
 /*
  * @TODO:
@@ -133,6 +136,7 @@ uint64_t getCurrent(){
 
 
 void keyboardHandler(){
+    reg_shot_flag = 0;
     uint8_t key = getKey();
 
 
@@ -157,7 +161,12 @@ void keyboardHandler(){
     if(!key_is_pressed){
         return;
     }
-    functionKeyHandler(code);
+    
+    if(code == F1 ){
+        reg_shot_flag = 1;
+        return;
+    }
+    // functionKeyHandler(code);
 
 
     buffer[buffer_dim] = code;
@@ -166,4 +175,10 @@ void keyboardHandler(){
     }else{
         buffer_dim = 1;
     }
+}
+
+
+
+uint8_t should_take_reg_shot() {
+    return reg_shot_flag;
 }

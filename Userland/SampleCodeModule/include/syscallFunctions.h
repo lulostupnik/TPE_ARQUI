@@ -4,9 +4,9 @@
 
 
 /**
- * Structure representing all the registers
+ * Structure representing all the register snapshot
  */
-typedef struct registers{
+typedef struct {
     uint64_t rax;
     uint64_t rbx;
     uint64_t rcx;
@@ -24,7 +24,7 @@ typedef struct registers{
     uint64_t r14;
     uint64_t r15;
     uint64_t rip;
-} RegisterSet;
+} Snapshot;
 
 /**
  * Structure representing a color
@@ -51,7 +51,7 @@ int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
 int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
 
 
-int64_t sys_get_register_snapshot(RegisterSet * registers);
+int64_t sys_get_register_snapshot(Snapshot * snapshot);
 
 
 int64_t sys_beep(uint32_t frequency, uint32_t duration);

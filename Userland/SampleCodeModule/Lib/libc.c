@@ -50,23 +50,6 @@ int64_t beep(uint64_t frequency, uint64_t duration) {
 
 
 /**
- * @brief Retrieves the saved state of the registers. Use keys XXXX to create snapshot. Only last snapshot will be shown
- *
- * This function uses the sys_get_register_snapshot system call to retrieve the saved state of the registers.
- * If the registers have been previously saved, this function writes the saved state into the provided RegisterSet structure.
- * If no registers have been saved, the function does not modify the provided structure.
- *
- * @param registers Pointer to a RegisterSet structure where the saved state of the registers will be written.
- * @return int64_t Returns 1 if the registers were previously saved and their state has been written into the provided structure.
- *                 Returns 0 if no registers have been saved, in which case the provided structure is not modified.
- */
-int64_t getRegisters(RegisterSet *registers) {
-    return sys_get_register_snapshot(registers);
-}
-
-
-
-/**
  * @brief Clears the system screen.
  *
  * This function uses the sys_clear_screen system call to clear the system screen.
@@ -220,6 +203,8 @@ static int64_t vfprintf(uint64_t fd, const char *fmt, va_list args)
             default:
                 return -1;
         }
+
+        flag = 0;
     }
 
     return written;
@@ -371,4 +356,42 @@ int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
  */
 int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color) {
     return sys_put_rectangle(x, y, width, height, &color);
+}
+
+
+
+/**
+ * @brief Prints the current state of the CPU registers.
+ *
+ * This function retrieves the snapshot of the CPU registers (which is created by pressing the F1 key)
+ *
+ * @note The snapshot is only available if the F1 key has been pressed. If the F1 key has not been pressed, this function will print an error message.
+ *
+ * @return void
+ */
+void print_register_snapshot() {
+    Snapshot snap;
+    if(sys_get_register_snapshot(&snap) == -1) { // @todo: por ahora esto nunca sucede
+        puts("No register snapshot available.\n");
+        return;
+    }
+
+    puts("Register snapshot:\n");
+    printf("rax: %x\n", snap.rax);
+    printf("rbx: %x\n", snap.rbx);
+    printf("rcx: %x\n", snap.rcx);
+    printf("rdx: %x\n", snap.rdx);
+    printf("rsi: %x\n", snap.rsi);
+    printf("rdi: %x\n", snap.rdi);
+    printf("rbp: %x\n", snap.rbp);
+    printf("rsp: %x\n", snap.rsp);
+    printf("r8:  %x\n", snap.r8 );
+    printf("r9:  %x\n", snap.r9 );
+    printf("r10: %x\n", snap.r10);
+    printf("r11: %x\n", snap.r11);
+    printf("r12: %x\n", snap.r12);
+    printf("r13: %x\n", snap.r13);
+    printf("r14: %x\n", snap.r14);
+    printf("r15: %x\n", snap.r15);
+    printf("rIP: %x\n", snap.rip);
 }

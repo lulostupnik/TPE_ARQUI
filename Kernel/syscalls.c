@@ -7,6 +7,9 @@ typedef struct {
     uint64_t r15, r14, r13, r12, r11, r10, r9, r8, rsi, rdi, rbp, rdx, rcx, rbx, rax;
 } Registers;
 
+extern uint64_t regs_shot[17];
+
+
 /*
 typedef struct {
     uint64_t rsi, rdi, rdx, rcx, rbx, rax;
@@ -23,7 +26,7 @@ int64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
-        // case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
+        case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
         case 3: return sys_beep(regs->rdi, regs->rsi); break;
         case 4: return sys_set_font_size(regs->rdi); break;
         case 5: return sys_clear_screen(); break;
@@ -85,8 +88,29 @@ int64_t sys_set_mode(uint64_t mode){
     return vdriver_set_mode(mode, (Color) {0,0,0});
 }
 
-int64_t sys_get_register_snapshot(RegisterSet * registers){
-    return -1;
+
+
+
+int64_t sys_get_register_snapshot(Snapshot * snapshot){
+    // @todo: agregar flag en assembler y preguntar si hay registros guardados
+    snapshot->rax = regs_shot[0];
+    snapshot->rbx = regs_shot[1];
+    snapshot->rcx = regs_shot[2];
+    snapshot->rdx = regs_shot[3];
+    snapshot->rsi = regs_shot[4];
+    snapshot->rdi = regs_shot[5];
+    snapshot->rbp = regs_shot[6];
+    snapshot->rsp = regs_shot[7];
+    snapshot->r8 = regs_shot[8];
+    snapshot->r9 = regs_shot[9];
+    snapshot->r10 = regs_shot[10];
+    snapshot->r11 = regs_shot[11];
+    snapshot->r12 = regs_shot[12];
+    snapshot->r13 = regs_shot[13];
+    snapshot->r14 = regs_shot[14];
+    snapshot->r15 = regs_shot[15];
+    snapshot->rip = regs_shot[16];
+    return 0;
 }
 
 

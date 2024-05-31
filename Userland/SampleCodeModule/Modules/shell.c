@@ -90,7 +90,7 @@ void showcurrentTime(){
 }
 
 void getRegs(){
-    puts("Current registers: ");
+    print_register_snapshot();
     return;
 }
 
@@ -99,3 +99,4 @@ void clear() {
     clearScreen();
     puts("Screen cleared!\n");
 }
+

@@ -17,9 +17,12 @@ GLOBAL _irq80Handler
 GLOBAL _exception0Handler
 GLOBAL _exception6Handler
 
+GLOBAL regs_shot
+
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN sysCallHandler
+EXTERN should_take_reg_shot
 
 SECTION .text
 
@@ -107,7 +110,10 @@ SECTION .text
 	iretq
 %endmacro
 
-
+;   HACER macro saveRegs
+;
+;
+;
 
 %macro exceptionHandler 1
 	pushState
@@ -157,7 +163,65 @@ _irq00Handler:
 
 ;Keyboard
 _irq01Handler:
-	irqHandlerMaster 1
+    pushState
+
+	mov rdi, 1
+	call irqDispatcher
+
+	call should_take_reg_shot
+	cmp rax, 1
+
+	jne .keyboard_end
+	popState
+	pushState
+
+	; CAMBIAR!!!
+    ; mov rax, 0x21
+    ; mov rbx, 0x02
+    ; mov rcx, 0x03
+    ; mov rdx, 0x04
+    ; mov rsi, 0x05
+    ; mov rdi, 0x06
+    ; mov rbp, 0x07
+    ; mov rsp, 0x08
+    ; mov r8, 0x09
+    ; mov r9, 0x0A
+    ; mov r10, 0x0B
+    ; mov r11, 0x0C
+    ; mov r12, 0x0D
+    ; mov r13, 0x0E
+    ; mov r14, 0x0F
+    ; mov r15, 0x10
+	; save registers
+    mov [regs_shot + 8 * 0 ], rax
+    mov [regs_shot + 8 * 1 ], rbx
+    mov [regs_shot + 8 * 2 ], rcx
+    mov [regs_shot + 8 * 3 ], rdx
+    mov [regs_shot + 8 * 4 ], rsi
+    mov [regs_shot + 8 * 5 ], rdi
+    mov [regs_shot + 8 * 6 ], rbp
+    mov rax, [rsp+18*8]
+    ;add rax, 16 * 8 ; es lo que se decremento rsp con la macro pushState y el pusheo de la dir. de retorno
+    mov [regs_shot + 8 * 7 ], rax             ;rsp
+    mov [regs_shot + 8 * 8 ], r8
+    mov [regs_shot + 8 * 9 ], r9
+    mov [regs_shot + 8 * 10], r10
+   	mov [regs_shot + 8 * 11], r11
+   	mov [regs_shot + 8 * 12], r12
+   	mov [regs_shot + 8 * 13], r13
+   	mov [regs_shot + 8 * 14], r14
+   	mov [regs_shot + 8 * 15], r15
+   	mov rax, [rsp+15*8]; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
+   	; mov rax, 0x40               ; CAMBIAR!!!
+   	mov [regs_shot + 8 * 16], rax
+
+.keyboard_end:
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+
+	popState
+	iretq
 
 ;Cascade pic never called
 _irq02Handler:
@@ -224,3 +288,8 @@ haltcpu:
 
 SECTION .bss
 	aux resq 1
+
+
+SECTION .data
+    regs_shot dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 17 zeros
+	; %define REGS_AMOUNT 17
