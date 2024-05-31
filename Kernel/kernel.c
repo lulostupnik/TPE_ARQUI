@@ -108,6 +108,7 @@ int main()
         // putRectangle(100,50,200,120,120,20,20);
         // vdriver_video_draw_rectangle(120,120,20,20, (Color){100,50,200});
 
+        /*
         sys_set_mode(1);
         Color co = {255,0,0};
         char ma = 'A';
@@ -117,6 +118,8 @@ int main()
         while( sys_read(0, &c, 1) == 0);
 
         sys_set_mode(0);
+         */
+        
 
         /*
          printFont('A');
