@@ -4,9 +4,9 @@
 #ifndef CMD_INTERPRETER_H
 #define CMD_INTERPRETER_H
 #define MAX_COMMAND_SIZE 100
-#define MAX_ZOOM 4
+#define MAX_ZOOM 3
 #define MIN_ZOOM 1 // en realidad hagamos que sea 2
-#define MAX_MODULES 6
+#define MAX_MODULES 9 // @todo: cambie esto, no se si está bien
 //Constants for the shell
 
 #define WELCOME "Bienvenido a hogOS!"
@@ -36,6 +36,8 @@ void zoomOut();
 void showcurrentTime();
 
 void getRegs();
+
+void clear();
 
 
 #endif /* CMD_INTERPRETER_H */

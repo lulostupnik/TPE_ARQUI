@@ -14,7 +14,6 @@ typedef struct {
 */
 
 // Orden en el cual mandar los registros:
-// rdi, rsi, rdx, rcx, rbx, rax
 
 /*
  * @Todo agregar sys_write
@@ -24,7 +23,13 @@ int64_t sysCallHandler(Registers * regs) {
     switch(regs->rax){
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
+        // case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
+        // case 3: return sys_beep(regs->rdi, regs->rsi); break;
         case 4: return sys_set_font_size(regs->rdi); break;
+        case 5: return sys_clear_screen(); break;
+        case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
+        case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color *) regs->r8); break;
+        case 9: return sys_set_mode(regs->rdi); break;
         default: return NOT_VALID_SYS_ID;  //     printFont('X');
 
     }
@@ -55,16 +60,16 @@ int64_t sys_set_font_size(uint64_t size){
     return vdriver_text_set_font_size(size);
 }  // este ya hace el resize si entra AL menos 1 caracter !
 
-int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
-    return 1;
+int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color * color){
+    return vdriver_video_draw_rectangle(x, y, width, height, *color);
 }
 
 int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color){
     return 1;
 }
 
-int64_t sys_draw_pixel(uint64_t x, uint64_t y, Color color){
-    return 1;
+int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color){
+    return vdriver_video_draw_pixel(x, y, *color);
 }
 
 //Ambos modos:
@@ -73,9 +78,17 @@ int64_t sys_get_screen_information(ScreenInformation * screen_information){
 }
 
 int64_t sys_set_mode(uint64_t mode){
-    return 1;
+    return vdriver_set_mode(mode, (Color) {0,0,0});
 }
 
+int64_t sys_get_register_snapshot(RegisterSet * registers){
+    return -1;
+}
+
+
+int64_t sys_clear_screen(){
+    return vdriver_clear_screen((Color) {0,0,0});
+}
 
 
 // registros del procesador

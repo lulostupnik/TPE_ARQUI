@@ -24,6 +24,7 @@ static uint8_t driver_mode = TEXT_MODE;
 static Point current_screen_point = {0,0};
 static uint8_t char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
 static uint64_t buffer_index = 0;
+
 static uint8_t deleted_buffer_flag = 0;
 static uint8_t override_mode = 0;
 static uint64_t char_buffer_rows_zoomed = CHAR_BUFFER_ROWS;
@@ -69,8 +70,8 @@ int64_t vdriver_text_set_font_size(uint64_t size) {
         return 1;
     }
     font_size = size;
-    char_buffer_rows_zoomed = SCREEN_HEIGHT / (font_size * FONT_HEIGHT);
-    char_buffer_cols_zoomed = SCREEN_WIDTH / (font_size * FONT_WIDTH);
+    char_buffer_rows_zoomed = (SCREEN_HEIGHT / (font_size * FONT_HEIGHT));
+    char_buffer_cols_zoomed = (SCREEN_WIDTH / (font_size * FONT_WIDTH));
     clearScreen();
 }
 
@@ -91,9 +92,10 @@ int64_t vdriver_clear_screen(Color color){
         buffer_index = 0;
         deleted_buffer_flag = 1;
     }
-    override_mode=1;
+    override_mode = 1;
     vdriver_video_draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color);
-    override_mode=0;
+    override_mode = 0;
+    return 0;
 }
 
 
@@ -105,10 +107,10 @@ int64_t vdriver_clear_screen(Color color){
 
 int64_t vdriver_set_mode(uint64_t mode, Color c){
     if(!(mode == TEXT_MODE || mode == VIDEO_MODE) ){
-        return 0;
+        return -1;
     }
     if(mode == driver_mode ){
-        return 1;
+        return 0;
     }
     driver_mode = mode;
     background_color = c;
@@ -123,7 +125,10 @@ int64_t vdriver_set_mode(uint64_t mode, Color c){
         vdriver_clear_screen(c);
     }
 
+    return 0;
+
 }
+
 
 
 
@@ -171,17 +176,17 @@ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
  */
 int64_t vdriver_video_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
     if(x+width > SCREEN_WIDTH || y+height > SCREEN_HEIGHT){
-        return 0;
+        return -1;
     }
     if(!inVideoMode()){
-        return 0;
+        return -1;
     }
     for (uint64_t i = 0; i < width; i++) {
         for (uint64_t j = 0; j < height; j++) {
             vdriver_video_draw_pixel( x + i, y + j, color);
         }
     }
-    return 1;
+    return 0;
 }
 int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color color,uint64_t fontSize){
     if(ascii < FIRST_ASCII_FONT || ascii > LAST_ASCII_FONT){
@@ -224,10 +229,10 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
 int64_t vdriver_video_draw_pixel(uint64_t x, uint64_t y, Color color){
 
     if(x >= SCREEN_WIDTH || y>= SCREEN_HEIGHT){
-        return 1;
+        return -1;
     }
     if(!inVideoMode()){
-        return 0;
+        return -1; // @TODO podría devolver -2
     }
 
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -288,14 +293,18 @@ static void addCharToBuffer(uint8_t c) {
 }
 
 
-
+/*
+ * @TODO porque esa validacion en Y funciona?????
+ * CHEKCEAR ESA RESTA ES CUALQIUERA
+ */
 static void printFont(uint8_t letter){
 
-    if (current_screen_point.x+FONT_WIDTH*font_size >= SCREEN_WIDTH) {
+    if (current_screen_point.x+FONT_WIDTH*font_size - FONT_WIDTH >= SCREEN_WIDTH) {
         current_screen_point.y += FONT_HEIGHT*font_size;
         current_screen_point.x = 0;
     }
-    if(current_screen_point.y + Y_FONT_OFFSET >= SCREEN_HEIGHT){
+    if(current_screen_point.y + FONT_HEIGHT*font_size - FONT_HEIGHT >= SCREEN_HEIGHT){
+       // vdriver_video_draw_rectangle(0,current_screen_point.y, 100, 100,font_color );
         clearScreen();
     }
     override_mode=1;
@@ -313,24 +322,20 @@ static void clearScreen() {   // se podria borrar esto
 static void newLinePrint(){
     current_screen_point.x = 0;
     current_screen_point.y = current_screen_point.y+ FONT_HEIGHT * font_size;
-    if(current_screen_point.y + FONT_HEIGHT * font_size >= SCREEN_HEIGHT){
+    if(current_screen_point.y + FONT_HEIGHT * font_size - FONT_HEIGHT >= SCREEN_HEIGHT){
         clearScreen();
     }
 }
+
 static void newLineBuff(){
-    if(buffer_index > char_buffer_cols_zoomed*char_buffer_rows_zoomed - char_buffer_cols_zoomed){
-        clearScreen();
-    }
-    //char_buffer[buffer_index] = '\n';
-    for(int i=buffer_index ; i<char_buffer_cols_zoomed*char_buffer_rows_zoomed  ; i++){
-        //char_buffer[i] = 0;
-        char_buffer[i] = ' ';  // esto solo funciona bien porque al cambiar de FONT_SIZE se hace un clear !. Seria mejor guardar el \n y llenar de ceros, pero boe
-        if((i%char_buffer_cols_zoomed==0 ) && i !=buffer_index){
-            buffer_index = i;
-            return;
-        }
+    int remaining_on_row = char_buffer_cols_zoomed - (buffer_index % char_buffer_cols_zoomed);
+
+    for(int i=0 ; i<remaining_on_row; i++){
+        addCharToBuffer(' ');
     }
 }
+
+
 static void newLine(){
     newLinePrint();
     newLineBuff();
@@ -358,6 +363,7 @@ static void backSpaceBuffer(){
     if(buffer_index != 0){
         char_buffer[--buffer_index] = 0;
     }
+
 }
 
 static void backSpace(){

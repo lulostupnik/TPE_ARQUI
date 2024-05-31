@@ -320,3 +320,55 @@ int64_t strcmp(const char *str1, const char *str2) {
     }
     return *(unsigned char *)str1 - *(unsigned char *)str2;
 }
+
+
+
+/**
+ * @brief Switches the system to video mode.
+ *
+ * @return int64_t Returns 0 if the mode was successfully set, or -1 if an error occurred.
+ */
+int64_t enter_video_mode() {
+    return sys_set_mode(VIDEO_MODE);
+}
+
+
+
+/**
+ * @brief Switches the system to text mode.
+ *
+ * @return int64_t Returns 0 if the mode was successfully set, or -1 if an error occurred.
+ */
+int64_t enter_text_mode() {
+    return sys_set_mode(TEXT_MODE);
+}
+
+
+
+/**
+ * @brief Draws a pixel at a specific position with a specific color.
+ *
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @return int64_t Returns 0 if the pixel was successfully drawn, or -1 if an error occurred.
+ */
+int64_t draw_pixel(uint64_t x, uint64_t y, Color color) {
+    return sys_put_pixel(x, y, &color);
+}
+
+
+
+/**
+ * @brief Draws a rectangle at a specific position with a specific width, height, and color.
+ *
+ * @param x The x-coordinate of the top-left corner of the rectangle.
+ * @param y The y-coordinate of the top-left corner of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @param color The color of the rectangle.
+ * @return int64_t Returns 0 if the rectangle was successfully drawn, or -1 if an error occurred.
+ */
+int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color) {
+    return sys_put_rectangle(x, y, width, height, &color);
+}

@@ -13,7 +13,8 @@ static module modules[] = {
     {"zoomout", zoomOut},
     {"getregs", getRegs},
     {"dividebyzero", div0},
-    {"opcode", op_code}
+    {"opcode", op_code},
+    {"clear", clear}
 };
 
 
@@ -33,14 +34,14 @@ void interpret(){
     if(strlen(shellBuffer)==0){
         return;
     }
-    for(int i=0;i<MAX_MODULES;i++){
+    for(int i = 0; i < MAX_MODULES; i++){
         if(strcmp(shellBuffer,modules[i].name)==0){
             modules[i].function();
-            break;
+            return;
         }
     }
     //@TODO: Agregar excepciones para comandos no encontrados
-    puts("Invalid Command! Try Again >:(\n");
+    puts("Invalid Command! Try Again >:(\n"); // @todo: esto se imprime siempre
     //opCode_exception();
 }
 
@@ -54,6 +55,7 @@ static void help(){
     puts("getregs: Muestra el estado actual de los registros.\n");
     puts("div0: Genera una excepcion de division por cero.\n");
     puts("opcode: Genera una excepcion de codigo de operacion invalido.\n");
+    puts("clear: Clears the screen.\n");
 }
 
 
@@ -63,8 +65,10 @@ void zoomIn(){
     if(font_size < MAX_FONT_SIZE){
         font_size++;
         setFontSize(font_size);
+        // puts("Zooming in...\n");
+    } else {
+        puts("Maximum font size reached!\n");
     }
-    puts("Zooming in...\n");
     return;
 }
 
@@ -73,8 +77,9 @@ void zoomOut(){
     if(font_size > MIN_FONT_SIZE){
         font_size--;
         setFontSize(font_size);
+    } else {
+        puts("Minimum font size reached!\n");
     }
-    puts("Zooming out...\n");
     return;
 }
 
@@ -86,4 +91,10 @@ void showcurrentTime(){
 void getRegs(){
     puts("Current registers: ");
     return;
+}
+
+void clear() {
+    puts("Clearing screen...\n");
+    clearScreen();
+    puts("Screen cleared!\n");
 }
