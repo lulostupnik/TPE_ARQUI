@@ -5,8 +5,7 @@ op_code:
     push rbp
     mov rbp, rsp
 
-    ; acá deberíamos hacer algo
-    nop
+    jmp 0x0000000000000000 
 
     mov rsp, rbp
     pop rbp
