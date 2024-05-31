@@ -13,3 +13,8 @@ int ticksElapsed() {
 int secondsElapsed() {
 	return ticks / 18;
 }
+
+void nano_sleep(int time){
+	int start = ticks;
+	while(ticks - start < time);
+	}

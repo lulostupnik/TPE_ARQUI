@@ -1,6 +1,7 @@
 GLOBAL cpuVendor
 GLOBAL getKey
-
+GLOBAL inb
+GLOBAL outb
 section .text
 	
 cpuVendor:
@@ -37,3 +38,22 @@ getKey:
 
     leave
     ret
+
+inb:
+	push rbp
+    mov rbp, rsp
+	mov rdx, rdi
+	mov rax, 0
+	in al, dx
+	mov rsp, rbp
+	pop rbp
+	ret
+outb:
+	push rbp
+    mov rbp, rsp
+	mov rdx, rdi
+	mov rax, 0
+	out dx, al
+	mov rsp, rbp
+	pop rbp
+	ret
