@@ -40,22 +40,22 @@ In file included from syscalls.c:4:0:
  int64_t sys_get_time(time_struct * time);
          ^
 syscalls.c: In function 'sys_get_time':
-syscalls.c:135:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
+syscalls.c:139:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
      time->seconds = getRTCSeconds();
      ^
-syscalls.c:136:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
+syscalls.c:140:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
      time->minutes =  getRTCMinutes();
      ^
-syscalls.c:137:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
+syscalls.c:141:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
      time->hour =  getRTCHours();
      ^
-syscalls.c:138:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
+syscalls.c:142:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
      time->day = getRTCDayOfMonth();
      ^
-syscalls.c:139:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
+syscalls.c:143:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
      time->month = getRTCMonth();
      ^
-syscalls.c:140:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
+syscalls.c:144:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
      time->year = getRTCYear();
      ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c irqDispatcher.c -o irqDispatcher.o
@@ -201,27 +201,107 @@ make[1]: Entering directory '/root/Userland'
 cd SampleCodeModule; make
 make[2]: Entering directory '/root/Userland/SampleCodeModule'
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/eliminator.c -o Modules/eliminator.o
-Modules/eliminator.c: In function 'eliminator':
-Modules/eliminator.c:17:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
-     enter_video_mode();
+Modules/eliminator.c: In function 'welcome':
+Modules/eliminator.c:9:5: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
+     clear_screen();
      ^
-Modules/eliminator.c:19:5: warning: implicit declaration of function 'print_centered_string' [-Wimplicit-function-declaration]
-     print_centered_string(512, 384, "Welcome to Eliminator!", 3);
+Modules/eliminator.c:10:5: warning: implicit declaration of function 'print_centered_string' [-Wimplicit-function-declaration]
+     print_centered_string(512, 10,"Bienvenido al Eliminator!",3);
      ^
-Modules/eliminator.c:23:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
+Modules/eliminator.c:24:9: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+         case 'q': exit(); break;
+         ^
+Modules/eliminator.c:25:9: warning: implicit declaration of function 'singlePlayer' [-Wimplicit-function-declaration]
+         case 's': singlePlayer(); break;
+         ^
+Modules/eliminator.c:26:9: warning: implicit declaration of function 'multiPlayer' [-Wimplicit-function-declaration]
+         case 'm': multiPlayer(); break;
+         ^
+Modules/eliminator.c: At top level:
+Modules/eliminator.c:36:6: warning: conflicting types for 'singlePlayer'
+ void singlePlayer(){
+      ^
+Modules/eliminator.c:25:19: note: previous implicit declaration of 'singlePlayer' was here
+         case 's': singlePlayer(); break;
+                   ^
+Modules/eliminator.c: In function 'singlePlayer':
+Modules/eliminator.c:37:5: warning: implicit declaration of function 'initialize_map' [-Wimplicit-function-declaration]
+     initialize_map();
+     ^
+Modules/eliminator.c:45:5: warning: implicit declaration of function 'fill_position' [-Wimplicit-function-declaration]
+     fill_position(p1x, p1y, RED);
+     ^
+Modules/eliminator.c:40:14: warning: variable 'p1_lost' set but not used [-Wunused-but-set-variable]
+     uint64_t p1_lost = 0;
+              ^
+Modules/eliminator.c: At top level:
+Modules/eliminator.c:72:6: warning: conflicting types for 'multiPlayer'
+ void multiPlayer(){
+      ^
+Modules/eliminator.c:26:19: note: previous implicit declaration of 'multiPlayer' was here
+         case 'm': multiPlayer(); break;
+                   ^
+Modules/eliminator.c:159:1: warning: return type defaults to 'int'
+ get_player_2_direction(uint16_t c, int64_t * direction){
+ ^
+Modules/eliminator.c:159:1: warning: conflicting types for 'get_player_2_direction'
+Modules/eliminator.c:6:13: note: previous declaration of 'get_player_2_direction' was here
+ static void get_player_2_direction(uint16_t c, int64_t * direction);
+             ^
+Modules/eliminator.c:195:6: warning: conflicting types for 'exit'
+ void exit(){
+      ^
+Modules/eliminator.c:24:19: note: previous implicit declaration of 'exit' was here
+         case 'q': exit(); break;
+                   ^
+Modules/eliminator.c: In function 'exit':
+Modules/eliminator.c:199:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
      enter_text_mode();
      ^
+Modules/eliminator.c: In function 'eliminator':
+Modules/eliminator.c:204:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
+     enter_video_mode();
+     ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:30:6: warning: conflicting types for 'print_centered_string'
- void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
+Modules/eliminator.c:213:6: warning: conflicting types for 'print_centered_string'
+ void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) { // @todo - está función podría no recibir coordenada x y directamente colocar el texto en el centro de la pantalla
       ^
-Modules/eliminator.c:19:5: note: previous implicit declaration of 'print_centered_string' was here
-     print_centered_string(512, 384, "Welcome to Eliminator!", 3);
+Modules/eliminator.c:10:5: note: previous implicit declaration of 'print_centered_string' was here
+     print_centered_string(512, 10,"Bienvenido al Eliminator!",3);
      ^
 Modules/eliminator.c: In function 'print_centered_string':
-Modules/eliminator.c:45:9: warning: implicit declaration of function 'draw_letter' [-Wimplicit-function-declaration]
-         draw_letter(start_x + i * character_width, start_y, str[i], (Color){255, 0, 0}, font_size);
+Modules/eliminator.c:217:5: warning: implicit declaration of function 'print_string' [-Wimplicit-function-declaration]
+     print_string(start_x, start_y, str, font_size);
+     ^
+Modules/eliminator.c: At top level:
+Modules/eliminator.c:222:6: warning: conflicting types for 'print_string'
+ void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
+      ^
+Modules/eliminator.c:217:5: note: previous implicit declaration of 'print_string' was here
+     print_string(start_x, start_y, str, font_size);
+     ^
+Modules/eliminator.c: In function 'print_string':
+Modules/eliminator.c:224:9: warning: implicit declaration of function 'draw_letter' [-Wimplicit-function-declaration]
+         draw_letter(x + i * CHARACTER_WIDTH * font_size, y, str[i], (Color){255, 0, 0}, font_size);
          ^
+Modules/eliminator.c: At top level:
+Modules/eliminator.c:230:6: warning: conflicting types for 'fill_position'
+ void fill_position(uint64_t x, uint64_t y, Color color){
+      ^
+Modules/eliminator.c:45:5: note: previous implicit declaration of 'fill_position' was here
+     fill_position(p1x, p1y, RED);
+     ^
+Modules/eliminator.c: In function 'fill_position':
+Modules/eliminator.c:234:5: warning: implicit declaration of function 'draw_rectangle' [-Wimplicit-function-declaration]
+     draw_rectangle(x*PIXEL, y*PIXEL, PIXEL, PIXEL, color);
+     ^
+Modules/eliminator.c: At top level:
+Modules/eliminator.c:256:6: warning: conflicting types for 'initialize_map'
+ void initialize_map(){
+      ^
+Modules/eliminator.c:37:5: note: previous implicit declaration of 'initialize_map' was here
+     initialize_map();
+     ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/shell.c -o Modules/shell.o
 Modules/shell.c: In function 'clear':
 Modules/shell.c:114:5: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
@@ -231,6 +311,7 @@ Modules/shell.c: At top level:
 Modules/shell.c:7:17: warning: 'printedChars' defined but not used [-Wunused-variable]
  static uint64_t printedChars = 0;
                  ^
+gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/aux_cola_eliminator.c -o Modules/aux_cola_eliminator.o
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Main/sampleCodeModule.c -o Main/sampleCodeModule.o
 Main/sampleCodeModule.c: In function 'main':
 Main/sampleCodeModule.c:40:14: warning: unused variable 'x' [-Wunused-variable]
@@ -239,17 +320,19 @@ Main/sampleCodeModule.c:40:14: warning: unused variable 'x' [-Wunused-variable]
 Main/sampleCodeModule.c:39:14: warning: unused variable 'c' [-Wunused-variable]
      uint64_t c;
               ^
+gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Lib/queue.c -o Lib/queue.o
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Lib/libc.c -o Lib/libc.o
+gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Lib/strings.c -o Lib/strings.o
 nasm -felf64 Lib/syscallFunctions.asm -o Lib/syscallFunctions.o
 nasm -felf64 Lib/opCode.asm -o Lib/opCode.o
 nasm -felf64 Lib/div0.asm -o Lib/div0.o
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc _loader.c -c -o _loader.o
-ld  -T sampleCodeModule.ld -o ../0000-sampleCodeModule.bin _loader.o Modules/eliminator.o Modules/shell.o Main/sampleCodeModule.o Lib/libc.o Lib/syscallFunctions.o Lib/opCode.o Lib/div0.o
+ld  -T sampleCodeModule.ld -o ../0000-sampleCodeModule.bin _loader.o Modules/eliminator.o Modules/shell.o Modules/aux_cola_eliminator.o Main/sampleCodeModule.o Lib/queue.o Lib/libc.o Lib/strings.o Lib/syscallFunctions.o Lib/opCode.o Lib/div0.o
 make[2]: Leaving directory '/root/Userland/SampleCodeModule'
 printf "This is sample data." >> 0001-sampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-sampleDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.249e-05 s, 23.5 kB/s
+1 byte (1 B) copied, 4.6409e-05 s, 21.5 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'
