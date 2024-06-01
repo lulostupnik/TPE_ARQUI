@@ -53,7 +53,7 @@ void exceptionDispatcher(uint64_t exception) {
     uint8_t message_cant = 1;
 	if (exception == ZERO_EXCEPTION_ID){
         message = "Zero div exception\n\n";
-        message_cant = 18;
+        message_cant = 20;
     }
 
 	if(exception == OPCODE_EXCEPTION_ID){
