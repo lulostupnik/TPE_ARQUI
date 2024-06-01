@@ -9,7 +9,7 @@ typedef struct {
 } Registers;
 
 extern uint64_t regs_shot[17];
-// extern uint64_t regs_shot_available;
+extern uint64_t regs_shot_available;
 
 /*
 typedef struct {
@@ -98,10 +98,11 @@ int64_t sys_set_mode(uint64_t mode){
 
 
 int64_t sys_get_register_snapshot(Snapshot * snapshot){
-    /*
-    if(!regs_shot_available){
+
+    if(!regs_shot_available) {
         return -1;
-     */
+    }
+
     // @todo: agregar flag en assembler y preguntar si hay registros guardados
     snapshot->rax = regs_shot[0];
     snapshot->rbx = regs_shot[1];
