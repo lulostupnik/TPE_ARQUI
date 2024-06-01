@@ -265,6 +265,30 @@ void initialize_map(){
     return;
 }
 
+/*
+update_queues(Queue * q1, Queue * q2, char c){
+    if(char_in_string(c, "wasd")){
+        enqueue(q1, c);
+    }
+    else if(char_in_string(c, "ijkl")){
+        enqueue(q2, c);
+    }
+}
+ */
+
+/*
+update_queues2(Queue * q1, Queue * q2, char * buffer, uint64_t buffer_len, char * wanted_1, char * wanted_2){
+    for(int i = 0; i < buffer_len; i++){
+        if(char_in_string(buffer[i], "wasd")){
+            enqueue(q1, buffer[i]);
+        }
+        else if(char_in_string(buffer[i], "ijkl")){
+            enqueue(q2, buffer[i]);
+        }
+    }
+}
+ */
+
 
 /*
 void singlePlayer(){
