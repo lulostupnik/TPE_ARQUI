@@ -371,9 +371,6 @@ int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, 
  * @return int64_t Returns 0 if the letter was successfully drawn, or -1 if an error occurred.
  */
 int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
-    Color co = {255,0,0};
-    char ma = 'C';
-    sys_draw_letter(100, 100, &ma, &co, 2);
     return sys_draw_letter(x, y, &letter, &color, font_size);
     // int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize)
 }

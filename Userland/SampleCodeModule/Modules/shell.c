@@ -23,9 +23,9 @@ static module modules[] = {
 int initializeShell(){
     setFontSize(font_size);
     puts(WELCOME);
-    ScreenInformation info;
+    /*ScreenInformation info;
     sys_get_screen_information(&info);
-    printf("The screen dimensions are %d x %d\n", info.width, info.height);
+    printf("The screen dimensions are %d x %d\n", info.width, info.height);*/
     sys_nano_sleep(18);
     help();
     //sys_nano_sleep(18);
