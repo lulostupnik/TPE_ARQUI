@@ -19,7 +19,7 @@ GLOBAL _exception6Handler
 
 GLOBAL regs_shot
 GLOBAL exception_regs
-; GLOBAL regs_shot_available
+GLOBAL regs_shot_available
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -184,8 +184,10 @@ _irq01Handler:
    	mov [regs_shot + 8 * 14], r14
    	mov [regs_shot + 8 * 15], r15
    	mov rax, [rsp+15*8]; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
-   	; mov rax, 0x40               ; CAMBIAR!!!
    	mov [regs_shot + 8 * 16], rax
+
+   	mov rax, 1
+    mov [regs_shot_available], rax          ; tenemos un snapshot de los registros
 
 .keyboard_end:
 	; signal pic EOI (End of Interrupt)
@@ -252,7 +254,6 @@ _irq80Handler:
 	mov [exception_regs + 8*16], rax
 	mov rax, [rsp+17*8]                     ; RFLAGS
 	mov [exception_regs + 8*17], rax
-	; mov [regs_shot_available], 1          ; tenemos un snapshot de los registros
 
 	mov rdi, %1                             ; Parametros para exceptionDispatcher
 	mov rsi, exception_regs
@@ -291,7 +292,7 @@ SECTION .bss
 
 SECTION .data
     regs_shot dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 17 zeros
-    ; regs_shot_available dq 0 ; flag para saber si hay un regs_shot disponible
+    regs_shot_available dq 0 ; flag para saber si hay un regs_shot disponible
     exception_regs dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; 18 zeros
 	; %define REGS_AMOUNT 17
 
