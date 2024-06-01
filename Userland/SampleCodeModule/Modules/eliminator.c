@@ -277,6 +277,13 @@ update_queues(Queue * q1, Queue * q2, char c){
  */
 
 /*
+La idea es crear una cola de movimientos para cada jugador.
+Cuando leemos con sysread encolamos los movimientos correspondientes.
+Y en cada instante desencolamos el siguiente movimiento de la cola.
+No se pueden encolar dos movimientos iguales seguidos. lo mismo vale para movimientos opuestos.
+ */
+
+/*
 update_queues2(Queue * q1, Queue * q2, char * buffer, uint64_t buffer_len, char * wanted_1, char * wanted_2){
     for(int i = 0; i < buffer_len; i++){
         if(char_in_string(buffer[i], "wasd")){
