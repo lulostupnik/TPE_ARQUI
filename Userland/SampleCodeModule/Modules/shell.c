@@ -7,6 +7,8 @@ static void help();
 static uint64_t printedChars = 0;
 static uint64_t font_size = 1; // font_size 1 is the default size
 
+static void toUtcMinus3(time_struct * time);
+
 static module modules[] = {
     {"help", help},
     {"time", showcurrentTime},
@@ -90,19 +92,45 @@ void zoomOut(){
     return;
 }
 
-/*
- * @TODO lo deje en UTC, no el argentino.
- */
+
 
 void showcurrentTime(){
-
     time_struct time;
     sys_get_time(&time);
+    toUtcMinus3(&time);
     printf("%d/%d/%d [d/m/y]\n", time.day, time.month, time.year);
     int64_t h = time.hour;
-    printf("%d:%d:%d [hour/min/sec] (UTC)\n", h, time.minutes, time.seconds);  // la hora es -3 para que este en tiempo argentino.
+    printf("%d:%d:%d [hour/min/sec] (Argentina)\n", h, time.minutes, time.seconds);  // la hora es -3 para que este en tiempo argentino.
     return;
 }
+
+
+static void toUtcMinus3(time_struct * time) {
+    time->hour = (time->hour - 3);
+    if (time->hour < 0) {
+        time->hour += 24;
+        time->day--;
+        if (time->day == 0) { // podría ser <= pero nunca se va a dar
+            time->month--;
+            if (time->month == 0) {
+                time->month = 12;
+                time->year--;
+            }
+            if(time->month == 2){
+                time->day = 28;
+                if(time->year % 4 == 0){
+                    time->day = 29;
+                }
+            } else if(time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11){
+                time->day = 30;
+            } else {
+                time->day = 31;
+            }
+        }
+    }
+}
+
+
 
 void getRegs(){
     print_register_snapshot();
@@ -114,3 +142,35 @@ void clear() {
     clear_screen();
     // puts("Screen cleared!\n");
 }
+
+
+
+
+/*
+void toUtc3(time_struct * time){
+    time->hour = (time->hour + 3);
+    if(time->hour >= 24){
+        time->hour -= 24;
+        time->day++;
+        uint64_t max_days;
+        if(time->month == 2){
+            max_days = 28;
+            if(time->year % 4 == 0){
+                max_days = 29;
+            }
+        } else if(time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11){
+            max_days = 30;
+        } else {
+            max_days = 31;
+        }
+        if(time->day > max_days){ // && (time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11)
+            time->day = 1; // -= max_days
+            time->month++;
+            if(time->month > 12){
+                time->month = 1;
+                time->year++;
+            }
+        }
+    }
+}
+ */
