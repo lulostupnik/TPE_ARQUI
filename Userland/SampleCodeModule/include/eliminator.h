@@ -21,9 +21,12 @@
 #define BLUE (Color){0, 0, 255}
 #define WHITE (Color){255, 255, 255}
 
+#define PLAYER_1_INIT_X 64
+#define PLAYER_1_INIT_Y 94
+
 void eliminator();
 
-enum direction {UP, DOWN, LEFT,RIGHT};
+enum direction {UP, DOWN, LEFT, RIGHT};
 
 typedef enum direction direction;
 

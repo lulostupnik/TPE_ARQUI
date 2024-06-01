@@ -52,7 +52,7 @@ int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount){
     uint64_t i = 0;
 
     while(i < amount && bufferHasNext()){
-        buffer[i] = getCurrent(); // @TODO getCurrent me da un uint64_t, pero lo que quiero es un char --> ¿el casteo está bien?
+        buffer[i] = getCurrent();
         i++;
     }
     return i;
