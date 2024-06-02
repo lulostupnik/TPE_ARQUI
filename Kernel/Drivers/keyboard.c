@@ -17,7 +17,6 @@ static uint8_t reg_shot_flag = 0;
 
 extern uint16_t pressedKeyShiftMap[][2];
 
-
 /*
  * @TODO:
  * implementar teclas especiales como shift, control, caps lock
@@ -25,7 +24,11 @@ extern uint16_t pressedKeyShiftMap[][2];
  */
 
 #define CANT_FUNCTION_KEYS 12
-static function_key functionKeyFunArray[CANT_FUNCTION_KEYS];
+static void f1key(void);
+static function_key functionKeyFunArray[CANT_FUNCTION_KEYS] = {f1key};
+static void f1key(void){
+    reg_shot_flag = 1;
+}
 
 void setFKeyFunction(uint64_t key_number, function_key f){
     if(key_number == 0 || key_number > CANT_FUNCTION_KEYS ){
@@ -34,13 +37,11 @@ void setFKeyFunction(uint64_t key_number, function_key f){
     key_number--;
     functionKeyFunArray[key_number] = f;
 }
+
 static void functionKeyHandler(uint64_t code){
     int64_t i = -1;
     switch (code) {
-        case F1:
-            reg_shot_flag = 1;
-            i = 0;
-            break;
+        case F1:i = 0;break;
         case F2: i =1; break;
         case F3: i=2; break;
         case F4: i =3; break;
@@ -53,13 +54,10 @@ static void functionKeyHandler(uint64_t code){
         case F11: i=10; break;
         case F12: i =11; break;
     }
-    function_key f = 0;
-    if(i != -1){
-        f =  functionKeyFunArray[i];
+    if(i != -1 && functionKeyFunArray[i] != 0){
+        functionKeyFunArray[i]();
     }
-    if(f != 0){
-        f();
-    }
+
 }
 
 
@@ -186,3 +184,4 @@ void keyboardHandler(){
 uint8_t should_take_reg_shot() {
     return reg_shot_flag;
 }
+

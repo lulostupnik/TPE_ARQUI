@@ -92,7 +92,7 @@ void function1_key(){
 int main()
 {
     load_idt();
-    setFKeyFunction(1, function1_key);
+    //setFKeyFunction(1, function1_key);
     //uint64_t drawString(uint64_t x, uint64_t y, uint8_t *string, uint64_t charsToDraw , uint64_t fontSize) {
 
     //drawString(0,0,"holas",4,43);
