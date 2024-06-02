@@ -31,9 +31,10 @@ static uint8_t * numToString(uint64_t num, uint64_t base) {
 static void printRegs(uint8_t * message, uint8_t cant_chars_message){
     uint8_t * regs[] = {"RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15", "RIP", "RFLAGS"};
     Color col = {255,255,255};
-    //vdriver_clear_screen(col);
+    vdriver_clear_screen(col);
     vdriver_set_mode(TEXT_MODE, col);
     vdriver_text_set_font_size(2);
+
     vdriver_text_write(STDERR, message, cant_chars_message);
     uint8_t newline = '\n';
     for(int i=0; i<CANT_REGS;i++){

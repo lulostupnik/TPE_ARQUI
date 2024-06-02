@@ -40,22 +40,22 @@ In file included from syscalls.c:4:0:
  int64_t sys_get_time(time_struct * time);
          ^
 syscalls.c: In function 'sys_get_time':
-syscalls.c:139:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
+syscalls.c:140:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
      time->seconds = getRTCSeconds();
      ^
-syscalls.c:140:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
+syscalls.c:141:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
      time->minutes =  getRTCMinutes();
      ^
-syscalls.c:141:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
+syscalls.c:142:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
      time->hour =  getRTCHours();
      ^
-syscalls.c:142:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
+syscalls.c:143:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
      time->day = getRTCDayOfMonth();
      ^
-syscalls.c:143:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
+syscalls.c:144:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
      time->month = getRTCMonth();
      ^
-syscalls.c:144:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
+syscalls.c:145:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
      time->year = getRTCYear();
      ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c irqDispatcher.c -o irqDispatcher.o
@@ -103,28 +103,28 @@ exceptions.c:32:5: warning: pointer targets in initialization differ in signedne
 exceptions.c:32:5: warning: (near initialization for 'regs[16]') [-Wpointer-sign]
 exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
 exceptions.c:32:5: warning: (near initialization for 'regs[17]') [-Wpointer-sign]
-exceptions.c:37:32: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+exceptions.c:38:32: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
      vdriver_text_write(STDERR, message, cant_chars_message);
                                 ^
 In file included from exceptions.c:3:0:
 ./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
-exceptions.c:40:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+exceptions.c:41:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(STDERR,regs[i], 10);
                                    ^
 In file included from exceptions.c:3:0:
 ./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
-exceptions.c:42:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+exceptions.c:43:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(STDERR, numToString(exception_regs[i],16), 10);
                                     ^
 In file included from exceptions.c:3:0:
 ./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
-exceptions.c:44:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+exceptions.c:45:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(STDERR,&newline, 1);
                                    ^
 In file included from exceptions.c:3:0:
@@ -132,25 +132,25 @@ In file included from exceptions.c:3:0:
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
 exceptions.c: In function 'exceptionDispatcher':
-exceptions.c:52:25: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+exceptions.c:53:25: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
      uint8_t * message = "";
                          ^
-exceptions.c:55:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+exceptions.c:56:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
          message = "Zero div exception\n\n";
                  ^
-exceptions.c:60:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+exceptions.c:61:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
          message = "Invalid opcode\n\n";
                  ^
-exceptions.c:70:5: warning: implicit declaration of function 'picMasterMask' [-Wimplicit-function-declaration]
+exceptions.c:71:5: warning: implicit declaration of function 'picMasterMask' [-Wimplicit-function-declaration]
      picMasterMask(0xFD);                    //Solo habilito interrupciones de teclado
      ^
-exceptions.c:71:5: warning: implicit declaration of function '_sti' [-Wimplicit-function-declaration]
+exceptions.c:72:5: warning: implicit declaration of function '_sti' [-Wimplicit-function-declaration]
      _sti();
      ^
-exceptions.c:72:5: warning: implicit declaration of function 'sys_read' [-Wimplicit-function-declaration]
+exceptions.c:73:5: warning: implicit declaration of function 'sys_read' [-Wimplicit-function-declaration]
      while(sys_read(1, &buffer,1) == 0);
      ^
-exceptions.c:73:5: warning: implicit declaration of function '_cli' [-Wimplicit-function-declaration]
+exceptions.c:74:5: warning: implicit declaration of function '_cli' [-Wimplicit-function-declaration]
      _cli();
      ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c naiveConsole.c -o naiveConsole.o
@@ -304,7 +304,7 @@ Modules/eliminator.c:37:5: note: previous implicit declaration of 'initialize_ma
      ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/shell.c -o Modules/shell.o
 Modules/shell.c: In function 'clear':
-Modules/shell.c:114:5: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
+Modules/shell.c:142:5: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
      clear_screen();
      ^
 Modules/shell.c: At top level:
@@ -332,7 +332,7 @@ make[2]: Leaving directory '/root/Userland/SampleCodeModule'
 printf "This is sample data." >> 0001-sampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-sampleDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.6409e-05 s, 21.5 kB/s
+1 byte (1 B) copied, 7.3658e-05 s, 13.6 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'
