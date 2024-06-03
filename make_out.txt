@@ -153,10 +153,13 @@ exceptions.c:73:5: warning: implicit declaration of function 'sys_read' [-Wimpli
 exceptions.c:74:5: warning: implicit declaration of function '_cli' [-Wimplicit-function-declaration]
      _cli();
      ^
-gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c naiveConsole.c -o naiveConsole.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c moduleLoader.c -o moduleLoader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c idtLoader.c -o idtLoader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c kernel.c -o kernel.o
+kernel.c: In function 'initializeKernelBinary':
+kernel.c:42:7: warning: unused variable 'buffer' [-Wunused-variable]
+  char buffer[10];
+       ^
 nasm -felf64 asm/interrupts.asm -o asm/interrupts.o
 nasm -felf64 asm/libasm.asm -o asm/libasm.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keysMap.c -o Drivers/keysMap.o
@@ -188,13 +191,13 @@ Drivers/video.c:82:1: warning: control reaches end of non-void function [-Wretur
  ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/font.c -o Drivers/font.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keyboard.c -o Drivers/keyboard.o
-Drivers/keyboard.c:106:13: warning: 'updateBufferIndex' defined but not used [-Wunused-function]
+Drivers/keyboard.c:104:13: warning: 'updateBufferIndex' defined but not used [-Wunused-function]
  static void updateBufferIndex(uint64_t index){
              ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/rtc.c -o Drivers/rtc.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/speaker.c -o Drivers/speaker.o
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o syscalls.o irqDispatcher.o exceptions.o naiveConsole.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  # Añadido
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o syscalls.o irqDispatcher.o exceptions.o naiveConsole.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  # Debbug
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o syscalls.o irqDispatcher.o exceptions.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  # Añadido
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o syscalls.o irqDispatcher.o exceptions.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  # Debbug
 make[1]: Leaving directory '/root/Kernel'
 cd Userland; make all
 make[1]: Entering directory '/root/Userland'
@@ -314,10 +317,10 @@ Modules/shell.c:7:17: warning: 'printedChars' defined but not used [-Wunused-var
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/aux_cola_eliminator.c -o Modules/aux_cola_eliminator.o
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Main/sampleCodeModule.c -o Main/sampleCodeModule.o
 Main/sampleCodeModule.c: In function 'main':
-Main/sampleCodeModule.c:40:14: warning: unused variable 'x' [-Wunused-variable]
+Main/sampleCodeModule.c:16:14: warning: unused variable 'x' [-Wunused-variable]
      uint64_t x = 0;
               ^
-Main/sampleCodeModule.c:39:14: warning: unused variable 'c' [-Wunused-variable]
+Main/sampleCodeModule.c:15:14: warning: unused variable 'c' [-Wunused-variable]
      uint64_t c;
               ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Lib/queue.c -o Lib/queue.o
@@ -332,7 +335,7 @@ make[2]: Leaving directory '/root/Userland/SampleCodeModule'
 printf "This is sample data." >> 0001-sampleDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-sampleDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.3236e-05 s, 23.1 kB/s
+1 byte (1 B) copied, 4.2379e-05 s, 23.6 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'
