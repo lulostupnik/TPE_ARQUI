@@ -15,10 +15,11 @@ extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
 
+
 static const uint64_t PageSize = 0x1000;
 
-static void * const sampleCodeModuleAddress = (void*)0x400000;
-static void * const sampleDataModuleAddress = (void*)0x500000;
+static void * const shellCodeModuleAddress = (void*)0x400000;
+static void * const shellDataModuleAddress = (void*)0x500000;
 
 typedef int (*EntryPoint)();
 
@@ -39,16 +40,12 @@ void * getStackBase()
 
 void * initializeKernelBinary()
 {
-	char buffer[10];
-
 	void * moduleAddresses[] = {
-		sampleCodeModuleAddress,
-		sampleDataModuleAddress
+		shellCodeModuleAddress,
+		shellDataModuleAddress
 	};
-
 	loadModules(&endOfKernelBinary, moduleAddresses);
 	clearBSS(&bss, &endOfKernel - &bss);
-
 	return getStackBase();
 }
 
@@ -60,45 +57,6 @@ void function1_key(){
 int main()
 {
     load_idt();
-    //setFKeyFunction(1, function1_key);
-    //uint64_t drawString(uint64_t x, uint64_t y, uint8_t *string, uint64_t charsToDraw , uint64_t fontSize) {
-
-    //drawString(0,0,"holas",4,43);
-    // setFontSize(2);
-
-
-//    int x = 0;
-//    sysWrite(x,0,"a");
-//    drawString(x,0,"a");
-
-      // video_main();
-      // int64_t sys_read(uint64_t fd, char * buffer, uint64_t amount);
-        // putRectangle(100,50,200,120,120,20,20);
-        // vdriver_video_draw_rectangle(120,120,20,20, (Color){100,50,200});
-
-        /*
-         printFont('A');
-        */
-
-//        while(1){
-//            Color co = {0,0,0};
-//        while( sys_read(0, &c, 1) == 0); //@TODO: definir STDIN
-//            if(c == 1000){
-//            }else if(c == '0'){
-//
-//                vdriver_set_mode(0,co );
-//            }else if(c == '1'){
-//                vdriver_set_mode(1,co );
-//            }else if(c >= '2' && c<='9'){
-//                vdriver_text_set_font_size(c - '0');
-//            }
-//            sys_write(1, &c, 1); // ¿porque le paso 1?
-//        }
-
-
-        /*
-        printFont('B');
-         */
-	((EntryPoint)sampleCodeModuleAddress)();
+	((EntryPoint)shellCodeModuleAddress)();
 	return 0;
 }

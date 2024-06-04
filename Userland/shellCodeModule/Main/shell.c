@@ -1,6 +1,10 @@
 #include <shell.h>
 
-
+//
+//int main(){
+//    initializeShell();
+//    return 0;
+//}
 
 static void help();
 
@@ -22,12 +26,10 @@ static module modules[] = {
 };
 
 
-int initializeShell(){
+
+int main(){
     setFontSize(font_size);
     puts(WELCOME);
-    /*ScreenInformation info;
-    sys_get_screen_information(&info);
-    printf("The screen dimensions are %d x %d\n", info.width, info.height);*/
     sys_nano_sleep(18);
     help();
     //sys_nano_sleep(18);
