@@ -17,7 +17,8 @@ static module modules[] = {
     {"getregs", getRegs},
     {"dividebyzero", div0},
     {"opcode", op_code},
-    {"clear", clear}
+    {"clear", clear},
+    {"ipod", ipod_menu}
 };
 
 
