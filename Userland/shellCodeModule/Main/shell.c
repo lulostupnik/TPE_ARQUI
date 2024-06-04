@@ -36,7 +36,7 @@ int main(){
 void interpret(){
     puts(PROMPT);
     char shellBuffer[MAX_COMMAND_SIZE];
-    gets(shellBuffer, MAX_COMMAND_SIZE); // @todo: es -1 ?
+    gets(shellBuffer, MAX_COMMAND_SIZE);
     if(strlen(shellBuffer)==0){
         return;
     }
@@ -46,10 +46,8 @@ void interpret(){
             return;
         }
     }
-    //@TODO: Agregar excepciones para comandos no encontrados
     fprintf(STDERR, "Invalid Command! Try Again >:(\n");
-    // puts("Invalid Command! Try Again >:(\n"); // @todo: esto se imprime siempre
-    //opCode_exception();
+
 }
 
 static void help(){
@@ -108,12 +106,10 @@ void showcurrentTime(){
 
 static void toUtcMinus3(time_struct * time) {
     int8_t new_time_hour = (time->hour - 3);
-    // time->hour = (time->hour - 3);
     if (time->hour < 0) {
-        // time->hour += 24;
         new_time_hour += 24;
         time->day--;
-        if (time->day == 0) { // podría ser <= pero nunca se va a dar
+        if (time->day == 0) {
             time->month--;
             if (time->month == 0) {
                 time->month = 12;
@@ -142,39 +138,6 @@ void getRegs(){
 }
 
 void clear() {
-    // puts("Clearing screen...\n");
     clear_screen();
-    // puts("Screen cleared!\n");
 }
 
-
-
-
-/*
-void toUtc3(time_struct * time){
-    time->hour = (time->hour + 3);
-    if(time->hour >= 24){
-        time->hour -= 24;
-        time->day++;
-        uint64_t max_days;
-        if(time->month == 2){
-            max_days = 28;
-            if(time->year % 4 == 0){
-                max_days = 29;
-            }
-        } else if(time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11){
-            max_days = 30;
-        } else {
-            max_days = 31;
-        }
-        if(time->day > max_days){ // && (time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11)
-            time->day = 1; // -= max_days
-            time->month++;
-            if(time->month > 12){
-                time->month = 1;
-                time->year++;
-            }
-        }
-    }
-}
- */

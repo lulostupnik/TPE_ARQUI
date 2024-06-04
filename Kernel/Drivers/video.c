@@ -240,10 +240,6 @@ static void addCharToBuffer(uint8_t c, uint8_t fd) {
 
 
 
-/*
- * @TODO porque esa validacion en Y funciona?????
- * CHEKCEAR ESA RESTA ES CUALQIUERA
- */
 static void printFont(char_buffer_type letter){
 
     if (current_screen_point.x+FONT_WIDTH*font_size - FONT_WIDTH >= SCREEN_WIDTH) {
@@ -290,7 +286,6 @@ static void newLine(){
     newLinePrint();
 }
 
-//VERIFICAR CASOS BORDES
 static void backSpacePrint(){
     if(current_screen_point.x == 0 && current_screen_point.y == 0){
         return;

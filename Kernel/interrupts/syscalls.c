@@ -11,19 +11,8 @@ typedef struct {
 extern uint64_t regs_shot[17];
 extern uint64_t regs_shot_available;
 
-/*
-typedef struct {
-    uint64_t rsi, rdi, rdx, rcx, rbx, rax;
-} Registers;
-*/
 
-// Orden en el cual mandar los registros:
-
-/*
- * @Todo agregar sys_write
- */
 int64_t sysCallHandler(Registers * regs) {
-    // printFont('X');
     switch(regs->rax){
         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
         case 1: return sys_write(regs->rdi, (char *) regs->rsi, regs->rdx); break;
@@ -38,15 +27,11 @@ int64_t sysCallHandler(Registers * regs) {
         case 10: return sys_get_screen_information((ScreenInformation *) regs->rdi); break;
         case 11: return sys_nano_sleep(regs->rdi); break;
         case 12: return sys_get_time(regs->rdi);break;
-        default: return NOT_VALID_SYS_ID;  //     printFont('X');
+        default: return NOT_VALID_SYS_ID;
 
     }
 }
 
-//uint64_t sysWrite(uint64_t x, uint64_t y, uint8_t * string){ // @TODO: le paso la longitud del string?
-//    drawLetter(x,y,string[0],1);
-//    return 0; // @TODO: cambiar!!!!
-//}
 
 int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount){
     uint64_t i = 0;
@@ -56,7 +41,6 @@ int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount){
         i++;
     }
     return i;
-    // readKeyboardBuffer(toBuffer,toBufferDim,count);
 }
 
 
@@ -67,7 +51,7 @@ int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount){
 
 int64_t sys_set_font_size(uint64_t size){
     return vdriver_text_set_font_size(size);
-}  // este ya hace el resize si entra AL menos 1 caracter !
+}
 
 int64_t sys_beep(uint32_t freq, uint32_t time){
     beep(freq, time);
@@ -103,7 +87,6 @@ int64_t sys_get_register_snapshot(Snapshot * snapshot){
         return -1;
     }
 
-    // @todo: agregar flag en assembler y preguntar si hay registros guardados
     snapshot->rax = regs_shot[0];
     snapshot->rbx = regs_shot[1];
     snapshot->rcx = regs_shot[2];
@@ -145,28 +128,3 @@ int64_t sys_get_time(time_struct * time){
     time->year = getRTCYear();
     return 0;
 }
-
-
-// registros del procesador
-
-// emitir un sonido --> beep
-
-// alguna que sirva como timer --> nano sleep? (para el jueguito de la serpiente)
-
-// hora en general
-
-/*
-
-void sys_write(Registers * regs);
-
-static void (*syscall_handlers[2])(Registers * regs) = {
-    sys_write,
-    sys_read
-};
-
-void sys_write(Registers * regs) {
-
-    drawString(regs->rbx, regs->rcx,(char *) regs->rdx, regs->r);
-}
-
- */

@@ -8,20 +8,14 @@ extern uint8_t getKey();
  * Buffer --> es "circular". Si se llena, pisa lo que primero se puso.
  */
 
+
 static uint16_t buffer[BUFFER_SIZE];
-//static uint64_t buffer_index = 0;
 static uint64_t buffer_dim = 0;
 static uint64_t buffer_current = 0;
 static uint8_t reg_shot_flag = 0;
 
 
 extern uint16_t pressedKeyShiftMap[][2];
-
-/*
- * @TODO:
- * implementar teclas especiales como shift, control, caps lock
- * por ahora en el buffer solo se guardan los PRESSED
- */
 
 #define CANT_FUNCTION_KEYS 12
 static void f1key(void);
@@ -87,11 +81,6 @@ static int capsLockPressed(){
 }
 static int shiftPressed(){
     return (specialKeyPressed(LEFT_SHIFT) || specialKeyPressed(RIGHT_SHIFT)) ? 1:0;
-    /*
-    if(specialKeyPressed(LEFT_SHIFT || specialKeyPressed(RIGHT_SHIFT))){
-        return 1;
-    }
-    return 0;*/
 }
 static int shiftCapsLockPressed(){
     return (shiftPressed()^capsLockPressed()); //xor
@@ -110,7 +99,7 @@ static void updateBufferIndex(uint64_t index){
 }
 
 
- uint64_t bufferHasNext(){
+uint64_t bufferHasNext(){
     return ( buffer_dim > 0 ) && ( buffer_current < buffer_dim );
 }
 
@@ -120,21 +109,6 @@ uint64_t getCurrent(){
     }
     return 0;
 }
-
-
-/*
- * @TODO
- * ver que ande todo bien. testear. pensar mas casos de special keys
- * Por ahora solo GUARDO LOS PRESSED
- */
-
-
-/*
- *@TODO implementar NUM_LOCK
- * se puede implementar algo que me devuelva si se tocaron las teclas de control.....
-*  un buffer con pressed y released o una funcion que me diga si se presiono una tecla especial (uso el mapa). Por ahora musa
- */
-
 
 void keyboardHandler(){
     reg_shot_flag = 0;
@@ -162,12 +136,6 @@ void keyboardHandler(){
     if(!key_is_pressed){
         return;
     }
-    /*
-    if(code == F1 ){
-        reg_shot_flag = 1;
-        return;
-    }
-    */
     functionKeyHandler(code);
 
 
@@ -178,8 +146,6 @@ void keyboardHandler(){
         buffer_dim = 1;
     }
 }
-
-
 
 uint8_t should_take_reg_shot() {
     return reg_shot_flag;

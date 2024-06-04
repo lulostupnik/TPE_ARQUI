@@ -1,3 +1,4 @@
+
 //Cortesia de https://wiki.osdev.org/PC_Speaker
 //Play sound using built-in speaker
 #include <stdint.h>

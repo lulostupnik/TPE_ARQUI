@@ -11,9 +11,7 @@
 #define TEXT_MODE 0
 #define VIDEO_MODE 1
 
-/*
- * @TODO En la documentacion del kernel deberia decir que las funciones del KeyDriver devuelven estos valores si no son caracteres ACII.
- */
+
 typedef enum {
     LEFT_CONTROL = 256,         // NOTAR: El valor con el que empieza tiene que ser mas grande al ultimo de la tabla ASCII
     LEFT_SHIFT,
@@ -238,29 +236,3 @@ void print_register_snapshot();
 
 
 #endif //TPE_ARQUI_LIBC_H
-
-
-/*
-
-typedef struct registers{
-    uint64_t rax;
-    uint64_t rbx;
-    uint64_t rcx;
-    uint64_t rdx;
-    uint64_t rsi;
-    uint64_t rdi;
-    uint64_t rbp;
-    uint64_t rsp;
-    uint64_t r8;
-    uint64_t r9;
-    uint64_t r10;
-    uint64_t r11;
-    uint64_t r12;
-    uint64_t r13;
-    uint64_t r14;
-    uint64_t r15;
-    uint64_t rip;
-} RegisterSet;
-
-
-*/

@@ -13,7 +13,6 @@ static void (*irq_routines[2])() = {
 };
 
 void irqDispatcher(uint64_t irq) {
-    // @TODO: deberíamos fijarnos que irq no se pase?
     irq_routines[irq]();
 	return;
 }

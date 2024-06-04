@@ -13,9 +13,7 @@ extern uint64_t exception_regs[CANT_REGS];
 
 //Orden: RAX, RBX, RCX, RDX, RSI, RDI, RBP, RSP, R8, R9, R10, R11, R12, R13, R14, R15, RIP, RFLAGS
 
-/*
- * @Todo cambiar numTOString
- */
+
 static uint8_t * numToString(uint64_t num, uint64_t base) {
     static char buffer[64];
     uint8_t * ptr = &buffer[63];
@@ -26,7 +24,6 @@ static uint8_t * numToString(uint64_t num, uint64_t base) {
     } while(num != 0);
     return ptr;
 }
-
 
 static void printRegs(uint8_t * message, uint8_t cant_chars_message){
     uint8_t * regs[] = {"RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15", "RIP", "RFLAGS"};

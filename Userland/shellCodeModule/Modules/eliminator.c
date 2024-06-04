@@ -62,9 +62,6 @@ void singlePlayer(){
 
         if(buffer_size > 0){
             get_player_1_direction(buffer[buffer_size - 1], direction);
-            beep(150, 1);
-            beep(250, 1);
-            beep(350, 1);
         }
         p1x += direction[0];
         p1y += direction[1];
@@ -137,9 +134,6 @@ void multiPlayer(){
         if(buffer_size > 0){
             get_player_1_direction(buffer[buffer_size - 1], p1dir);
             get_player_2_direction(buffer[buffer_size - 1], p2dir);
-            beep(150, 1);
-            beep(250, 1);
-            beep(350, 1);
 
         }
         p1x += p1dir[0];

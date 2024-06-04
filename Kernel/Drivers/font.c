@@ -1718,10 +1718,6 @@ const unsigned char font_bitmap[] = {
 	________
 };
 
-/*
-unsigned char * charBitmap(int c) {
-	return (font_bitmap+(c-' ')*16);
-}
-*/
+
 
 #endif
