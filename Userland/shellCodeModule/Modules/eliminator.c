@@ -87,7 +87,7 @@ void multiPlayer(){
     fill_position(p2x, p2y, GREEN);
 
     while(1){
-        sys_nano_sleep(3);
+        sys_nano_sleep(1);
         buffer_size = 0;
         buffer_size = sys_read(0, buffer, 1);
 
