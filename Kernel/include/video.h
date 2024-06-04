@@ -1,8 +1,8 @@
-
+#include <stdint.h>
+#include <driversInformation.h>
 #ifndef VIDEODRIVER_H
 #define VIDEODRIVER_H
 
-#include <stdint.h>
 
 
 #define TEXT_MODE 0

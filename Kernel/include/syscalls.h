@@ -5,8 +5,6 @@
 #include <stdint.h>
 #include <stddef.h> // lo necesitamos para size_t
 #include <registerSaver.h>
-
-// #define NOT_VALID_FD -1
 #define NOT_VALID_SYS_ID -2
 
 

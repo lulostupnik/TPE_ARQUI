@@ -23,31 +23,31 @@ nasm -felf64 asm/libasm.asm -o asm/libasm.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keysMap.c -o Drivers/keysMap.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/time.c -o Drivers/time.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/video.c -o Drivers/video.o
-Drivers/video.c:31:1: warning: missing braces around initializer [-Wmissing-braces]
+Drivers/video.c:30:1: warning: missing braces around initializer [-Wmissing-braces]
  static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
  ^
-Drivers/video.c:31:1: warning: (near initialization for 'char_buffer[0]') [-Wmissing-braces]
+Drivers/video.c:30:1: warning: (near initialization for 'char_buffer[0]') [-Wmissing-braces]
 Drivers/video.c: In function 'vdriver_video_draw_pixel':
-Drivers/video.c:205:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+Drivers/video.c:204:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
      uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
                              ^
 Drivers/video.c: In function 'reBufferPrint':
-Drivers/video.c:323:14: warning: unused variable 'newIndex' [-Wunused-variable]
+Drivers/video.c:322:14: warning: unused variable 'newIndex' [-Wunused-variable]
      uint64_t newIndex = 0;
               ^
 Drivers/video.c: In function 'printBuffer':
-Drivers/video.c:338:47: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+Drivers/video.c:337:47: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(char_buffer[i].fd, &char_buffer[i].c, 1 );
                                                ^
-Drivers/video.c:121:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+Drivers/video.c:120:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
          ^
 Drivers/video.c: In function 'vdriver_set_font_color':
-Drivers/video.c:59:1: warning: control reaches end of non-void function [-Wreturn-type]
+Drivers/video.c:58:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 Drivers/video.c: In function 'vdriver_text_set_font_size':
-Drivers/video.c:76:1: warning: control reaches end of non-void function [-Wreturn-type]
+Drivers/video.c:75:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/font.c -o Drivers/font.o
@@ -237,81 +237,81 @@ Modules/eliminator.c:50:14: warning: variable 'p1_lost' set but not used [-Wunus
      uint64_t p1_lost = 0;
               ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:111:6: warning: conflicting types for 'multiPlayer'
+Modules/eliminator.c:108:6: warning: conflicting types for 'multiPlayer'
  void multiPlayer(){
       ^
 Modules/eliminator.c:24:19: note: previous implicit declaration of 'multiPlayer' was here
          case 'm': multiPlayer(); break;
                    ^
 Modules/eliminator.c: In function 'eliminator':
-Modules/eliminator.c:251:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
+Modules/eliminator.c:245:5: warning: implicit declaration of function 'enter_video_mode' [-Wimplicit-function-declaration]
      enter_video_mode();
      ^
-Modules/eliminator.c:257:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
+Modules/eliminator.c:251:5: warning: implicit declaration of function 'enter_text_mode' [-Wimplicit-function-declaration]
      enter_text_mode();
      ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:262:6: warning: conflicting types for 'print_centered_string'
+Modules/eliminator.c:256:6: warning: conflicting types for 'print_centered_string'
  void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) { // @todo - está función podría no recibir coordenada x y directamente colocar el texto en el centro de la pantalla
       ^
 Modules/eliminator.c:10:5: note: previous implicit declaration of 'print_centered_string' was here
      print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Bienvenido al Eliminator!",3);
      ^
 Modules/eliminator.c: In function 'print_centered_string':
-Modules/eliminator.c:266:5: warning: implicit declaration of function 'print_string' [-Wimplicit-function-declaration]
+Modules/eliminator.c:260:5: warning: implicit declaration of function 'print_string' [-Wimplicit-function-declaration]
      print_string(start_x, start_y, str, font_size);
      ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:271:6: warning: conflicting types for 'print_string'
+Modules/eliminator.c:265:6: warning: conflicting types for 'print_string'
  void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
       ^
-Modules/eliminator.c:266:5: note: previous implicit declaration of 'print_string' was here
+Modules/eliminator.c:260:5: note: previous implicit declaration of 'print_string' was here
      print_string(start_x, start_y, str, font_size);
      ^
 Modules/eliminator.c: In function 'print_string':
-Modules/eliminator.c:273:9: warning: implicit declaration of function 'draw_letter' [-Wimplicit-function-declaration]
+Modules/eliminator.c:267:9: warning: implicit declaration of function 'draw_letter' [-Wimplicit-function-declaration]
          draw_letter(x + i * CHARACTER_WIDTH * font_size, y, str[i], (Color){0, 255, 0}, font_size);
          ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:279:6: warning: conflicting types for 'fill_position'
+Modules/eliminator.c:273:6: warning: conflicting types for 'fill_position'
  void fill_position(uint64_t x, uint64_t y, Color color){
       ^
 Modules/eliminator.c:55:5: note: previous implicit declaration of 'fill_position' was here
      fill_position(p1x, p1y, RED);
      ^
 Modules/eliminator.c: In function 'fill_position':
-Modules/eliminator.c:283:5: warning: implicit declaration of function 'draw_rectangle' [-Wimplicit-function-declaration]
+Modules/eliminator.c:277:5: warning: implicit declaration of function 'draw_rectangle' [-Wimplicit-function-declaration]
      draw_rectangle(x*PIXEL, y*PIXEL, PIXEL, PIXEL, color);
      ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:305:6: warning: conflicting types for 'initialize_map'
+Modules/eliminator.c:299:6: warning: conflicting types for 'initialize_map'
  void initialize_map(){
       ^
 Modules/eliminator.c:47:5: note: previous implicit declaration of 'initialize_map' was here
      initialize_map();
      ^
-Modules/eliminator.c:317:6: warning: conflicting types for 'play_arcade_song'
+Modules/eliminator.c:311:6: warning: conflicting types for 'play_arcade_song'
  void play_arcade_song() {
       ^
 Modules/eliminator.c:11:5: note: previous implicit declaration of 'play_arcade_song' was here
      play_arcade_song();
      ^
 Modules/eliminator.c: In function 'play_arcade_song':
-Modules/eliminator.c:325:14: warning: unused variable 'B4' [-Wunused-variable]
+Modules/eliminator.c:319:14: warning: unused variable 'B4' [-Wunused-variable]
      uint32_t B4 = 494;
               ^
-Modules/eliminator.c:324:14: warning: unused variable 'A4' [-Wunused-variable]
+Modules/eliminator.c:318:14: warning: unused variable 'A4' [-Wunused-variable]
      uint32_t A4 = 440;
               ^
-Modules/eliminator.c:322:14: warning: unused variable 'F4' [-Wunused-variable]
+Modules/eliminator.c:316:14: warning: unused variable 'F4' [-Wunused-variable]
      uint32_t F4 = 349;
               ^
-Modules/eliminator.c:320:14: warning: unused variable 'D4' [-Wunused-variable]
+Modules/eliminator.c:314:14: warning: unused variable 'D4' [-Wunused-variable]
      uint32_t D4 = 294;
               ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/ipod.c -o Modules/ipod.o
 Modules/ipod.c: In function 'ipod_menu':
-Modules/ipod.c:34:9: warning: array subscript has type 'char' [-Wchar-subscripts]
+Modules/ipod.c:7:9: warning: array subscript has type 'char' [-Wchar-subscripts]
          printf("%c. %s\n", i + '0', my_songs[i]->name);
          ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/songs.c -o Modules/songs.o
@@ -334,7 +334,7 @@ make[2]: Leaving directory '/root/Userland/shellCodeModule'
 printf "This is shell data." >> 0001-shellDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-shellDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.4311e-05 s, 22.6 kB/s
+1 byte (1 B) copied, 4.4016e-05 s, 22.7 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'

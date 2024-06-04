@@ -3,8 +3,7 @@
 
 #define SCREEN_WIDTH VBE_mode_info->width
 #define SCREEN_HEIGHT VBE_mode_info->height
-#define STDOUT 0
-#define STDERR 1
+
 #define CHAR_BUFFER_ROWS  48         // Numero de caracteres disponibles con la fuente en 1 (en x).
 #define CHAR_BUFFER_COLS  128        // Numero de caracteres disponibles con la fuente en 1 (en y).
 #define Y_FONT_OFFSET (FONT_HEIGHT * font_size)

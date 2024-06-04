@@ -1,3 +1,5 @@
+#ifndef _FONT_H
+#define _FONT_H
 #define ________ 0x00
 #define _______X 0x01
 #define ______X_ 0x02
@@ -259,3 +261,5 @@
 #define FONT_HEIGHT 16
 #define FIRST_ASCII_FONT 32
 #define LAST_ASCII_FONT 126
+
+#endif
