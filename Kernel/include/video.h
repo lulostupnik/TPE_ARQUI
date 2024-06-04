@@ -80,10 +80,6 @@ typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 
 
-uint64_t drawLetter(uint64_t x, uint64_t y, char ascii, uint64_t fontSize);
-uint64_t putPixel(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y);
-uint64_t putRectangle(uint8_t red, uint8_t green, uint8_t blue, uint64_t x, uint64_t y, uint64_t width, uint64_t height);
-
 
 int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
 int64_t vdriver_text_set_font_size(uint64_t size);
