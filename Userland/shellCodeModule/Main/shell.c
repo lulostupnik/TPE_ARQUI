@@ -73,7 +73,6 @@ void zoomIn(){
     if(font_size < MAX_FONT_SIZE){
         font_size++;
         setFontSize(font_size);
-        // puts("Zooming in...\n");
     } else {
         puts("Maximum font size reached!\n");
     }

@@ -49,6 +49,7 @@ int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount){
     return vdriver_text_write(fd, buffer, amount);
 }
 
+//Modo texto:
 int64_t sys_set_font_size(uint64_t size){
     return vdriver_text_set_font_size(size);
 }
@@ -57,19 +58,22 @@ int64_t sys_beep(uint32_t freq, uint32_t time){
     beep(freq, time);
     return 0;
 }
+
+//Modo video:
 int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color * color){
     return vdriver_video_draw_rectangle(x, y, width, height, *color);
 }
 
+//Modo video:
 int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize){
     return vdriver_video_draw_font(x, y, *letter, *color, fontSize);
 }
 
+//Modo video:
 int64_t sys_put_pixel(uint64_t x, uint64_t y, Color * color){
     return vdriver_video_draw_pixel(x, y, *color);
 }
 
-//Ambos modos:
 int64_t sys_get_screen_information(ScreenInformation * screen_information){
     return vdriver_get_screen_information(screen_information);
 }
@@ -77,8 +81,6 @@ int64_t sys_get_screen_information(ScreenInformation * screen_information){
 int64_t sys_set_mode(uint64_t mode){
     return vdriver_set_mode(mode, (Color) {0,0,0});
 }
-
-
 
 
 int64_t sys_get_register_snapshot(Snapshot * snapshot){

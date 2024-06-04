@@ -44,7 +44,7 @@ typedef struct{
     int64_t height;
 } ScreenInformation;
 
-/*
+/**
  * Structure representing current time
  */
 typedef struct time {
@@ -89,9 +89,8 @@ int64_t sys_set_mode(uint64_t mode);
 
 int64_t sys_get_screen_information(ScreenInformation * screen_information);
 
+
 int64_t sys_nano_sleep(uint32_t ticks);
-
-
 
 
 int64_t sys_get_time(time_struct * time);

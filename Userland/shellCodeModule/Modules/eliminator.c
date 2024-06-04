@@ -280,22 +280,6 @@ void fill_position(uint64_t x, uint64_t y, Color color){
 }
 
 
-/*
-void makeBorders(){
-    draw_rectangle(0, 0, screenW, PIXEL, BLUE);
-    draw_rectangle(0, 0, screenW, PIXEL, BLUE);
-
-    for(int i=0;i<screenW;i++){
-        draw_pixel(i,0,BLUE);
-        draw_pixel(i,screenW,BLUE);
-    }
-    for(int i=0;i<screenH;i++){
-        draw_pixel(0,i,BLUE);
-        draw_pixel(screenH,i,BLUE);
-    }
-    return;
-}
-*/
 void initialize_map(){
     for(int i = 0; i < MAP_HEIGHT; i++){
         for(int j = 0; j < MAP_WIDTH; j++){
@@ -329,10 +313,4 @@ void play_arcade_song() {
     beep(G4, eighth_note);
     beep(C5, eighth_note);
 }
-/*
-        draw_rectangle(PIXEL * 2, PIXEL * 2, CHARACTER_WIDTH * 2,CHARACTER_HEIGHT * 2, BLACK);
-        draw_letter(PIXEL * 2, PIXEL * 2, (char) ('0' + buffer_size), WHITE, 2);
 
-        draw_rectangle(PIXEL * 5, PIXEL * 5, CHARACTER_WIDTH * 2,CHARACTER_HEIGHT * 2, BLACK);
-        draw_letter(PIXEL * 5, PIXEL * 5, (char) buffer[buffer_size - 1], WHITE, 2);
-        */
