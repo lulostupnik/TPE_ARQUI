@@ -1,7 +1,8 @@
+#include <font.h>
+
 #ifndef FONT_BITMAPS_H
 #define FONT_BITMAPS_H
 
-#include <font.h>
 
 const unsigned char font_bitmap[] = {
 //  32 $20 'space'

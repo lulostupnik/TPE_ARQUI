@@ -25,9 +25,7 @@ static module modules[] = {
 int main(){
     setFontSize(font_size);
     puts(WELCOME);
-    sys_nano_sleep(3);
     help();
-    //sys_nano_sleep(18);
     while (1){
         interpret();
     }
