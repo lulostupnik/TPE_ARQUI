@@ -101,9 +101,11 @@ void showcurrentTime(){
 
 
 static void toUtcMinus3(time_struct * time) {
-    time->hour = (time->hour - 3);
+    int8_t new_time_hour = (time->hour - 3);
+    // time->hour = (time->hour - 3);
     if (time->hour < 0) {
-        time->hour += 24;
+        // time->hour += 24;
+        new_time_hour += 24;
         time->day--;
         if (time->day == 0) { // podría ser <= pero nunca se va a dar
             time->month--;
@@ -123,6 +125,7 @@ static void toUtcMinus3(time_struct * time) {
             }
         }
     }
+    time->hour = new_time_hour;
 }
 
 
