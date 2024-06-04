@@ -61,7 +61,9 @@ static void help(){
     puts("- getregs: Muestra el estado actual de los registros.\n");
     puts("- dividebyzero: Genera una excepcion de division por cero.\n");
     puts("- opcode: Genera una excepcion de codigo de operacion invalido.\n");
-    puts("- clear: Clears the screen.\n\n");
+    puts("- clear: Limpia la pantalla.\n");
+    puts("- ipod: Inicia el reproductor de musica.\n\n");
+
 }
 
 

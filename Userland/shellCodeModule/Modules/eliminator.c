@@ -7,28 +7,40 @@ static void get_player_2_direction(uint16_t c, int64_t * direction);
 
 void welcome(){
     clear_screen();
-    print_centered_string(512, 10,"Bienvenido al Eliminator!",3);
-    sys_nano_sleep(18);
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Bienvenido al Eliminator!",3);
+    play_arcade_song();
     clear_screen();
-    print_centered_string(512, 100,"Elija su Game Mode: (Presione la tecla correspondiente)",2);
-    print_centered_string(512, 200,"s. Single Player",2);
-    print_centered_string(512, 250,"m. Multiplayer",2);
-    print_centered_string(512, 300,"q. Exit",2);
-
-
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2-100,"Elija su Game Mode: (Presione la tecla correspondiente)",2);
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2-50,"s. Single Player",2);
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"m. Multiplayer",2);
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2+50,"q. Exit",2);
 
     char c;
     while((( c = getChar() ) != 'q' ) && (c != 'm' ) && (c != 's' )){}
     clear_screen();
     switch (c){
-        case 'q': exit(); break;
+        case 'q': break;
         case 's': singlePlayer(); break;
         case 'm': multiPlayer(); break;
     }
+    return;
 }
 
-void winScreen(){
-    return;
+void retryMenuSingleplayer(){
+    clear_screen();
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2-300,"Perdiste! Mejor suerte la proxima",2);
+    sys_nano_sleep(18);
+    clear_screen();
+    print_centered_string(SCREEN_WIDTH/2-100, SCREEN_HEIGHT/2,"r. Retry",2);
+    print_centered_string(SCREEN_WIDTH/2+100, SCREEN_HEIGHT/2,"m. Main Menu",2);
+    
+    char c;
+    while((( c = getChar() ) != 'r' ) && (c != 'm' )){}
+    clear_screen();
+    switch (c){
+        case 'r': singlePlayer(); break;
+        case 'm': welcome(); break;
+    }
 }
 
 void singlePlayer(){
@@ -50,6 +62,9 @@ void singlePlayer(){
 
         if(buffer_size > 0){
             get_player_1_direction(buffer[buffer_size - 1], direction);
+            beep(150, 1);
+            beep(250, 1);
+            beep(350, 1);
         }
         p1x += direction[0];
         p1y += direction[1];
@@ -61,13 +76,40 @@ void singlePlayer(){
 
     }
 
-    print_centered_string(512, 384, "Perdiste", 2);
+    retryMenuSingleplayer();
 
 }
 
+void retryMenuMultiplayer(int whoWon, int scores[]){
+    clear_screen();
+    if(whoWon == 1)
+        print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Ganador: Jugador 1",3);
+    else if(whoWon == 2)
+        print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Ganador: Jugador 2",3);
+    else
+        print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Empate",3);
 
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50,"Puntaje",2);
+    print_centered_string(SCREEN_WIDTH/2-100, SCREEN_HEIGHT/2 + 100,numToString(scores[0],10),2);
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 100," VS ",2);
+    print_centered_string(SCREEN_WIDTH/2+100, SCREEN_HEIGHT/2 + 100,numToString(scores[1],10),2);
+
+    sys_nano_sleep(50);
+    clear_screen();
+    print_centered_string(SCREEN_WIDTH/2-100, SCREEN_HEIGHT/2,"r. Retry",2);
+    print_centered_string(SCREEN_WIDTH/2+100, SCREEN_HEIGHT/2,"m. Main Menu",2);
+    
+    char c;
+    while((( c = getChar() ) != 'r' ) && (c != 'm' )){}
+    clear_screen();
+    switch (c){
+        case 'r': multiPlayer(); break;
+        case 'm': welcome(); break;
+    }
+}
 
 void multiPlayer(){
+    static int scores[2] = {0,0};
     initialize_map();
     uint64_t p1x = PLAYER_1_INIT_X;
     uint64_t p1y = PLAYER_1_INIT_Y - 1;
@@ -95,11 +137,20 @@ void multiPlayer(){
         if(buffer_size > 0){
             get_player_1_direction(buffer[buffer_size - 1], p1dir);
             get_player_2_direction(buffer[buffer_size - 1], p2dir);
+            beep(150, 1);
+            beep(250, 1);
+            beep(350, 1);
+
         }
         p1x += p1dir[0];
         p1y += p1dir[1];
         p2x += p2dir[0];
         p2y += p2dir[1];
+        if(p1y==p2y && p1x==p2x){
+            p1_lost = 1;
+            p2_lost = 1;
+            break;
+        }
         if(map[p1y][p1x] == 1){
             p1_lost = 1;
         }
@@ -113,8 +164,17 @@ void multiPlayer(){
         fill_position(p2x, p2y, GREEN);
 
     }
+    if(p1_lost && p2_lost){
+     retryMenuMultiplayer(0,scores);
+    }
+    if(p2_lost){
+        scores[0]++;
+        retryMenuMultiplayer(1,scores);
+    } else {
+        scores[1]++;
+        retryMenuMultiplayer(2,scores);
 
-    print_centered_string(512, 384, "Perdiste", 2);
+    }
 
 }
 
@@ -154,7 +214,7 @@ static void get_player_1_direction(uint16_t c, int64_t * direction){
 }
 
 
-get_player_2_direction(uint16_t c, int64_t * direction){
+static void get_player_2_direction(uint16_t c, int64_t * direction){
     switch(c) {
         case ('i'):
             if(direction[1] == 1){
@@ -187,22 +247,13 @@ get_player_2_direction(uint16_t c, int64_t * direction){
     }
 }
 
-
-
-
-void exit(){
-    clear_screen();
-    print_centered_string(512, 384,"Saliendo",3);
-    sys_nano_sleep(5);
-    enter_text_mode();
-    return;
-}
-
 void eliminator(){
     enter_video_mode();
     welcome();
-    char c;
-    while(( c = getChar() ) != 'q' ){}
+    clear_screen();
+    print_centered_string(512, 384,"Saliendo",3);
+    beep(100,5);
+    beep(50,5);
     enter_text_mode();
     return;
 }
@@ -219,7 +270,7 @@ void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t fon
 
 void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
     for (uint64_t i = 0; str[i] != '\0'; i++) {
-        draw_letter(x + i * CHARACTER_WIDTH * font_size, y, str[i], (Color){255, 0, 0}, font_size);
+        draw_letter(x + i * CHARACTER_WIDTH * font_size, y, str[i], (Color){0, 255, 0}, font_size);
     }
 }
 
@@ -263,7 +314,27 @@ void initialize_map(){
     return;
 }
 
+void play_arcade_song() {
+    // Frequencies for the notes in the song.
+    uint32_t C4 = 262;
+    uint32_t D4 = 294;
+    uint32_t E4 = 330;
+    uint32_t F4 = 349;
+    uint32_t G4 = 392;
+    uint32_t A4 = 440;
+    uint32_t B4 = 494;
+    uint32_t C5 = 523;
 
+    // Duration of each note in milliseconds.
+    int quarter_note = 500 / 55;
+    int eighth_note = quarter_note / 3;
+
+    // Play the song.
+    beep(C4, eighth_note);
+    beep(E4, eighth_note);
+    beep(G4, eighth_note);
+    beep(C5, eighth_note);
+}
 /*
         draw_rectangle(PIXEL * 2, PIXEL * 2, CHARACTER_WIDTH * 2,CHARACTER_HEIGHT * 2, BLACK);
         draw_letter(PIXEL * 2, PIXEL * 2, (char) ('0' + buffer_size), WHITE, 2);

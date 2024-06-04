@@ -41,7 +41,7 @@ void ipod_menu(){
         // puts("Invalid song number\n");
         return;
     }
-    // play_song(my_songs[song_number]);
+    play_song(my_songs[song_number]);
 
     // se interpreta lo obtenido viendo si existe la cancion
     // si existe se reproduce

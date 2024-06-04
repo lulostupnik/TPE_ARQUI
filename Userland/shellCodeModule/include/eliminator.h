@@ -26,6 +26,7 @@
 
 void eliminator();
 
+
 enum direction {UP, DOWN, LEFT, RIGHT};
 
 typedef enum direction direction;
