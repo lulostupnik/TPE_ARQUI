@@ -45,7 +45,8 @@ void interpret(){
         }
     }
     //@TODO: Agregar excepciones para comandos no encontrados
-    puts("Invalid Command! Try Again >:(\n"); // @todo: esto se imprime siempre
+    fprintf(STDERR, "Invalid Command! Try Again >:(\n");
+    // puts("Invalid Command! Try Again >:(\n"); // @todo: esto se imprime siempre
     //opCode_exception();
 }
 

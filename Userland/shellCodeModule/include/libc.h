@@ -7,7 +7,7 @@
 
 #define STDIN 0
 #define STDOUT 0
-#define STDERR 1 // @TODO esta bien?
+#define STDERR 1
 #define TEXT_MODE 0
 #define VIDEO_MODE 1
 
