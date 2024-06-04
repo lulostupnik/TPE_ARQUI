@@ -52,6 +52,50 @@ Note arcade_song_notes[] = {
         {262, 250}, // C4, eighth note
 };
 
+Note twinkle_twinkle_notes[] = {
+        {262, 500}, // C4, quarter note
+        {262, 500}, // C4, quarter note
+        {392, 500}, // G4, quarter note
+        {392, 500}, // G4, quarter note
+        {440, 500}, // A4, quarter note
+        {440, 500}, // A4, quarter note
+        {392, 1000}, // G4, half note
+        {349, 500}, // F4, quarter note
+        {349, 500}, // F4, quarter note
+        {330, 500}, // E4, quarter note
+        {330, 500}, // E4, quarter note
+        {294, 500}, // D4, quarter note
+        {294, 500}, // D4, quarter note
+        {262, 1000}, // C4, half note
+        {392, 500}, // G4, quarter note
+        {392, 500}, // G4, quarter note
+        {349, 500}, // F4, quarter note
+        {349, 500}, // F4, quarter note
+        {330, 500}, // E4, quarter note
+        {330, 500}, // E4, quarter note
+        {294, 1000}, // D4, half note
+        {392, 500}, // G4, quarter note
+        {392, 500}, // G4, quarter note
+        {349, 500}, // F4, quarter note
+        {349, 500}, // F4, quarter note
+        {330, 500}, // E4, quarter note
+        {330, 500}, // E4, quarter note
+        {294, 1000}, // D4, half note
+        {262, 500}, // C4, quarter note
+        {262, 500}, // C4, quarter note
+        {392, 500}, // G4, quarter note
+        {392, 500}, // G4, quarter note
+        {440, 500}, // A4, quarter note
+        {440, 500}, // A4, quarter note
+        {392, 1000}, // G4, half note
+        {349, 500}, // F4, quarter note
+        {349, 500}, // F4, quarter note
+        {330, 500}, // E4, quarter note
+        {330, 500}, // E4, quarter note
+        {294, 500}, // D4, quarter note
+        {294, 500}, // D4, quarter note
+        {262, 1000}, // C4, half note
+};
 
 
 Song happy_birthday = {
@@ -66,98 +110,15 @@ Song arcade_song = {
         .name = "Arcade Song"
 };
 
-Song* my_songs[SONG_AMOUNT] = {
-        &happy_birthday,
-        &arcade_song
+Song twinkle_twinkle = {
+        .note_count = 42,
+        .notes = twinkle_twinkle_notes,
+        .name = "Twinkle Twinkle"
 };
 
-/*
-void initialize_songs() {
-    my_songs[0] = &happy_birthday;
-    // Initialize other songs here...
-}
-*/
+Song* my_songs[SONG_AMOUNT] = {
+        &happy_birthday,
+        &arcade_song,
+        &twinkle_twinkle
+};
 
-/*
-void play_song() {
-    // Frequencies for the notes in the song.
-    uint32_t C4 = 262;
-    uint32_t D4 = 294;
-    uint32_t E4 = 330;
-    uint32_t F4 = 349;
-    uint32_t G4 = 392;
-    uint32_t A4 = 440;
-    uint32_t B4 = 494;
-    uint32_t C5 = 523;
-
-    // Duration of each note in milliseconds.
-    int quarter_note = 500;
-    int half_note = quarter_note * 2;
-
-    // Play the song.
-    beep(C4, quarter_note);
-    beep(C4, quarter_note);
-    beep(G4, quarter_note);
-    beep(G4, quarter_note);
-    beep(A4, quarter_note);
-    beep(A4, quarter_note);
-    beep(G4, half_note);
-
-    beep(F4, quarter_note);
-    beep(F4, quarter_note);
-    beep(E4, quarter_note);
-    beep(E4, quarter_note);
-    beep(D4, quarter_note);
-    beep(D4, quarter_note);
-    beep(C4, half_note);
-}
- */
-
-/*
-void play_song() {
-    // Frequencies for the notes in the song.
-    uint32_t C4 = 262;
-    uint32_t D4 = 294;
-    uint32_t E4 = 330;
-    uint32_t F4 = 349;
-    uint32_t G4 = 392;
-    uint32_t A4 = 440;
-    uint32_t B4 = 494;
-    uint32_t C5 = 523;
-
-    // Duration of each note in milliseconds.
-    int quarter_note = 500;
-    int eighth_note = quarter_note / 2;
-    int half_note = quarter_note * 2;
-
-    // Play the song.
-    sys_beep(C4, quarter_note);
-    sys_beep(C4, quarter_note);
-    sys_beep(D4, quarter_note);
-    sys_beep(C4, quarter_note);
-    sys_beep(F4, quarter_note);
-    sys_beep(E4, quarter_note);
-
-    sys_beep(C4, quarter_note);
-    sys_beep(C4, quarter_note);
-    sys_beep(D4, quarter_note);
-    sys_beep(C4, quarter_note);
-    sys_beep(G4, quarter_note);
-    sys_beep(F4, quarter_note);
-
-    sys_beep(C4, quarter_note);
-    sys_beep(C4, quarter_note);
-    sys_beep(C5, quarter_note);
-    sys_beep(A4, quarter_note);
-    sys_beep(F4, quarter_note);
-    sys_beep(E4, quarter_note);
-    sys_beep(D4, quarter_note);
-
-    sys_beep(B4, quarter_note);
-    sys_beep(B4, quarter_note);
-    sys_beep(A4, quarter_note);
-    sys_beep(F4, quarter_note);
-    sys_beep(G4, quarter_note);
-    sys_beep(F4, quarter_note);
-}
- */
