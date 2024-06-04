@@ -7,8 +7,6 @@
 
 #define TEXT_MODE 0
 #define VIDEO_MODE 1
-//#define NOT_VALID_ASCII 1
-//#define NOT_VALID_FONT_SIZE 2
 
 
 /**

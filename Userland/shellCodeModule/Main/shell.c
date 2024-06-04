@@ -27,6 +27,7 @@ int main(){
     setFontSize(font_size);
     puts(WELCOME);
     help();
+
     while (1){
         interpret();
     }
@@ -52,6 +53,7 @@ void interpret(){
 }
 
 static void help(){
+
     puts("\nComandos disponibles:\n\n");
     puts("- help: Muestra todos los modulos disponibles del sistema operativo.\n");
     puts("- time: Muestra la hora actual del sistema.\n");

@@ -4,9 +4,9 @@
 #define SCREEN_WIDTH VBE_mode_info->width
 #define SCREEN_HEIGHT VBE_mode_info->height
 #define STDOUT 0
-#define STDERR 1 //@TODO cmabiar
+#define STDERR 1
 #define CHAR_BUFFER_ROWS  48         // Numero de caracteres disponibles con la fuente en 1 (en x).
-#define CHAR_BUFFER_COLS  128
+#define CHAR_BUFFER_COLS  128        // Numero de caracteres disponibles con la fuente en 1 (en y).
 #define Y_FONT_OFFSET (FONT_HEIGHT * font_size)
 #define X_FONT_OFFSET (FONT_WIDTH * font_size)
 
@@ -31,7 +31,6 @@ static Point current_screen_point = {0,0};
 static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
 static uint64_t buffer_index = 0;
 
-static uint8_t deleted_buffer_flag = 0;
 static uint8_t override_mode = 0;
 static uint64_t char_buffer_rows_zoomed = CHAR_BUFFER_ROWS;
 static uint64_t char_buffer_cols_zoomed = CHAR_BUFFER_COLS;
@@ -51,13 +50,8 @@ static void backSpaceBuffer();
 static void backSpace();
 static void backSpacePrint();
 static void tabulator();
-
-
-
-/*
- * @TODO
- * poder cambiar el color de STDERR capaz 
- */
+static void reBufferPrint();
+static void printBuffer();
 
 
 int64_t vdriver_set_font_color(Color c){
@@ -81,22 +75,18 @@ int64_t vdriver_text_set_font_size(uint64_t size) {
     clearScreen();
 }
 
-/*
- * @Todo no es mejor devolver la estructura?
- */
+
 int64_t vdriver_get_screen_information(ScreenInformation * screen_information){
     screen_information->width = SCREEN_WIDTH;
     screen_information->height = SCREEN_HEIGHT;
     return 1;
 }
 
-//no me gusta que reciba el color, deberia ser otra fun capaz.
 int64_t vdriver_clear_screen(Color color){
     if(driver_mode == TEXT_MODE){
         background_color = color;
         current_screen_point.x = current_screen_point.y = 0;
         buffer_index = 0;
-        deleted_buffer_flag = 1;
     }
     override_mode = 1;
     vdriver_video_draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color);
@@ -105,11 +95,6 @@ int64_t vdriver_clear_screen(Color color){
 }
 
 
-
-/*
- * @TODO
- * Testear. Fijarme que directamente lo mando a STDOUT
- */
 
 int64_t vdriver_set_mode(uint64_t mode, Color c){
     if(!(mode == TEXT_MODE || mode == VIDEO_MODE) ){
@@ -123,11 +108,7 @@ int64_t vdriver_set_mode(uint64_t mode, Color c){
 
 
     if(mode==TEXT_MODE){
-        uint64_t aux = buffer_index;
-        clearScreen();
-        for(int i=0 ; i<aux ; i++){
-            vdriver_text_write(char_buffer[i].fd, &char_buffer[i].c, 1 );
-        }
+        printBuffer();
     }else{
         vdriver_clear_screen(c);
     }
@@ -137,14 +118,6 @@ int64_t vdriver_set_mode(uint64_t mode, Color c){
 }
 
 
-
-
-
-
-
-/*
- * @TODO cambiarle el color en stderr
- */
 int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
     if(!inTextMode()){
         return 0;
@@ -178,10 +151,6 @@ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount){
     return i;
 }
 
-/*
- * @TODO
- * test validaciones
- */
 int64_t vdriver_video_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color){
     if(x+width > SCREEN_WIDTH || y+height > SCREEN_HEIGHT){
         return -1;
@@ -200,9 +169,6 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
     if(ascii < FIRST_ASCII_FONT || ascii > LAST_ASCII_FONT){
         return NOT_VALID_ASCII;
     }
-    if(fontSize < 0 || SCREEN_WIDTH < fontSize*FONT_WIDTH || SCREEN_HEIGHT < fontSize*FONT_HEIGHT){
-        return NOT_VALID_FONT_SIZE;
-    } //esta validacion deberia ir  a setFontSoze
     if(!inVideoMode()){
         return 0;
     }
@@ -218,9 +184,6 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
 }
 
 
-/*
- * @TODO validacion
-*/
 
 
 /**
@@ -230,17 +193,13 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
  * @param y: The y-coordinate of the pixel.
  */
 
-/*
- * @TODO validar la validacion
- */
-
 int64_t vdriver_video_draw_pixel(uint64_t x, uint64_t y, Color color){
 
     if(x >= SCREEN_WIDTH || y>= SCREEN_HEIGHT){
         return -1;
     }
     if(!inVideoMode()){
-        return -1; // @TODO podría devolver -2
+        return -1;
     }
 
     uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
@@ -252,28 +211,6 @@ int64_t vdriver_video_draw_pixel(uint64_t x, uint64_t y, Color color){
 }
 
 
-
-/*
-//@TODO borrar
-void video_main(){
-    uint8_t c = 'a';
-    uint8_t c2[] = "HOLA";
-    Color co = {10,30,22};
-    vdriver_clear_screen(co);
-    Color co2 = {100,32,100};
-    vdriver_set_font_color(co2);
-
-    for(int i=0; i<char_buffer_rows_zoomed*char_buffer_cols_zoomed-200;i++){
-
-        vdriver_text_write(1, &c,1);
-        if(c < 'z'){
-            c++;
-        }else{
-            c = 'a';
-        }
-    }
-}*/
-
 //Funciones STATIC:
 static uint64_t inTextMode(){
     return ((driver_mode == TEXT_MODE ) || override_mode);
@@ -281,7 +218,8 @@ static uint64_t inTextMode(){
 static uint64_t inVideoMode(){
     return ((driver_mode==VIDEO_MODE) || override_mode);
 }
-#define SPACE_PER_TAB 4
+
+#define SPACE_PER_TAB 1
 static void tabulator(){
     char_buffer_type c = {' ', STDOUT};
     for(int i=0; i<SPACE_PER_TAB ; i++){
@@ -291,15 +229,15 @@ static void tabulator(){
 }
 
 static void addCharToBuffer(uint8_t c, uint8_t fd) {
+    if (buffer_index  >= char_buffer_rows_zoomed*char_buffer_cols_zoomed) {
+        reBufferPrint();
+    }
     char_buffer_type aux = {c, fd};
     char_buffer[buffer_index] = aux;
     buffer_index ++;
-    if (buffer_index  >= char_buffer_rows_zoomed*char_buffer_cols_zoomed) {
-        buffer_index = 0;
-        char_buffer[0] = aux;
-        deleted_buffer_flag = buffer_index =1 ;
-    }
+
 }
+
 
 
 /*
@@ -313,8 +251,7 @@ static void printFont(char_buffer_type letter){
         current_screen_point.x = 0;
     }
     if(current_screen_point.y + FONT_HEIGHT*font_size - FONT_HEIGHT >= SCREEN_HEIGHT){
-       // vdriver_video_draw_rectangle(0,current_screen_point.y, 100, 100,font_color );
-        clearScreen();
+        reBufferPrint();
     }
     override_mode=1;
     Color col;
@@ -328,17 +265,15 @@ static void printFont(char_buffer_type letter){
     current_screen_point.x+=FONT_WIDTH*font_size;
 }
 
-static void clearScreen() {   // se podria borrar esto
+static void clearScreen() {
     vdriver_clear_screen(background_color);
 }
-
-
 
 static void newLinePrint(){
     current_screen_point.x = 0;
     current_screen_point.y = current_screen_point.y+ FONT_HEIGHT * font_size;
     if(current_screen_point.y + FONT_HEIGHT * font_size - FONT_HEIGHT >= SCREEN_HEIGHT){
-        clearScreen();
+        reBufferPrint();
     }
 }
 
@@ -351,8 +286,8 @@ static void newLineBuff(){
 
 
 static void newLine(){
-    newLinePrint();
     newLineBuff();
+    newLinePrint();
 }
 
 //VERIFICAR CASOS BORDES
@@ -372,7 +307,7 @@ static void backSpacePrint(){
     override_mode=0;
 }
 
-//CHECK !
+
 static void backSpaceBuffer(){
     if(buffer_index != 0){
         char_buffer[buffer_index].c = 0;
@@ -384,4 +319,27 @@ static void backSpaceBuffer(){
 static void backSpace(){
     backSpacePrint();
     backSpaceBuffer();
+}
+
+
+
+#define ROWS_TO_REBUFFER(rows_in_screen) (((rows_in_screen)/(2))+1)     // Hace que el reBuffer me imprima la ultima mitad de la pantalla
+static void reBufferPrint(){
+    uint64_t newIndex = 0;
+    uint64_t aux = buffer_index; // con el clear screen se setea en 0
+    clearScreen();
+    uint64_t j = 0;
+    for(uint64_t i=char_buffer_cols_zoomed * ROWS_TO_REBUFFER(char_buffer_rows_zoomed) ; i<aux;i++, j++){
+        char_buffer[j] = char_buffer[i];
+        printFont(char_buffer[j]);
+    }
+    buffer_index = j;
+}
+
+static void printBuffer(){
+    uint64_t aux = buffer_index; // con clear screen se borra
+    clearScreen();
+    for(int i=0 ; i<aux ; i++){
+        vdriver_text_write(char_buffer[i].fd, &char_buffer[i].c, 1 );
+    }
 }
