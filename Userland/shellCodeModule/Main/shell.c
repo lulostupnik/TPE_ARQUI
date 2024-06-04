@@ -1,10 +1,5 @@
 #include <shell.h>
 
-//
-//int main(){
-//    initializeShell();
-//    return 0;
-//}
 
 static void help();
 
@@ -30,7 +25,7 @@ static module modules[] = {
 int main(){
     setFontSize(font_size);
     puts(WELCOME);
-    sys_nano_sleep(18);
+    sys_nano_sleep(3);
     help();
     //sys_nano_sleep(18);
     while (1){
@@ -57,16 +52,16 @@ void interpret(){
 }
 
 static void help(){
-    puts("Comandos disponibles:\n");
-    puts("help: Muestra todos los modulos disponibles del sistema operativo.\n");
-    puts("time: Muestra la hora actual del sistema.\n");
-    puts("eliminator: Inicia el juego Eliminator, un clasico.\n");
-    puts("zoomin: Agranda los caracteres en pantalla.\n");
-    puts("zoomout: Achica  la pantalla.\n");
-    puts("getregs: Muestra el estado actual de los registros.\n");
-    puts("dividebyzero: Genera una excepcion de division por cero.\n");
-    puts("opcode: Genera una excepcion de codigo de operacion invalido.\n");
-    puts("clear: Clears the screen.\n");
+    puts("\nComandos disponibles:\n\n");
+    puts("- help: Muestra todos los modulos disponibles del sistema operativo.\n");
+    puts("- time: Muestra la hora actual del sistema.\n");
+    puts("- eliminator: Inicia el juego Eliminator, un clasico.\n");
+    puts("- zoomin: Agranda los caracteres en pantalla.\n");
+    puts("- zoomout: Achica  la pantalla.\n");
+    puts("- getregs: Muestra el estado actual de los registros.\n");
+    puts("- dividebyzero: Genera una excepcion de division por cero.\n");
+    puts("- opcode: Genera una excepcion de codigo de operacion invalido.\n");
+    puts("- clear: Clears the screen.\n\n");
 }
 
 

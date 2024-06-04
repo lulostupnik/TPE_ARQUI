@@ -8,7 +8,7 @@ static void get_player_2_direction(uint16_t c, int64_t * direction);
 void welcome(){
     clear_screen();
     print_centered_string(512, 10,"Bienvenido al Eliminator!",3);
-    sys_nano_sleep(54);
+    sys_nano_sleep(18);
     clear_screen();
     print_centered_string(512, 100,"Elija su Game Mode: (Presione la tecla correspondiente)",2);
     print_centered_string(512, 200,"s. Single Player",2);
@@ -31,8 +31,6 @@ void winScreen(){
     return;
 }
 
-// initialize_map();
-// fill_position(1,1,RED);
 void singlePlayer(){
     initialize_map();
     uint64_t p1x = PLAYER_1_INIT_X;
@@ -45,7 +43,7 @@ void singlePlayer(){
     fill_position(p1x, p1y, RED);
 
     while(1){
-        sys_nano_sleep(3);
+        sys_nano_sleep(1);
         buffer_size = 0;
         buffer_size = sys_read(0, buffer, 1);
 
@@ -264,57 +262,6 @@ void initialize_map(){
     }
     return;
 }
-
-/*
-update_queues(Queue * q1, Queue * q2, char c){
-    if(char_in_string(c, "wasd")){
-        enqueue(q1, c);
-    }
-    else if(char_in_string(c, "ijkl")){
-        enqueue(q2, c);
-    }
-}
- */
-
-/*
-La idea es crear una cola de movimientos para cada jugador.
-Cuando leemos con sysread encolamos los movimientos correspondientes.
-Y en cada instante desencolamos el siguiente movimiento de la cola.
-No se pueden encolar dos movimientos iguales seguidos. lo mismo vale para movimientos opuestos.
- */
-
-/*
-update_queues2(Queue * q1, Queue * q2, char * buffer, uint64_t buffer_len, char * wanted_1, char * wanted_2){
-    for(int i = 0; i < buffer_len; i++){
-        if(char_in_string(buffer[i], "wasd")){
-            enqueue(q1, buffer[i]);
-        }
-        else if(char_in_string(buffer[i], "ijkl")){
-            enqueue(q2, buffer[i]);
-        }
-    }
-}
- */
-
-
-/*
-void singlePlayer(){
-    initialize_map();
-    char c;
-    char lost = 0;
-    while(!lost){
-        c = getChar();
-        switch(c){
-            case('w'): lost = 1; break;
-            case('a'): lost = 1; break;
-            case('s'): lost = 1; break;
-            case('d'): lost = 1; break;
-        }
-    }
-    return;
-}
- */
-
 
 
 /*
