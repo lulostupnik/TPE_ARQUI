@@ -6,7 +6,7 @@ GLOBAL hlt
 GLOBAL rtc
 
 section .text
-	
+
 cpuVendor:
 	push rbp
 	mov rbp, rsp

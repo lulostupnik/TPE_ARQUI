@@ -124,7 +124,6 @@ void keyboardHandler(){
     uint16_t code = pressedKeyShiftMap[key][shiftCapsLockPressed()];
 
 
-
     if(isSpecialKey(code)){
         if(code != CAPS_LOCK && code != NUM_LOCK && code != SCROLL_LOCK){
             specialKeyPressedMap[specialKeyPressedMapIdx(code)] = key_is_pressed;
