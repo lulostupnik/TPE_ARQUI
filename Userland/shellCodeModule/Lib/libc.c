@@ -388,8 +388,9 @@ int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t f
  */
 void print_register_snapshot() {
     Snapshot snap;
-    if(sys_get_register_snapshot(&snap) == -1) { // si todavía no se tomo el snapshot
-        puts("No register snapshot available.\n");
+    if(sys_get_register_snapshot(&snap) == -1) {
+        fprintf(STDERR, "No register snapshot available.\n");
+        // puts("No register snapshot available.\n");
         return;
     }
 
