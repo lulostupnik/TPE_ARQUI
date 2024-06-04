@@ -1,7 +1,6 @@
 #include <libc.h>
 
-// Este prototipo va acá?
-// static int64_t vfprintf(uint64_t fd, const char *fmt, va_list args);
+
 
 /**
  * @brief Reads a character from the standard input.
@@ -212,7 +211,7 @@ static int64_t vfprintf(uint64_t fd, const char *fmt, va_list args)
 
 
 
-// En está página leimos lo de va_list. Copiamos fprintf y printf e implementamos vfprintf
+// fprintf and printf were copied from this website. vfprintf was implemented by us.
 // http://www.firmcodes.com/write-printf-function-c/
 /**
  * @brief Writes formatted output to a specified file descriptor.
@@ -268,7 +267,6 @@ char* gets(char* buffer, int n) {
     int c;
     int i = 0;
 
-    // Read characters until newline, EOF, or maximum number of characters
     while ((c = getChar()) != '\n') {
         if (c == '\b' && i > 0) {
             put_char(c);
@@ -280,7 +278,6 @@ char* gets(char* buffer, int n) {
         }
     }
     put_char('\n');
-    // Null-terminate the string
     buffer[i] = '\0';
 
     return buffer;
@@ -389,8 +386,7 @@ int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t f
 void print_register_snapshot() {
     Snapshot snap;
     if(sys_get_register_snapshot(&snap) == -1) {
-        fprintf(STDERR, "No register snapshot available.\n");
-        // puts("No register snapshot available.\n");
+        fprintf(STDERR, "No register snapshot available. Press F1 to take a snapshot.\n");
         return;
     }
 
