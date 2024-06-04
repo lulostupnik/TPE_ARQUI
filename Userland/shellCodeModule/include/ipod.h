@@ -6,7 +6,7 @@
 
 
 #define MS_PER_TICK 55
-#define SONG_AMOUNT 1
+#define SONG_AMOUNT 2
 
 typedef struct {
     uint32_t frequency;

@@ -28,7 +28,7 @@ void initialize_songs() {
 
 
 void ipod_menu(){
-    initialize_songs();
+    // initialize_songs();
     puts("Which of the following songs would you like to hear:\n");
     for(char i = 0; i < SONG_AMOUNT; i++){
         printf("%c. %s\n", i + '0', my_songs[i]->name);
@@ -48,6 +48,7 @@ void ipod_menu(){
 }
 
 void play_song(Song* song) {
+    printf("Playing song: %s\n", song->name);
     for (int i = 0; i < song->note_count; i++) {
         Note note = song->notes[i];
         sys_beep(note.frequency, note.duration / MS_PER_TICK );
