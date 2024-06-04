@@ -49,10 +49,6 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-void function1_key(){
-//    uint8_t * c = "funciona mi implementacion!\n";
-//    sys_write(1, c, 28);
-}
 
 int main()
 {

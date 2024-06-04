@@ -16,145 +16,7 @@ cd Kernel; make all
 make[1]: Entering directory '/root/Kernel'
 nasm -felf64 loader.asm -o loader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c lib.c -o lib.o
-gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c syscalls.c -o syscalls.o
-syscalls.c: In function 'sysCallHandler':
-syscalls.c:28:44: warning: passing argument 2 of 'sys_read' from incompatible pointer type
-         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
-                                            ^
-In file included from syscalls.c:4:0:
-./include/syscalls.h:46:9: note: expected 'uint16_t *' but argument is of type 'char *'
- int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount);
-         ^
-syscalls.c:30:50: warning: passing argument 1 of 'sys_get_register_snapshot' from incompatible pointer type
-         case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
-                                                  ^
-In file included from syscalls.c:4:0:
-./include/syscalls.h:76:9: note: expected 'struct Snapshot *' but argument is of type 'struct RegisterSet *'
- int64_t sys_get_register_snapshot(Snapshot * snapshot);
-         ^
-syscalls.c:40:38: warning: passing argument 1 of 'sys_get_time' makes pointer from integer without a cast
-         case 12: return sys_get_time(regs->rdi);break;
-                                      ^
-In file included from syscalls.c:4:0:
-./include/syscalls.h:201:9: note: expected 'struct time_struct *' but argument is of type 'uint64_t'
- int64_t sys_get_time(time_struct * time);
-         ^
-syscalls.c: In function 'sys_get_time':
-syscalls.c:140:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
-     time->seconds = getRTCSeconds();
-     ^
-syscalls.c:141:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
-     time->minutes =  getRTCMinutes();
-     ^
-syscalls.c:142:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
-     time->hour =  getRTCHours();
-     ^
-syscalls.c:143:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
-     time->day = getRTCDayOfMonth();
-     ^
-syscalls.c:144:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
-     time->month = getRTCMonth();
-     ^
-syscalls.c:145:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
-     time->year = getRTCYear();
-     ^
-gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c irqDispatcher.c -o irqDispatcher.o
-gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c exceptions.c -o exceptions.o
-exceptions.c: In function 'numToString':
-exceptions.c:21:21: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-     uint8_t * ptr = &buffer[63];
-                     ^
-exceptions.c: In function 'printRegs':
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-     uint8_t * regs[] = {"RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15", "RIP", "RFLAGS"};
-     ^
-exceptions.c:32:5: warning: (near initialization for 'regs[0]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[1]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[2]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[3]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[4]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[5]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[6]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[7]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[8]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[9]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[10]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[11]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[12]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[13]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[14]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[15]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[16]') [-Wpointer-sign]
-exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-exceptions.c:32:5: warning: (near initialization for 'regs[17]') [-Wpointer-sign]
-exceptions.c:38:32: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-     vdriver_text_write(STDERR, message, cant_chars_message);
-                                ^
-In file included from exceptions.c:3:0:
-./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
- int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
-         ^
-exceptions.c:41:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-         vdriver_text_write(STDERR,regs[i], 10);
-                                   ^
-In file included from exceptions.c:3:0:
-./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
- int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
-         ^
-exceptions.c:43:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-         vdriver_text_write(STDERR, numToString(exception_regs[i],16), 10);
-                                    ^
-In file included from exceptions.c:3:0:
-./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
- int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
-         ^
-exceptions.c:45:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
-         vdriver_text_write(STDERR,&newline, 1);
-                                   ^
-In file included from exceptions.c:3:0:
-./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
- int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
-         ^
-exceptions.c: In function 'exceptionDispatcher':
-exceptions.c:53:25: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-     uint8_t * message = "";
-                         ^
-exceptions.c:56:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
-         message = "Zero div exception\n\n";
-                 ^
-exceptions.c:61:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
-         message = "Invalid opcode\n\n";
-                 ^
-exceptions.c:71:5: warning: implicit declaration of function 'picMasterMask' [-Wimplicit-function-declaration]
-     picMasterMask(0xFD);                    //Solo habilito interrupciones de teclado
-     ^
-exceptions.c:72:5: warning: implicit declaration of function '_sti' [-Wimplicit-function-declaration]
-     _sti();
-     ^
-exceptions.c:73:5: warning: implicit declaration of function 'sys_read' [-Wimplicit-function-declaration]
-     while(sys_read(1, &buffer,1) == 0);
-     ^
-exceptions.c:74:5: warning: implicit declaration of function '_cli' [-Wimplicit-function-declaration]
-     _cli();
-     ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c moduleLoader.c -o moduleLoader.o
-gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c idtLoader.c -o idtLoader.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c kernel.c -o kernel.o
 nasm -felf64 asm/interrupts.asm -o asm/interrupts.o
 nasm -felf64 asm/libasm.asm -o asm/libasm.o
@@ -192,8 +54,146 @@ Drivers/keyboard.c:104:13: warning: 'updateBufferIndex' defined but not used [-W
              ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/rtc.c -o Drivers/rtc.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/speaker.c -o Drivers/speaker.o
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o syscalls.o irqDispatcher.o exceptions.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  # Añadido
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o syscalls.o irqDispatcher.o exceptions.o moduleLoader.o idtLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  # Debbug
+gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/syscalls.c -o interrupts/syscalls.o
+interrupts/syscalls.c: In function 'sysCallHandler':
+interrupts/syscalls.c:28:44: warning: passing argument 2 of 'sys_read' from incompatible pointer type
+         case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
+                                            ^
+In file included from interrupts/syscalls.c:4:0:
+./include/syscalls.h:46:9: note: expected 'uint16_t *' but argument is of type 'char *'
+ int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount);
+         ^
+interrupts/syscalls.c:30:50: warning: passing argument 1 of 'sys_get_register_snapshot' from incompatible pointer type
+         case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
+                                                  ^
+In file included from interrupts/syscalls.c:4:0:
+./include/syscalls.h:76:9: note: expected 'struct Snapshot *' but argument is of type 'struct RegisterSet *'
+ int64_t sys_get_register_snapshot(Snapshot * snapshot);
+         ^
+interrupts/syscalls.c:40:38: warning: passing argument 1 of 'sys_get_time' makes pointer from integer without a cast
+         case 12: return sys_get_time(regs->rdi);break;
+                                      ^
+In file included from interrupts/syscalls.c:4:0:
+./include/syscalls.h:201:9: note: expected 'struct time_struct *' but argument is of type 'uint64_t'
+ int64_t sys_get_time(time_struct * time);
+         ^
+interrupts/syscalls.c: In function 'sys_get_time':
+interrupts/syscalls.c:140:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
+     time->seconds = getRTCSeconds();
+     ^
+interrupts/syscalls.c:141:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
+     time->minutes =  getRTCMinutes();
+     ^
+interrupts/syscalls.c:142:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
+     time->hour =  getRTCHours();
+     ^
+interrupts/syscalls.c:143:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
+     time->day = getRTCDayOfMonth();
+     ^
+interrupts/syscalls.c:144:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
+     time->month = getRTCMonth();
+     ^
+interrupts/syscalls.c:145:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
+     time->year = getRTCYear();
+     ^
+gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/irqDispatcher.c -o interrupts/irqDispatcher.o
+gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/exceptions.c -o interrupts/exceptions.o
+interrupts/exceptions.c: In function 'numToString':
+interrupts/exceptions.c:21:21: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+     uint8_t * ptr = &buffer[63];
+                     ^
+interrupts/exceptions.c: In function 'printRegs':
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+     uint8_t * regs[] = {"RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15", "RIP", "RFLAGS"};
+     ^
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[0]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[1]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[2]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[3]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[4]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[5]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[6]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[7]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[8]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[9]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[10]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[11]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[12]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[13]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[14]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[15]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[16]') [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+interrupts/exceptions.c:32:5: warning: (near initialization for 'regs[17]') [-Wpointer-sign]
+interrupts/exceptions.c:38:32: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+     vdriver_text_write(STDERR, message, cant_chars_message);
+                                ^
+In file included from interrupts/exceptions.c:3:0:
+./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
+         ^
+interrupts/exceptions.c:41:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+         vdriver_text_write(STDERR,regs[i], 10);
+                                   ^
+In file included from interrupts/exceptions.c:3:0:
+./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
+         ^
+interrupts/exceptions.c:43:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+         vdriver_text_write(STDERR, numToString(exception_regs[i],16), 10);
+                                    ^
+In file included from interrupts/exceptions.c:3:0:
+./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
+         ^
+interrupts/exceptions.c:45:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+         vdriver_text_write(STDERR,&newline, 1);
+                                   ^
+In file included from interrupts/exceptions.c:3:0:
+./include/video.h:90:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+ int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
+         ^
+interrupts/exceptions.c: In function 'exceptionDispatcher':
+interrupts/exceptions.c:53:25: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+     uint8_t * message = "";
+                         ^
+interrupts/exceptions.c:56:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+         message = "Zero div exception\n\n";
+                 ^
+interrupts/exceptions.c:61:17: warning: pointer targets in assignment differ in signedness [-Wpointer-sign]
+         message = "Invalid opcode\n\n";
+                 ^
+interrupts/exceptions.c:71:5: warning: implicit declaration of function 'picMasterMask' [-Wimplicit-function-declaration]
+     picMasterMask(0xFD);                    //Solo habilito interrupciones de teclado
+     ^
+interrupts/exceptions.c:72:5: warning: implicit declaration of function '_sti' [-Wimplicit-function-declaration]
+     _sti();
+     ^
+interrupts/exceptions.c:73:5: warning: implicit declaration of function 'sys_read' [-Wimplicit-function-declaration]
+     while(sys_read(1, &buffer,1) == 0);
+     ^
+interrupts/exceptions.c:74:5: warning: implicit declaration of function '_cli' [-Wimplicit-function-declaration]
+     _cli();
+     ^
+gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/idtLoader.c -o interrupts/idtLoader.o
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o moduleLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  interrupts/syscalls.o interrupts/irqDispatcher.o interrupts/exceptions.o interrupts/idtLoader.o   # Añadido
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o moduleLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o   interrupts/syscalls.o interrupts/irqDispatcher.o interrupts/exceptions.o interrupts/idtLoader.o  # Debbug
 make[1]: Leaving directory '/root/Kernel'
 cd Userland; make all
 make[1]: Entering directory '/root/Userland'
@@ -321,7 +321,7 @@ make[2]: Leaving directory '/root/Userland/shellCodeModule'
 printf "This is shell data." >> 0001-shellDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-shellDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.7806e-05 s, 20.9 kB/s
+1 byte (1 B) copied, 3.7314e-05 s, 26.8 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'
