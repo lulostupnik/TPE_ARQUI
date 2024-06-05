@@ -66,7 +66,7 @@ int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount);
  * @param buffer A pointer to a buffer containing the characters to write.
  * @param amount The number of characters to write to the file descriptor.
  * @return int64_t Returns the number of characters actually written. This may be less than 'amount' if there was an error writing to the file descriptor (or '\0' is encountered?)
- *                 Returns -1 if an error occurred (for example, if 'fd' is not a valid file descriptor).
+ *                 Returns -1 if an error occurred (for example, if not in text mode, if 'fd' is not a valid file descriptor, ...).
  */
 int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
 
@@ -79,8 +79,8 @@ int64_t sys_write(uint64_t fd, const char * buffer, uint64_t amount);
  * If no registers have been saved, the function does not modify the provided structure.
  *
  * @param registers Pointer to a RegisterSet structure where the saved state of the registers will be written.
- * @return int64_t Returns 1 if the registers were previously saved and their state has been written into the provided structure.
- *                 Returns 0 if no registers have been saved, in which case the provided structure is not modified.
+ * @return int64_t Returns 0 if the registers were previously saved and their state has been written into the provided structure.
+ *                 Returns -1 if no registers have been saved, in which case the provided structure is not modified.
  */
 int64_t sys_get_register_snapshot(Snapshot * snapshot);
 
@@ -104,7 +104,7 @@ int64_t sys_beep(uint32_t frequency, uint32_t duration);
  *
  * @param size The new font size.
  * @return int64_t Returns 0 if the font size was successfully set, or -1 if an error occurred
- *             (for example, if 'size' is not a valid font size).
+ *             (for example, if not in text mode or if 'size' is not a valid font size).
  */
 int64_t sys_set_font_size(uint64_t size);
 
@@ -118,12 +118,7 @@ int64_t sys_set_font_size(uint64_t size);
  * @return int64_t Returns 0 if the screen was successfully cleared, or -1 if an error occurred.
  */
 int64_t sys_clear_screen(void);
-//Si estoy aburrido:
-/*
-int64_t sys_change_background_screen_color(Color color);
-int64_t sys_change_font_color(Color color);
-int64_t sys_change_error_font_color(Color color);
-*/
+
 
 
 
@@ -170,7 +165,7 @@ int64_t sys_put_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t heigh
  * @param color A structure representing the RGB color values of the letter.
  * @param fontSize The size of the font to be used.
  * @return int Returns 0 if the letter was successfully drawn, or -1 if an error occurred
- *             (for example, if 'x' or 'y' is out of the screen bounds, 'letter' is not a valid character, or 'color' is not a valid color).
+ *             (for example, if not in video mode, 'x' or 'y' is out of the screen bounds, 'letter' is not a valid character, or 'color' is not a valid color).
  */
 int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize);
 
@@ -196,27 +191,40 @@ int64_t sys_set_mode(uint64_t mode);
  */
 int64_t sys_get_screen_information(ScreenInformation * screen_information);
 
-int64_t sys_nano_sleep(uint32_t ns);
 
 
+/**
+ * @brief Pauses the execution of the current thread for a specified number of ticks. (each tick has a duration of 55ms)
+ *
+ * @param ticks The number of ticks to sleep. A tick is a unit of time defined by the system clock. The actual duration of a tick can vary depending on the system's hardware and configuration.
+ * @return int64_t Returns 0 if the sleep was successfully initiated, or -1 if an error occurred.
+ */
+int64_t sys_nano_sleep(uint32_t ticks);
+
+
+
+/**
+ * @brief Retrieves the current system time.
+ *
+ * This system call interfaces with the system's hardware clock to retrieve the current system time.
+ * The time is written into the 'time' parameter, which is a pointer to a time_struct structure.
+ *
+ * @param time A pointer to a time_struct structure that will be filled with the current system time.
+ * @return int64_t Returns 0 if the time was successfully retrieved, or -1 if an error occurred.
+ */
 int64_t sys_get_time(time_struct * time);
 
 #endif
 
 /*
-Modo texto:
-int64_t sys_write(uint64_t fd, const char * buffer, int64_t amount);
-int64_t sys_set_font_size(int size);  // este ya hace el resize si entra AL menos 1 caracter !
+only text mode:
+sys_write
+sys_set_font_size
 
-Modo video:
-int64_t sys_draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
-int64_t sys_draw_letter(uint64_t x, uint64_t y, char letter, Color color);
-int64_t sys_draw_pixel(uint64_t x, uint64_t y, Color color);
-
-Ambos modos:
-int64_t sys_get_screen_information(ScreenInformation * screen_information);
-int64_t sys_set_mode(uint64_t mode)
-
+only video mode:
+sys_draw_rectangle
+sys_draw_letter
+sys_draw_pixel
 */
 
 
