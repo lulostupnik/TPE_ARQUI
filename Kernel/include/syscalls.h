@@ -3,6 +3,7 @@
 #define _SYSCALLS_H
 #include <video.h> // para las estructuras
 #include <stdint.h>
+#include <registerSaver.h>
 #include <stddef.h> // lo necesitamos para size_t
 #define NOT_VALID_SYS_ID -2
 
