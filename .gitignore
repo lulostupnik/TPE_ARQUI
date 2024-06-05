@@ -13,8 +13,8 @@
 #idea 
 .idea
 *.idea
-run.sh
-./run.sh
+runWin.sh
+runWin.sh
 CMakeLists.txt
 ./CMakeLists.txt
 cmake-build-debug
