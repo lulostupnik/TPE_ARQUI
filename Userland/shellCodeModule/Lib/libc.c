@@ -366,8 +366,7 @@ int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, 
  * @param fontSize The size of the font.
  * @return int64_t Returns 0 if the letter was successfully drawn, or -1 if an error occurred.
  */
-
-        int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
+int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size) {
     return sys_draw_letter(x, y, &letter, &color, font_size);
     // int64_t sys_draw_letter(uint64_t x, uint64_t y, char * letter, Color * color, uint64_t fontSize)
 }
