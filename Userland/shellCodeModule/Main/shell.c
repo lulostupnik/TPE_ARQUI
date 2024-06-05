@@ -3,7 +3,7 @@
 
 static void help();
 
-static uint64_t printedChars = 0;
+
 static uint64_t font_size = 1; // font_size 1 is the default size
 
 static void toUtcMinus3(time_struct * time);

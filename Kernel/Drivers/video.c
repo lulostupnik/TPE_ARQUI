@@ -59,19 +59,20 @@ int64_t vdriver_set_font_color(Color c){
 
 int64_t vdriver_text_set_font_size(uint64_t size) {
     if( !inTextMode()){
-        return 0;
+        return -1;
     }
 
     if (size < 0 || SCREEN_WIDTH < size * FONT_WIDTH || SCREEN_HEIGHT < size * FONT_HEIGHT) {
-        return NOT_VALID_FONT_SIZE;
+        return -1;
     }
     if (size == font_size) {
-        return 1;
+        return 0;
     }
     font_size = size;
     char_buffer_rows_zoomed = (SCREEN_HEIGHT / (font_size * FONT_HEIGHT));
     char_buffer_cols_zoomed = (SCREEN_WIDTH / (font_size * FONT_WIDTH));
     clearScreen();
+    return 0;
 }
 
 
@@ -313,7 +314,6 @@ static void backSpace(){
 
 #define ROWS_TO_REBUFFER(rows_in_screen) (((rows_in_screen)/(2))+1)     // Hace que el reBuffer me imprima la ultima mitad de la pantalla
 static void reBufferPrint(){
-    uint64_t newIndex = 0;
     uint64_t aux = buffer_index; // con el clear screen se setea en 0
     clearScreen();
     uint64_t j = 0;

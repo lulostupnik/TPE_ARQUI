@@ -1,9 +1,21 @@
 #include <eliminator.h>
+#include <libc.h>
 
 char map[MAP_HEIGHT][MAP_WIDTH];
 
 static void get_player_1_direction(uint16_t c, int64_t * direction);
 static void get_player_2_direction(uint16_t c, int64_t * direction);
+static void play_arcade_song();
+static void retryMenuSingleplayer();
+static void singlePlayer();
+static void retryMenuMultiplayer(int whoWon, int scores[]);
+static void multiPlayer();
+
+static void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size);
+static void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size);
+static void fill_position(uint64_t x, uint64_t y, Color color);
+static void initialize_map();
+
 
 void welcome(){
     clear_screen();
@@ -26,7 +38,7 @@ void welcome(){
     return;
 }
 
-void retryMenuSingleplayer(){
+static void retryMenuSingleplayer(){
     clear_screen();
     print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2-300,"Perdiste! Mejor suerte la proxima",2);
     sys_nano_sleep(18);
@@ -43,7 +55,7 @@ void retryMenuSingleplayer(){
     }
 }
 
-void singlePlayer(){
+static void singlePlayer(){
     initialize_map();
     uint64_t p1x = PLAYER_1_INIT_X;
     uint64_t p1y = PLAYER_1_INIT_Y - 10;
@@ -77,7 +89,7 @@ void singlePlayer(){
 
 }
 
-void retryMenuMultiplayer(int whoWon, int scores[]){
+static void retryMenuMultiplayer(int whoWon, int scores[]){
     clear_screen();
     if(whoWon == 1)
         print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Ganador: Jugador 1",3);
@@ -105,7 +117,7 @@ void retryMenuMultiplayer(int whoWon, int scores[]){
     }
 }
 
-void multiPlayer(){
+static void multiPlayer(){
     static int scores[2] = {0,0};
     initialize_map();
     uint64_t p1x = PLAYER_1_INIT_X;
@@ -253,7 +265,7 @@ void eliminator(){
 }
 
 
-void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) { // @todo - está función podría no recibir coordenada x y directamente colocar el texto en el centro de la pantalla
+static void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
     uint64_t len = strlen(str);
     uint64_t start_x = x - (len / 2) * CHARACTER_WIDTH * font_size;
     uint64_t start_y = y;
@@ -261,8 +273,7 @@ void print_centered_string(uint64_t x, uint64_t y, const char* str, uint64_t fon
 }
 
 
-
-void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
+static void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
     for (uint64_t i = 0; str[i] != '\0'; i++) {
         draw_letter(x + i * CHARACTER_WIDTH * font_size, y, str[i], (Color){0, 255, 0}, font_size);
     }
@@ -270,7 +281,7 @@ void print_string(uint64_t x, uint64_t y, const char* str, uint64_t font_size) {
 
 
 
-void fill_position(uint64_t x, uint64_t y, Color color){
+static void fill_position(uint64_t x, uint64_t y, Color color){
     if(x < 0 || y < 0 || x >= MAP_WIDTH || y > MAP_HEIGHT){
         return;
     }
@@ -280,7 +291,7 @@ void fill_position(uint64_t x, uint64_t y, Color color){
 }
 
 
-void initialize_map(){
+static void initialize_map(){
     for(int i = 0; i < MAP_HEIGHT; i++){
         for(int j = 0; j < MAP_WIDTH; j++){
             map[i][j] = 0;
@@ -292,7 +303,7 @@ void initialize_map(){
     return;
 }
 
-void play_arcade_song() {
+static void play_arcade_song() {
     // Frequencies for the notes in the song.
     uint32_t C4 = 262;
     uint32_t D4 = 294;

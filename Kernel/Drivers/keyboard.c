@@ -90,13 +90,6 @@ static uint8_t releasedKeyToPressedMask(uint8_t key){
     return key&0x7F;
 }
 
-static void updateBufferIndex(uint64_t index){
-    if(index < BUFFER_SIZE){
-        index++;
-        return;
-    }
-    index = 0;
-}
 
 
 uint64_t bufferHasNext(){

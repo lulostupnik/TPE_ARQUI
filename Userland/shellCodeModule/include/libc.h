@@ -99,7 +99,7 @@ int64_t beep(uint64_t frequency, uint64_t duration);
  *
  * @return int64_t Returns 0 if the screen was successfully cleared, or -1 if an error occurred.
  */
-int64_t clearScreen();
+int64_t clear_screen();
 
 
 
@@ -232,6 +232,9 @@ int64_t strcmp(const char *str1, const char *str2);
 void print_register_snapshot();
 
 
+int64_t draw_pixel(uint64_t x, uint64_t y, Color color);
+int64_t draw_rectangle(uint64_t x, uint64_t y, uint64_t width, uint64_t height, Color color);
+int64_t draw_letter(uint64_t x, uint64_t y, char letter, Color color, uint64_t font_size);
 
 
 
