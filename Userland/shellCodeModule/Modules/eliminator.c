@@ -56,6 +56,9 @@ static void retryMenuSingleplayer(){
 }
 
 static void singlePlayer(){
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,"Utilice W-A-S-D para moverse",2);
+    sys_nano_sleep(50);
+    clear_screen();
     initialize_map();
     uint64_t p1x = PLAYER_1_INIT_X;
     uint64_t p1y = PLAYER_1_INIT_Y - 10;
@@ -118,7 +121,11 @@ static void retryMenuMultiplayer(int whoWon, int scores[]){
 }
 
 static void multiPlayer(){
-    static int scores[2] = {0,0};
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2-50,"Jugador 1: Utilice W-A-S-D para moverse",2);
+    print_centered_string(SCREEN_WIDTH/2, SCREEN_HEIGHT/2+50,"Jugador 2: Utilice I-J-K-L para moverse",2);
+    sys_nano_sleep(50);
+    clear_screen();
+    static int scores[2] = {0,0}; //No Funciona Si Jugas mas de 2^64 Veces jaja :D
     initialize_map();
     uint64_t p1x = PLAYER_1_INIT_X;
     uint64_t p1y = PLAYER_1_INIT_Y - 1;
