@@ -3,6 +3,8 @@
 
 static void help();
 
+static void toUtcMinus3(time_struct * time);
+
 
 static uint64_t font_size = 1; // font_size 1 is the default size
 
@@ -91,15 +93,45 @@ void zoomOut(){
 
 
 
+
 void showcurrentTime(){
     time_struct time;
     sys_get_time(&time);
+    toUtcMinus3(&time);
     printf("%d/%d/%d [d/m/y]\n", time.day, time.month, time.year);
     int64_t h = time.hour;
-    printf("%d:%d:%d [hour/min/sec] (UTC)\n", h, time.minutes, time.seconds);  // la hora es -3 para que este en tiempo argentino.
+    printf("%d:%d:%d [hour/min/sec] (Argentina)\n", h, time.minutes, time.seconds);  // la hora es -3 para que este en tiempo argentino.
     return;
 }
 
+
+static void toUtcMinus3(time_struct * time) {
+
+    if (time->hour < 3) {
+        time->hour += 21;
+        time->day--;
+        if (time->day == 0) {
+            time->month--;
+            if (time->month == 0) {
+                time->month = 12;
+                time->year--;
+            }
+            if(time->month == 2){
+                time->day = 28;
+                if(time->year % 4 == 0){
+                    time->day = 29;
+                }
+            } else if(time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11){
+                time->day = 30;
+            } else {
+                time->day = 31;
+            }
+        }
+    }
+    else{
+        time->hour = time->hour - 3;
+    }
+}
 
 
 void getRegs(){
