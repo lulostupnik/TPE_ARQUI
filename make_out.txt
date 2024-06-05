@@ -23,20 +23,16 @@ nasm -felf64 asm/libasm.asm -o asm/libasm.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/keysMap.c -o Drivers/keysMap.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/time.c -o Drivers/time.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/video.c -o Drivers/video.o
-Drivers/video.c:30:1: warning: missing braces around initializer [-Wmissing-braces]
- static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
- ^
-Drivers/video.c:30:1: warning: (near initialization for 'char_buffer[0]') [-Wmissing-braces]
 Drivers/video.c: In function 'vdriver_video_draw_pixel':
-Drivers/video.c:204:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+Drivers/video.c:198:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
      uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
                              ^
 Drivers/video.c: In function 'reBufferPrint':
-Drivers/video.c:322:14: warning: unused variable 'newIndex' [-Wunused-variable]
+Drivers/video.c:316:14: warning: unused variable 'newIndex' [-Wunused-variable]
      uint64_t newIndex = 0;
               ^
 Drivers/video.c: In function 'printBuffer':
-Drivers/video.c:337:47: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
+Drivers/video.c:331:47: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(char_buffer[i].fd, &char_buffer[i].c, 1 );
                                                ^
 Drivers/video.c:120:9: note: expected 'const char *' but argument is of type 'uint8_t *'
@@ -59,44 +55,44 @@ gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -m
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c Drivers/speaker.c -o Drivers/speaker.o
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/syscalls.c -o interrupts/syscalls.o
 interrupts/syscalls.c: In function 'sysCallHandler':
-interrupts/syscalls.c:17:44: warning: passing argument 2 of 'sys_read' from incompatible pointer type
+interrupts/syscalls.c:18:44: warning: passing argument 2 of 'sys_read' from incompatible pointer type
          case 0: return sys_read(regs->rdi, (char *) regs->rsi, regs->rdx); break;
                                             ^
 In file included from interrupts/syscalls.c:4:0:
-./include/syscalls.h:57:9: note: expected 'uint16_t *' but argument is of type 'char *'
+./include/syscalls.h:55:9: note: expected 'uint16_t *' but argument is of type 'char *'
  int64_t sys_read(uint64_t fd, uint16_t * buffer, uint64_t amount);
          ^
-interrupts/syscalls.c:19:50: warning: passing argument 1 of 'sys_get_register_snapshot' from incompatible pointer type
+interrupts/syscalls.c:20:50: warning: passing argument 1 of 'sys_get_register_snapshot' from incompatible pointer type
          case 2: return sys_get_register_snapshot((RegisterSet *) regs->rdi); break;
                                                   ^
 In file included from interrupts/syscalls.c:4:0:
-./include/syscalls.h:87:9: note: expected 'struct Snapshot *' but argument is of type 'struct RegisterSet *'
+./include/syscalls.h:85:9: note: expected 'struct Snapshot *' but argument is of type 'struct RegisterSet *'
  int64_t sys_get_register_snapshot(Snapshot * snapshot);
          ^
-interrupts/syscalls.c:29:38: warning: passing argument 1 of 'sys_get_time' makes pointer from integer without a cast
+interrupts/syscalls.c:30:38: warning: passing argument 1 of 'sys_get_time' makes pointer from integer without a cast
          case 12: return sys_get_time(regs->rdi);break;
                                       ^
 In file included from interrupts/syscalls.c:4:0:
-./include/syscalls.h:204:9: note: expected 'struct time_struct *' but argument is of type 'uint64_t'
+./include/syscalls.h:215:9: note: expected 'struct time_struct *' but argument is of type 'uint64_t'
  int64_t sys_get_time(time_struct * time);
          ^
 interrupts/syscalls.c: In function 'sys_get_time':
-interrupts/syscalls.c:123:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
+interrupts/syscalls.c:126:5: warning: implicit declaration of function 'getRTCSeconds' [-Wimplicit-function-declaration]
      time->seconds = getRTCSeconds();
      ^
-interrupts/syscalls.c:124:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
+interrupts/syscalls.c:127:5: warning: implicit declaration of function 'getRTCMinutes' [-Wimplicit-function-declaration]
      time->minutes =  getRTCMinutes();
      ^
-interrupts/syscalls.c:125:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
+interrupts/syscalls.c:128:5: warning: implicit declaration of function 'getRTCHours' [-Wimplicit-function-declaration]
      time->hour =  getRTCHours();
      ^
-interrupts/syscalls.c:126:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
+interrupts/syscalls.c:129:5: warning: implicit declaration of function 'getRTCDayOfMonth' [-Wimplicit-function-declaration]
      time->day = getRTCDayOfMonth();
      ^
-interrupts/syscalls.c:127:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
+interrupts/syscalls.c:130:5: warning: implicit declaration of function 'getRTCMonth' [-Wimplicit-function-declaration]
      time->month = getRTCMonth();
      ^
-interrupts/syscalls.c:128:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
+interrupts/syscalls.c:131:5: warning: implicit declaration of function 'getRTCYear' [-Wimplicit-function-declaration]
      time->year = getRTCYear();
      ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/irqDispatcher.c -o interrupts/irqDispatcher.o
@@ -148,28 +144,28 @@ interrupts/exceptions.c:35:32: warning: pointer targets in passing argument 2 of
      vdriver_text_write(STDERR, message, cant_chars_message);
                                 ^
 In file included from interrupts/exceptions.c:3:0:
-./include/video.h:88:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+./include/video.h:84:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
 interrupts/exceptions.c:38:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(STDERR,regs[i], 10);
                                    ^
 In file included from interrupts/exceptions.c:3:0:
-./include/video.h:88:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+./include/video.h:84:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
 interrupts/exceptions.c:40:36: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(STDERR, numToString(exception_regs[i],16), 10);
                                     ^
 In file included from interrupts/exceptions.c:3:0:
-./include/video.h:88:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+./include/video.h:84:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
 interrupts/exceptions.c:42:35: warning: pointer targets in passing argument 2 of 'vdriver_text_write' differ in signedness [-Wpointer-sign]
          vdriver_text_write(STDERR,&newline, 1);
                                    ^
 In file included from interrupts/exceptions.c:3:0:
-./include/video.h:88:9: note: expected 'const char *' but argument is of type 'uint8_t *'
+./include/video.h:84:9: note: expected 'const char *' but argument is of type 'uint8_t *'
  int64_t vdriver_text_write(uint64_t fd, const char * buffer, int64_t amount);
          ^
 interrupts/exceptions.c: In function 'exceptionDispatcher':
@@ -195,8 +191,8 @@ interrupts/exceptions.c:71:5: warning: implicit declaration of function '_cli' [
      _cli();
      ^
 gcc -g -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99 -I./include -c interrupts/idtLoader.c -o interrupts/idtLoader.o
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o moduleLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  interrupts/syscalls.o interrupts/irqDispatcher.o interrupts/exceptions.o interrupts/idtLoader.o   # Añadido
-ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o moduleLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o   interrupts/syscalls.o interrupts/irqDispatcher.o interrupts/exceptions.o interrupts/idtLoader.o  # Debbug
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld -o kernel.bin loader.o lib.o moduleLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o interrupts/syscalls.o interrupts/irqDispatcher.o interrupts/exceptions.o interrupts/idtLoader.o
+ld --warn-common -z max-page-size=0x1000 -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf loader.o lib.o moduleLoader.o kernel.o asm/interrupts.o asm/libasm.o  Drivers/keysMap.o Drivers/time.o Drivers/video.o Drivers/font.o Drivers/keyboard.o Drivers/rtc.o Drivers/speaker.o  interrupts/syscalls.o interrupts/irqDispatcher.o interrupts/exceptions.o interrupts/idtLoader.o # Debug
 make[1]: Leaving directory '/root/Kernel'
 cd Userland; make all
 make[1]: Entering directory '/root/Userland'
@@ -284,29 +280,29 @@ Modules/eliminator.c:277:5: warning: implicit declaration of function 'draw_rect
      draw_rectangle(x*PIXEL, y*PIXEL, PIXEL, PIXEL, color);
      ^
 Modules/eliminator.c: At top level:
-Modules/eliminator.c:299:6: warning: conflicting types for 'initialize_map'
+Modules/eliminator.c:283:6: warning: conflicting types for 'initialize_map'
  void initialize_map(){
       ^
 Modules/eliminator.c:47:5: note: previous implicit declaration of 'initialize_map' was here
      initialize_map();
      ^
-Modules/eliminator.c:311:6: warning: conflicting types for 'play_arcade_song'
+Modules/eliminator.c:295:6: warning: conflicting types for 'play_arcade_song'
  void play_arcade_song() {
       ^
 Modules/eliminator.c:11:5: note: previous implicit declaration of 'play_arcade_song' was here
      play_arcade_song();
      ^
 Modules/eliminator.c: In function 'play_arcade_song':
-Modules/eliminator.c:319:14: warning: unused variable 'B4' [-Wunused-variable]
+Modules/eliminator.c:303:14: warning: unused variable 'B4' [-Wunused-variable]
      uint32_t B4 = 494;
               ^
-Modules/eliminator.c:318:14: warning: unused variable 'A4' [-Wunused-variable]
+Modules/eliminator.c:302:14: warning: unused variable 'A4' [-Wunused-variable]
      uint32_t A4 = 440;
               ^
-Modules/eliminator.c:316:14: warning: unused variable 'F4' [-Wunused-variable]
+Modules/eliminator.c:300:14: warning: unused variable 'F4' [-Wunused-variable]
      uint32_t F4 = 349;
               ^
-Modules/eliminator.c:314:14: warning: unused variable 'D4' [-Wunused-variable]
+Modules/eliminator.c:298:14: warning: unused variable 'D4' [-Wunused-variable]
      uint32_t D4 = 294;
               ^
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/ipod.c -o Modules/ipod.o
@@ -317,7 +313,7 @@ Modules/ipod.c:7:9: warning: array subscript has type 'char' [-Wchar-subscripts]
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Modules/songs.c -o Modules/songs.o
 gcc -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -I./include -c Main/shell.c -o Main/shell.o
 Main/shell.c: In function 'clear':
-Main/shell.c:141:5: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
+Main/shell.c:140:5: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
      clear_screen();
      ^
 Main/shell.c: At top level:
@@ -334,7 +330,7 @@ make[2]: Leaving directory '/root/Userland/shellCodeModule'
 printf "This is shell data." >> 0001-shellDataModule.bin && dd if=/dev/zero bs=1 count=1 >> 0001-shellDataModule.bin
 1+0 records in
 1+0 records out
-1 byte (1 B) copied, 4.4016e-05 s, 22.7 kB/s
+1 byte (1 B) copied, 7.3507e-05 s, 13.6 kB/s
 make[1]: Leaving directory '/root/Userland'
 cd Image; make all
 make[1]: Entering directory '/root/Image'

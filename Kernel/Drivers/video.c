@@ -27,7 +27,7 @@ static Color stderr_color = {255, 0,0};
 static uint64_t font_size = 1;
 static uint8_t driver_mode = TEXT_MODE;
 static Point current_screen_point = {0,0};
-static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS] = {0};
+static char_buffer_type char_buffer[CHAR_BUFFER_ROWS * CHAR_BUFFER_COLS];
 static uint64_t buffer_index = 0;
 
 static uint8_t override_mode = 0;
