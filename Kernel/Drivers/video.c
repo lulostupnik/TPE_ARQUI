@@ -185,12 +185,6 @@ int64_t vdriver_video_draw_font(uint64_t x, uint64_t y, uint8_t ascii, Color col
 
 
 
-/**
- * Puts a pixel at the specified (x, y) coordinates with the specified RGB color.
- * @para color: the color struct to draw the pixel.
- * @param x: The x-coordinate of the pixel.
- * @param y: The y-coordinate of the pixel.
- */
 
 int64_t vdriver_video_draw_pixel(uint64_t x, uint64_t y, Color color){
 

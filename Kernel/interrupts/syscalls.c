@@ -20,7 +20,7 @@ int64_t sysCallHandler(Registers * regs) {
         case 3: return sys_beep(regs->rdi, regs->rsi); break;
         case 4: return sys_set_font_size(regs->rdi); break;
         case 5: return sys_clear_screen(); break;
-        case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break; //@todo: ¿está bien orden de registros?
+        case 6: return sys_put_pixel(regs->rdi, regs->rsi, (Color *) regs->rdx); break;
         case 7: return sys_put_rectangle(regs->rdi, regs->rsi, regs->rdx, regs->rcx, (Color *) regs->r8); break;
         case 8: return sys_draw_letter(regs->rdi, regs->rsi, (char *) regs->rdx, (Color *) regs->rcx, regs->r8); break;
         case 9: return sys_set_mode(regs->rdi); break;
