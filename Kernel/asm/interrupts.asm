@@ -113,9 +113,6 @@ SECTION .text
 	iretq
 %endmacro
 
-
-
-
 _hlt:
 	sti
 	hlt
@@ -172,7 +169,9 @@ _irq01Handler:
     mov [regs_shot + 8 * 4 ], rsi
     mov [regs_shot + 8 * 5 ], rdi
     mov [regs_shot + 8 * 6 ], rbp
-    mov rax, [rsp+18*8]
+    ; mov rax, [rsp+18*8]
+    mov rax, rsp
+    add rax, 16 * 8
     ;add rax, 16 * 8 ; es lo que se decremento rsp con la macro pushState y el pusheo de la dir. de retorno
     mov [regs_shot + 8 * 7 ], rax             ;rsp
     mov [regs_shot + 8 * 8 ], r8
@@ -183,7 +182,7 @@ _irq01Handler:
    	mov [regs_shot + 8 * 13], r13
    	mov [regs_shot + 8 * 14], r14
    	mov [regs_shot + 8 * 15], r15
-   	mov rax, [rsp+15*8]; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
+   	mov rax, [rsp+15*8]    ; posicion en el stack de la dir. de retorno (valor del rip previo al llamado de la interrupcion)
    	mov [regs_shot + 8 * 16], rax
 
    	mov rax, 1
