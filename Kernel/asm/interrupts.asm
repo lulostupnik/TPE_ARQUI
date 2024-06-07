@@ -169,10 +169,8 @@ _irq01Handler:
     mov [regs_shot + 8 * 4 ], rsi
     mov [regs_shot + 8 * 5 ], rdi
     mov [regs_shot + 8 * 6 ], rbp
-    ; mov rax, [rsp+18*8]
     mov rax, rsp
     add rax, 16 * 8
-    ;add rax, 16 * 8 ; es lo que se decremento rsp con la macro pushState y el pusheo de la dir. de retorno
     mov [regs_shot + 8 * 7 ], rax             ;rsp
     mov [regs_shot + 8 * 8 ], r8
     mov [regs_shot + 8 * 9 ], r9
@@ -239,7 +237,8 @@ _irq80Handler:
 	mov [exception_regs + 8*4 ], rsi
 	mov [exception_regs + 8*5 ], rdi
 	mov [exception_regs + 8*6 ], rbp
-	mov rax, [rsp+18*8]                     ; RSP del contexto anterior
+	mov rax, rsp
+    add rax, 16 * 8                     ; RSP del contexto anterior
 	mov [exception_regs + 8*7 ], rax	;
 	mov [exception_regs + 8*8 ], r8
 	mov [exception_regs + 8*9 ], r9
