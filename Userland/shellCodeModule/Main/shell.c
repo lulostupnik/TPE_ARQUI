@@ -5,6 +5,8 @@ static void help();
 
 static void toUtcMinus3(time_struct * time);
 
+extern void infinite_stack();
+
 
 static uint64_t font_size = 1; // font_size 1 is the default size
 
@@ -26,8 +28,10 @@ static module modules[] = {
 
 int main(){
     setFontSize(font_size);
+    infinite_stack();
     puts(WELCOME);
     help();
+
 
     while (1){
         interpret();

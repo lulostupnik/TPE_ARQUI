@@ -264,7 +264,7 @@ void eliminator(){
     enter_video_mode();
     welcome();
     clear_screen();
-    print_centered_string(512, 384,"Saliendo",3);
+    print_centered_string(512, 384,"Saliendoo",3);
     beep(100,5);
     beep(50,5);
     enter_text_mode();
